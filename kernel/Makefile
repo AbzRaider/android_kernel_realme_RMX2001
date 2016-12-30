@@ -68,12 +68,6 @@ obj-y += livepatch/
 #Liang.Zhang@PSW.TECH.BOOTUP, 2018/11/16, Add for panic recovery
 #ifdef HANG_OPPO_ALL
 obj-$(CONFIG_HANG_OPPO_ALL) += op_panic_recovery.o
-
-#wangzhenhua@Plf.Framework,2017/07/28, add for kevent action upload,root action upload to user layer
-obj-$(CONFIG_OPPO_KEVENT_UPLOAD) += oppo_kevent_upload.o
-
-
-
 obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
 obj-$(CONFIG_FREEZER) += freezer.o
 obj-$(CONFIG_PROFILING) += profile.o
