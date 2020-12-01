@@ -4430,7 +4430,6 @@ static void inet6_send_rs_vzw(struct inet6_ifaddr *ifp)
 	 *so this first using global address
 	 */
 	if (ipv6_accept_ra(ifp->idev) &&
-	    ifp->idev->cnf.rtr_solicits > 0 &&
 	    (dev->flags & IFF_LOOPBACK) == 0) {
 		pr_info("[VzW] send rs :dev name:%s\n", dev->name);
 		ndisc_send_rs(ifp->idev->dev, &ifp->addr,
