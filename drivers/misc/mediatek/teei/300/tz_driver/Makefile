@@ -33,7 +33,5 @@ ccflags-y += -D TUI_SUPPORT
 endif
 
 obj-$(CONFIG_MICROTRUST_TZ_DRIVER) += teei.o
-
-
 ccflags-y += -Wno-error
 ccflags-y += -D UT_DMA_ZONE
