@@ -45,6 +45,7 @@ do { \
 #define M4UTRACE() \
 do { \
 	if (!m4u_log_to_uart) \
+
 		pr_info("[PSEUDO] %s, %d\n", __func__, __LINE__); \
 } while (0)
 
@@ -53,7 +54,7 @@ do { \
 		if (seq_file)\
 			seq_printf(seq_file, fmt, ##args);\
 		else\
-			pr_notice(fmt, ##args);\
+			pr_debug(fmt, ##args);\
 	} while (0)
 
 #endif
