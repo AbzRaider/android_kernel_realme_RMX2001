@@ -30,11 +30,6 @@
 #include <linux/ratelimit.h>
 #include <soc/oppo/oppo_project.h>
 
-#ifdef VENDOR_EDIT
-#include "../drivers/soc/oppo/oppo_phoenix/oppo_phoenix.h"
-static int kernel_panic_happened = 0;
-#endif
-
 #define PANIC_TIMER_STEP 100
 #define PANIC_BLINK_SPD 18
 
@@ -170,17 +165,6 @@ void panic(const char *fmt, ...)
 	int old_cpu, this_cpu;
 	bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
 
-#ifdef VENDOR_EDIT
-    kernel_panic_happened++;
-	if(phx_set_boot_error && phx_is_phoenix_boot_completed)
-	{
-		// we only care about panic on boot not complete
-		if(kernel_panic_happened < 2 && !phx_is_phoenix_boot_completed())
-		{
-			phx_set_boot_error(ERROR_KERNEL_PANIC);
-		}
-	}
-#endif  /*VENDOR_EDIT*/
 	/*
 	 * Disable local interrupts. This will prevent panic_smp_self_stop
 	 * from deadlocking the first cpu that invokes the panic, since

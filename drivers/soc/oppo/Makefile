@@ -8,9 +8,3 @@ obj-y     +=  oppo_healthinfo/
 #endif /* VENDOR_EDIT */
 obj-$(CONFIG_OPPO_SHUTDOWN_DETECT)  +=  oppo_shutdown_detect/
 obj-$(CONFIG_OPPO_HYPNUS)       +=  oppo_hypnus/
-obj-$(CONFIG_OPPO_PHOENIX)     +=  oppo_phoenix/
-#endif /* VENDOR_EDIT */
-
-#ifdef VENDOR_EDIT
-obj-$(CONFIG_OPPO_FORCE_DUMP)     +=  oppo_dump/
-#endif /* VENDOR_EDIT */

@@ -40,17 +40,11 @@
 #include "logging.h"
 #include "nq.h"
 
-#include <soc/oppo/oppo_project.h>
-
 #define NQ_NUM_ELEMS		64
 #define SCHEDULING_FREQ		5	/**< N-SIQ every n-th time */
 #define DEFAULT_TIMEOUT_MS	20000	/* We do nothing on timeout anyway */
 
-#ifdef VENDOR_EDIT
-extern int phx_is_system_boot_completed(void);
-#endif /* VENDOR_EDIT */
-
-static struct {
+        static struct {
 	struct mutex buffer_mutex;	/* Lock on SWd communication buffer */
 	struct mcp_buffer *mcp_buffer;
 	struct interworld_session *iwp_buffer;
@@ -455,10 +449,6 @@ static void nq_dump_status(void)
 	int ret = 0;
 	size_t i;
 
-#ifdef VENDOR_EDIT
-	int boot_completed_tee = 0;
-#endif /* VENDOR_EDIT */
-
 	if (l_ctx.dump.off)
 		ret = -EBUSY;
 
@@ -498,18 +488,6 @@ static void nq_dump_status(void)
 	}
 
 	mc_dev_info("  %-22s= 0x%s", "mcExcep.uuid", uuid_str);
-	#ifdef VENDOR_EDIT
-	if(0 == strcmp(uuid_str, "07170000000000000000000000000000")) {
-		if(get_eng_version() == 1) {
-			boot_completed_tee = phx_is_system_boot_completed();
-                }
-		if(boot_completed_tee == 1) {
-			mc_dev_info("tee boot complete\n");
-		} else {
-			BUG();
-		}
-	}
-	#endif /* VENDOR_EDIT */
 	if (ret >= 0)
 		ret = kasnprintf(&l_ctx.dump, "%-22s= 0x%s\n", "mcExcep.uuid",
 				 uuid_str);
