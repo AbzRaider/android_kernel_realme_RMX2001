@@ -740,6 +740,7 @@ config SHADOW_CALL_STACK_VMAP
 	  provides better stack exhaustion protection, but increases per-thread
 	  memory consumption as a full page is allocated for each shadow stack.
 
+
 config LLVM_POLLY
 	bool "Enable LLVM's polyhedral loop optimizer (Polly)"
 	help
@@ -747,6 +748,8 @@ config LLVM_POLLY
 	  Polly is able to optimize various loops throughout the kernel for
 	  maximum cache locality. This requires an LLVM toolchain explicitly
 	  compiled with Polly support.
+
+
 
 
 config HAVE_ARCH_WITHIN_STACK_FRAMES
