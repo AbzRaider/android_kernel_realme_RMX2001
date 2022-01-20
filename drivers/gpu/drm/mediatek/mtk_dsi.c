@@ -1175,9 +1175,10 @@ static int mtk_dsi_probe(struct platform_device *pdev)
 		return -EPROBE_DEFER;
 	}
 
-	irq_set_status_flags(irq_num, IRQ_TYPE_LEVEL_LOW);
-	ret = devm_request_irq(&pdev->dev, irq_num, mtk_dsi_irq,
-			       IRQF_TRIGGER_LOW, dev_name(&pdev->dev), dsi);
+	irq_set_status_flags(irq_num, IRQ_TYPE_LEVEL_HIGH);
+	ret = devm_request_irq(
+		&pdev->dev, irq_num, dsi->driver_data->irq_handler,
+		IRQF_TRIGGER_NONE | IRQF_SHARED | IRQF_PERF_AFFINE, dev_name(&pdev->dev), dsi);
 	if (ret) {
 		dev_err(&pdev->dev, "failed to request mediatek dsi irq\n");
 		return -EPROBE_DEFER;
