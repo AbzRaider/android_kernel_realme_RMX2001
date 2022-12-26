@@ -28,7 +28,7 @@ static int throtl_quantum = 32;
 #define MIN_THROTL_IOPS (10)
 #define DFL_LATENCY_TARGET (-1L)
 #define DFL_IDLE_THRESHOLD (0)
-#define DFL_HD_BASELINE_LATENCY (4000L) /* 4ms */
+#define DFL_HD_BASELINE_LATENCY (1000L) /* 1ms */
 #define LATENCY_FILTERED_SSD (0)
 /*
  * For HD, very small latency comes from sequential IO. Such IO is helpless to
