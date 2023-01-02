@@ -88,7 +88,9 @@ static DEFINE_SPINLOCK(lock);
 struct task_struct *wk_tsk[16] = { 0 };	/* max cpu 16 */
 static unsigned int wk_tsk_bind[16] = { 0 };	/* max cpu 16 */
 static unsigned long long wk_tsk_bind_time[16] = { 0 };	/* max cpu 16 */
+#ifdef CONFIG_MTK_TICK_BROADCAST_AEE_DUMP
 static char wk_tsk_buf[128] = { 0 };
+#endif
 
 static unsigned long kick_bit;
 static unsigned long rtc_update;
@@ -338,6 +340,7 @@ void wk_start_kick_cpu(int cpu)
 	}
 }
 
+#ifdef CONFIG_MTK_TICK_BROADCAST_AEE_DUMP
 void dump_wdk_bind_info(void)
 {
 	int i = 0;
@@ -370,6 +373,7 @@ void dump_wdk_bind_info(void)
 	mtk_timer_clkevt_aee_dump();
 	tick_broadcast_mtk_aee_dump();
 }
+#endif
 
 void kicker_cpu_bind(int cpu)
 {
