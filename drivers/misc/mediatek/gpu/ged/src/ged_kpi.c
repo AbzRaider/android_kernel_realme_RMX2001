@@ -270,15 +270,18 @@ static unsigned long long g_gpu_remained_time_accum;
 static unsigned long long g_cpu_remained_time_accum;
 static unsigned long long g_gpu_freq_accum;
 static unsigned int g_frame_count;
-
-static int gx_game_mode;
+static int gx_game_mode=0;
 static int gx_3D_benchmark_on;
 #ifdef GED_KPI_CPU_BOOST
 static int gx_force_cpu_boost;
 static int gx_top_app_pid;
 static int enable_game_self_frc_detect;
 #endif
+<<<<<<< HEAD
 static unsigned int gx_fps;
+=======
+static unsigned int gx_fps=90;
+>>>>>>> a361dd2103a5 (mediatek : ged : drivers : Tune for Optimal Performance)
 static unsigned int gx_cpu_time_avg;
 static unsigned int gx_gpu_time_avg;
 static unsigned int gx_response_time_avg;
@@ -288,11 +291,11 @@ static unsigned int gx_gpu_freq_avg;
 
 #ifdef GED_KPI_CPU_BOOST
 static int boost_accum_cpu;
-static long target_t_cpu_remained = 8300000; /* for non-GED_KPI_MAX_FPS-FPS cases */
-/* static long target_t_cpu_remained_min = 8300000; */ /* default 0.5 vsync period */
+static long target_t_cpu_remained = 14600000; /* for non-GED_KPI_MAX_FPS-FPS cases */
 static int cpu_boost_policy=-1;
 static int boost_extra;
 static int boost_amp;
+static int enable_game_self_frc_detect=1;
 static int deboost_reduce;
 static int boost_upper_bound = 100;
 static void (*ged_kpi_cpu_boost_policy_fp)(GED_KPI_HEAD *psHead,
@@ -612,7 +615,11 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 		cur_fps_idx++;
 		cur_fps_idx %= GED_KPI_GAME_SELF_FRC_DETECT_MONITOR_WINDOW_SIZE;
 	} else {
+<<<<<<< HEAD
 		if (target_fps_4_main_head == 90 || enable_game_self_frc_detect == 0)
+=======
+		if (target_fps_4_main_head == 67 || enable_game_self_frc_detect == 0)
+>>>>>>> a361dd2103a5 (mediatek : ged : drivers : Tune for Optimal Performance)
 			is_game_control_frame_rate = 0;
 	}
 #ifdef GED_KPI_DEBUG
