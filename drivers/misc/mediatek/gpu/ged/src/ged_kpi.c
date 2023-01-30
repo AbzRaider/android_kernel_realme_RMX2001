@@ -277,9 +277,6 @@ static int gx_force_cpu_boost;
 static int gx_top_app_pid;
 static int enable_game_self_frc_detect;
 #endif
-<<<<<<< HEAD
-static unsigned int gx_fps;
-=======
 static unsigned int gx_fps=90;
 >>>>>>> a361dd2103a5 (mediatek : ged : drivers : Tune for Optimal Performance)
 static unsigned int gx_cpu_time_avg;
