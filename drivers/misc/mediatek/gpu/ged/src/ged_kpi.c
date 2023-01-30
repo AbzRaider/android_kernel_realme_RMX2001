@@ -615,11 +615,7 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 		cur_fps_idx++;
 		cur_fps_idx %= GED_KPI_GAME_SELF_FRC_DETECT_MONITOR_WINDOW_SIZE;
 	} else {
-<<<<<<< HEAD
-		if (target_fps_4_main_head == 90 || enable_game_self_frc_detect == 0)
-=======
 		if (target_fps_4_main_head == 67 || enable_game_self_frc_detect == 0)
->>>>>>> a361dd2103a5 (mediatek : ged : drivers : Tune for Optimal Performance)
 			is_game_control_frame_rate = 0;
 	}
 #ifdef GED_KPI_DEBUG
