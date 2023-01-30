@@ -63,7 +63,7 @@ EXPORT_SYMBOL(ged_kpi_PushAppSelfFcFp_fbt);
 #define GED_KPI_SEC_DIVIDER 1000000000
 #define GED_KPI_MAX_FPS 90
 #define GED_KPI_DEFAULT_FPS_MARGIN 3
-#define GED_KPI_CPU_MAX_OPP 4
+
 typedef enum {
 	GED_TIMESTAMP_TYPE_D		= 0x1,
 	GED_TIMESTAMP_TYPE_1		= 0x2,
@@ -222,9 +222,9 @@ typedef struct GED_KPI_GPU_TS_TAG {
 #define GED_KPI_UID(pid, wnd) (pid | ((unsigned long)wnd))
 #define SCREEN_IDLE_PERIOD 500000000
 
-
-static int is_game_control_frame_rate=1;
-static int target_fps_4_main_head = 60;
+/* static int display_fps = GED_KPI_MAX_FPS; */
+static int is_game_control_frame_rate;
+static int target_fps_4_main_head = 90;
 static long long vsync_period = GED_KPI_SEC_DIVIDER / GED_KPI_MAX_FPS;
 static GED_LOG_BUF_HANDLE ghLogBuf;
 static struct workqueue_struct *g_psWorkQueue;
@@ -232,14 +232,14 @@ static GED_HASHTABLE_HANDLE gs_hashtable;
 static GED_KPI g_asKPI[GED_KPI_TOTAL_ITEMS];
 static int g_i32Pos;
 static GED_THREAD_HANDLE ghThread;
-static unsigned int gx_dfps=90; /* variable to fix FPS*/
-static unsigned int gx_frc_mode=1; /* variable to fix FRC mode*/
+static unsigned int gx_dfps; /* variable to fix FPS*/
+static unsigned int gx_frc_mode; /* variable to fix FRC mode*/
 #ifdef GED_KPI_CPU_BOOST
 static unsigned int enable_cpu_boost = 1;
 #endif
 static unsigned int enable_gpu_boost = 1;
 static unsigned int is_GED_KPI_enabled = 1;
-static unsigned int ap_self_frc_detection_rate = 20;
+static unsigned int ap_self_frc_detection_rate = 30;
 #ifdef GED_ENABLE_FB_DVFS
 static unsigned int g_force_gpu_dvfs_fallback;
 #endif
@@ -271,14 +271,14 @@ static unsigned long long g_cpu_remained_time_accum;
 static unsigned long long g_gpu_freq_accum;
 static unsigned int g_frame_count;
 
-static int gx_game_mode=0;
+static int gx_game_mode;
 static int gx_3D_benchmark_on;
 #ifdef GED_KPI_CPU_BOOST
-static int gx_force_cpu_boost=1;
+static int gx_force_cpu_boost;
 static int gx_top_app_pid;
-static int enable_game_self_frc_detect=1;
+static int enable_game_self_frc_detect;
 #endif
-static unsigned int gx_fps=90;
+static unsigned int gx_fps;
 static unsigned int gx_cpu_time_avg;
 static unsigned int gx_gpu_time_avg;
 static unsigned int gx_response_time_avg;
@@ -288,7 +288,7 @@ static unsigned int gx_gpu_freq_avg;
 
 #ifdef GED_KPI_CPU_BOOST
 static int boost_accum_cpu;
-static long target_t_cpu_remained = 14600000; /* for non-GED_KPI_MAX_FPS-FPS cases */
+static long target_t_cpu_remained = 14100000; /* for non-GED_KPI_MAX_FPS-FPS cases */
 /* static long target_t_cpu_remained_min = 8300000; */ /* default 0.5 vsync period */
 static int cpu_boost_policy=-1;
 static int boost_extra;
@@ -300,7 +300,7 @@ static void (*ged_kpi_cpu_boost_policy_fp)(GED_KPI_HEAD *psHead,
 module_param(target_t_cpu_remained, long, 0644);
 module_param(gx_force_cpu_boost, int, 0644);
 module_param(gx_top_app_pid, int, 0644);
-module_param(cpu_boost_policy, int, 0644);
+module_param(cpu_boost_policy, int, 0444);
 module_param(boost_extra, int, 0644);
 module_param(boost_amp, int, 0644);
 module_param(deboost_reduce, int, 0644);
@@ -447,11 +447,11 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 	int fps_grp[GED_KPI_GAME_SELF_FRC_DETECT_MONITOR_WINDOW_SIZE];
 	int i;
 
-	if (enable_game_self_frc_detect && fps > 18 && fps <= 90) {
+	if (enable_game_self_frc_detect && fps > 18 && fps <= 61) {
 		fps_records[cur_fps_idx] = fps;
 		if (reset == 0) {
 			if (fps > target_fps_4_main_head + 1 || afrc_rst_cnt_down == 120) {
-				ged_kpi_frc_detection_main_head_reset(89);
+				ged_kpi_frc_detection_main_head_reset(60);
 #ifdef GED_KPI_DEBUG
 				GED_LOGE("[AFRC] reset: %d, %d, afrc_rst: %d, %d\n",
 					fps, target_fps_4_main_head + 1, afrc_rst_cnt_down, afrc_rst_over_target_cnt);
@@ -472,8 +472,26 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 						fps_grp[i] = 48;
 					else if (fps_records[i] <= 51)
 						fps_grp[i] = 50;
-					else
-						fps_grp[i] = 60;
+					else if (fps_records[i] <= 56)
+						fps_grp[i] = 55;
+					else if (fps_records[i] <= 60)
+						fps_grp[i] = 59 ;
+					else if (fps_records[i] <= 61)
+						fps_grp[i] = 60 ; 
+					else if (fps_records[i] <= 66)
+						fps_grp[i] = 65 ; 
+					else if (fps_records[i] <= 72)
+						fps_grp[i] = 71 ; 
+					else if (fps_records[i] <= 77)
+						fps_grp[i] = 76 ; 
+					else if (fps_records[i] <= 83)
+						fps_grp[i] = 79 ;
+					else if (fps_records[i] <= 87)
+						fps_grp[i] = 86 ;
+					else if (fps_records[i] <= 89)
+						fps_grp[i] = 88 ;
+					else 
+						fps_grp[i] = 90;
 				}
 
 				for (i = 0; i < GED_KPI_GAME_SELF_FRC_DETECT_MONITOR_WINDOW_SIZE - 1; i++) {
@@ -494,20 +512,38 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 				}
 
 			} else {
-				if (fps <= 28)
-					fps = 24;
-				else if (fps <= 31)
-					fps = 30;
-				else if (fps <= 37)
-					fps = 36;
-				else if (fps <= 45)
-					fps = 45;
-				else if (fps <= 49)
-					fps = 48;
-				else if (fps <= 51)
-					fps = 50;
-				else
-					fps = 60;
+				if (fps_records[i] <= 28)
+						fps_grp[i] = 24;
+					else if (fps_records[i] <= 31)
+						fps_grp[i] = 30;
+					else if (fps_records[i] <= 37)
+						fps_grp[i] = 36;
+					else if (fps_records[i] <= 45)
+						fps_grp[i] = 45;
+					else if (fps_records[i] <= 49)
+						fps_grp[i] = 48;
+					else if (fps_records[i] <= 51)
+						fps_grp[i] = 50;
+					else if (fps_records[i] <= 56)
+						fps_grp[i] = 55;
+					else if (fps_records[i] <= 60)
+						fps_grp[i] = 59 ;
+					else if (fps_records[i] <= 61)
+						fps_grp[i] = 60 ; 
+					else if (fps_records[i] <= 66)
+						fps_grp[i] = 65 ; 
+					else if (fps_records[i] <= 72)
+						fps_grp[i] = 71 ; 
+					else if (fps_records[i] <= 77)
+						fps_grp[i] = 76 ; 
+					else if (fps_records[i] <= 83)
+						fps_grp[i] = 79 ;
+					else if (fps_records[i] <= 87)
+						fps_grp[i] = 86 ;
+					else if (fps_records[i] <= 89)
+						fps_grp[i] = 88 ;
+					else 
+						fps_grp[i] = 90;
 
 				if (fps < target_fps_4_main_head)
 					afrc_rst_over_target_cnt++;
@@ -530,8 +566,26 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 						fps_grp[i] = 48;
 					else if (fps_records[i] <= 51)
 						fps_grp[i] = 50;
-					else
-						fps_grp[i] = 60;
+					else if (fps_records[i] <= 56)
+						fps_grp[i] = 55;
+					else if (fps_records[i] <= 60)
+						fps_grp[i] = 59 ;
+					else if (fps_records[i] <= 61)
+						fps_grp[i] = 60 ; 
+					else if (fps_records[i] <= 66)
+						fps_grp[i] = 65 ; 
+					else if (fps_records[i] <= 72)
+						fps_grp[i] = 71 ; 
+					else if (fps_records[i] <= 77)
+						fps_grp[i] = 76 ; 
+					else if (fps_records[i] <= 83)
+						fps_grp[i] = 79 ;
+					else if (fps_records[i] <= 87)
+						fps_grp[i] = 86 ;
+					else if (fps_records[i] <= 89)
+						fps_grp[i] = 88 ;
+					else 
+						fps_grp[i] = 90;
 				}
 
 				reset = 0;
@@ -545,7 +599,7 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 #ifdef GED_KPI_DEBUG
 				GED_LOGE("[AFRC] fps_grp: %d, %d, %d\n", fps_grp[0], fps_grp[1], fps_grp[2]);
 #endif
-				if (reset == 0 && fps_grp[0] < 60) {
+				if (reset == 0 && fps_grp[0] < 89) {
 					target_fps_4_main_head = fps_grp[0];
 					is_game_control_frame_rate = 1;
 				} else {
@@ -558,7 +612,7 @@ static void ged_kpi_push_cur_fps_and_detect_app_self_frc(int fps)
 		cur_fps_idx++;
 		cur_fps_idx %= GED_KPI_GAME_SELF_FRC_DETECT_MONITOR_WINDOW_SIZE;
 	} else {
-		if (target_fps_4_main_head == 67 || enable_game_self_frc_detect == 0)
+		if (target_fps_4_main_head == 90 || enable_game_self_frc_detect == 0)
 			is_game_control_frame_rate = 0;
 	}
 #ifdef GED_KPI_DEBUG
