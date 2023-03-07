@@ -597,7 +597,7 @@ CONFIG_BINFMT_SCRIPT=y
 # CONFIG_BINFMT_MISC is not set
 CONFIG_COREDUMP=y
 CONFIG_COMPAT=y
-
+CONFIG_KPROFILES=y
 #
 # Power management options
 #
