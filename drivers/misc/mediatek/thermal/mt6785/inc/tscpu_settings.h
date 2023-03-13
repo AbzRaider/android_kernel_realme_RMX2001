@@ -40,7 +40,7 @@
 
 #define THERMAL_GET_CTIME() {thermal_cTime_us = thermal_get_current_time_us()}
 
-#define THERMAL_TIME_TH 3000
+#define THERMAL_TIME_TH 95000
 
 #define THERMAL_IS_TOO_LONG()   \
 	do {                                    \
@@ -71,7 +71,7 @@
 #define ATM_USES_PPM							(1)
 
 #define THERMAL_GET_AHB_BUS_CLOCK				(0)
-#define THERMAL_PERFORMANCE_PROFILE				(0)
+#define THERMAL_PERFORMANCE_PROFILE				(1)
 
 /* 1: turn on GPIO toggle monitor; 0: turn off */
 #define THERMAL_GPIO_OUT_TOGGLE					(0)
