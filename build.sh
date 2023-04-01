@@ -35,10 +35,8 @@ function zupload()
 git clone --depth=1 https://github.com/Johny8988/AnyKernel3.git AnyKernel
 cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
 cd AnyKernel
-zip -r9 ThunderStorm-lto-KERNEL-RMX2001.zip *
-curl -sL https://git.io/file-transfer | sh
-./transfer wet ThunderStorm-lto-KERNEL-RMX2001.zip
-}
+zip -r9 Azrael-OSS-KERNEL-RMX2001-v1.8.zip *
+curl --upload-file "Azrael-OSS-KERNEL-RMX2001-v1.8.zip" https://free.keep.sh
 
 compile
 zupload
