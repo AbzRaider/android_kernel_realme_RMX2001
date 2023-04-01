@@ -37,6 +37,6 @@ cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
 cd AnyKernel
 zip -r9 Azrael-OSS-KERNEL-RMX2001-v1.8.zip *
 curl --upload-file "Azrael-OSS-KERNEL-RMX2001-v1.8.zip" https://free.keep.sh
-
+}
 compile
 zupload
