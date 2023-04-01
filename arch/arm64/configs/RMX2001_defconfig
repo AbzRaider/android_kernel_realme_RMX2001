@@ -1729,10 +1729,7 @@ CONFIG_LIGHTNESS_MAPPING_VALUE=255
 # CONFIG_BACKLIGHT_SUPPORT_LM3697 is not set
 # CONFIG_MTK_IRTX_PWM_SUPPORT is not set
 CONFIG_MTK_PWM=y
-<<<<<<< HEAD:arch/arm64/configs/RMX2151_defconfig
-=======
 CONFIG_MTK_SYSTRACKER_DISABLE=y
->>>>>>> 6002c08ff357 (defconfig: RM6785: Disable SLUB per-CPU partial caches):arch/arm64/configs/RM6785_defconfig
 CONFIG_MTK_SYSTRACKER_V2=y
 CONFIG_MTK_BOOT=y
 CONFIG_MTK_BOOT_REASON=y
@@ -1748,7 +1745,7 @@ CONFIG_MTK_SCHED_INTEROP=y
 #
 # MTK Energy Aware Scheduler Plus
 #
-CONFIG_MTK_SCHED_EAS_POWER_SUPPORT=y
+# CONFIG_MTK_SCHED_EAS_POWER_SUPPORT is not set
 
 #
 # MTK Heterogenous MultiProcessor Scheduler
