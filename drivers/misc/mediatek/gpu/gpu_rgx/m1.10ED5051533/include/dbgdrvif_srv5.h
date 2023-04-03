@@ -48,7 +48,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma  warning(disable:4200)
 #endif
 
-#if defined(__linux__) || defined(__GNUC__)
+#if defined(__linux__)
 
 #define FILE_DEVICE_UNKNOWN             0
 #define METHOD_BUFFERED                 0

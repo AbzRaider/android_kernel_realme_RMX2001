@@ -1598,9 +1598,8 @@ static int vpu_enable_regulator_and_clock(int core)
 	/*--enable regulator--*/
 	ret1 = vvpu_regulator_set_mode(true);
 	udelay(100);//slew rate:rising10mV/us
-if (g_vpu_log_level > Log_STATE_MACHINE) {
+if (g_vpu_log_level > Log_STATE_MACHINE)
 	LOG_INF("enable vvpu ret:%d\n", ret1);
-}
 
 
 
@@ -1796,9 +1795,8 @@ clk_on:
 
 out:
 	vpu_trace_end();
-	if (g_vpu_log_level > Log_STATE_MACHINE) {
+	if (g_vpu_log_level > Log_STATE_MACHINE)
 		apu_get_power_info();
-	}
 	is_power_on[core] = true;
 	force_change_vcore_opp[core] = false;
 	force_change_vvpu_opp[core] = false;
@@ -2026,11 +2024,8 @@ out:
 		opps.dspcore[core].index = 15;
 	opps.dsp.index = 9;
 	opps.ipu_if.index = 9;
-
 if (g_vpu_log_level > Log_STATE_MACHINE)
-{
 	LOG_INF("[vpu_%d] dis_rc -\n", core);
-}
 	return ret;
 #endif
 }
@@ -2598,9 +2593,8 @@ static void vpu_hw_ion_free_handle(struct ion_client *client,
 		LOG_WRN("[vpu] invalid ion handle(0x%p)!\n", handle);
 		return;
 	}
-	if (g_vpu_log_level > Log_STATE_MACHINE) {
+	if (g_vpu_log_level > Log_STATE_MACHINE)
 		LOG_INF("[vpu] ion_free_handle(0x%p)\n", handle);
-	}
 
 	ion_free(client, handle);
 }
@@ -3315,9 +3309,8 @@ static int vpu_get_power(int core, bool secure)
 			}
 		}
 	}
-	if (g_vpu_log_level > Log_STATE_MACHINE) {
+	if (g_vpu_log_level > Log_STATE_MACHINE)
 		apu_get_power_info();
-	}
 	LOG_DBG("[vpu_%d/%d] gp -\n", core, power_counter[core]);
 	enable_apu_bw(0);
 	enable_apu_bw(1);
