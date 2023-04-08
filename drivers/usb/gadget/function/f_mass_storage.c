@@ -261,7 +261,7 @@ struct fsg_common;
 struct fsg_common {
 	struct usb_gadget	*gadget;
 	struct usb_composite_dev *cdev;
-	struct fsg_dev		*fsg;
+	struct fsg_dev		*fsg, *new_fsg;
 	wait_queue_head_t	io_wait;
 	wait_queue_head_t	fsg_wait;
 
@@ -2273,7 +2273,6 @@ reset:
 static int fsg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 {
 	struct fsg_dev *fsg = fsg_from_func(f);
-<<<<<<< HEAD
 	struct fsg_common *common = fsg->common;
 	int rc;
 
@@ -2301,11 +2300,7 @@ static int fsg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 
 
 	fsg->common->new_fsg = fsg;
-	raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE);
-=======
-
 	__raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE, fsg);
->>>>>>> ASB-2019-09-05_4.14-q
 	return USB_GADGET_DELAYED_STATUS;
 
 reset_bulk_int:
@@ -2320,7 +2315,6 @@ static void fsg_disable(struct usb_function *f)
 {
 	struct fsg_dev *fsg = fsg_from_func(f);
 
-<<<<<<< HEAD
 	/* Disable the endpoints */
 	if (fsg->bulk_in_enabled) {
 		usb_ep_disable(fsg->bulk_in);
@@ -2334,10 +2328,7 @@ static void fsg_disable(struct usb_function *f)
 	}
 
 	fsg->common->new_fsg = NULL;
-	raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE);
-=======
 	__raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE, NULL);
->>>>>>> ASB-2019-09-05_4.14-q
 }
 
 
