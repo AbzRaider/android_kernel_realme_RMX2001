@@ -10,7 +10,14 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
+subdir-ccflags-y += -Wno-error
 
+ccflags-y += \
+	-Wno-unused-variable \
+	-Wno-unused-function \
+	-Wno-implicit-function-declaration \
+	-Wno-sometimes-uninitialized \
+	-Wno-declaration-after-statement
 THERMAL_CHIP_DRIVER_DIR := $(srctree)/drivers/misc/mediatek/thermal/$(MTK_PLATFORM)
 ccflags-y  += -I$(THERMAL_CHIP_DRIVER_DIR)/inc
 ccflags-y  += -I$(srctree)/drivers/misc/mediatek/base/power/$(MTK_PLATFORM)
