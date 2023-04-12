@@ -40,16 +40,14 @@ ccflags-y += \
         -I$(EARA_JOB_TOP)/include/ \
         -I$(VIDEOX_TOP)/ \
         -I$(srctree)/drivers/gpu/drm/mediatek/ \
+#obj-y += fpsgo.o
+#$fpsgo-y += src/fpsgo_main.o
 
-obj-m += fpsgo.o
-fpsgo-y += src/fpsgo_main.o
-
-ifeq (y,$(CONFIG_MTK_FPSGO_V3))
-ifeq (y,$(CONFIG_THUMB2_KERNEL))
-fpsgo-y += src/xgf_v3_ko_thumb2.o
-else
-fpsgo-$(CONFIG_ARM) += src/xgf_v3_ko_arm32.o
-fpsgo-$(CONFIG_ARM64) += src/xgf_v3_ko_arm64.o
-endif
-endif
+#ifeq (y,$(CONFIG_MTK_FPSGO_V3))
+#ifeq (y,$(CONFIG_THUMB2_KERNEL))
+#fpsgo-y += src/xgf_v3_ko_thumb2.o
+#else
+#fpsgo-$(CONFIG_ARM64) += src/xgf_v3_ko_arm64.o
+#endif
+#endif
 
