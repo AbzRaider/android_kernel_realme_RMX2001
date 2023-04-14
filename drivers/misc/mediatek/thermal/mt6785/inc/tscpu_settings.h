@@ -89,7 +89,7 @@
 #define THERMAL_CONTROLLER_HW_FILTER			(2) /* 1, 2, 4, 8, 16 */
 
 /* 1: turn on thermal controller HW thermal protection; 0: turn off */
-#define THERMAL_CONTROLLER_HW_TP				(1)
+#define THERMAL_CONTROLLER_HW_TP				(0)
 
 /* 1: turn on fast polling in this sw module; 0: turn off */
 #define MTKTSCPU_FAST_POLLING					(1)
