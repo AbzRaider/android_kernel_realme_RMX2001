@@ -18,7 +18,7 @@ ccflags-y += \
  -Wno-implicit-function-declaration \
  -Wno-sometimes-uninitialized \
  -Wno-declaration-after-statement \
--Wno-Wundefined-internal
+-Wno-undefined-internal
 THERMAL_CHIP_DRIVER_DIR := $(srctree)/drivers/misc/mediatek/thermal/$(MTK_PLATFORM)
 ccflags-y  += -I$(THERMAL_CHIP_DRIVER_DIR)/inc
 ccflags-y  += -I$(srctree)/drivers/misc/mediatek/base/power/$(MTK_PLATFORM)
