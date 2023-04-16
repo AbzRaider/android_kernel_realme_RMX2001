@@ -9,8 +9,8 @@
 #include <linux/rculist.h>
 #include <net/inetpeer.h>
 #include <net/tcp.h>
-int sysctl_tcp_fastopen __read_mostly = TFO_CLIENT_ENABLE |
 
+int sysctl_tcp_fastopen __read_mostly = TFO_CLIENT_ENABLE |
 					TFO_SERVER_ENABLE |
 					TFO_CLIENT_NO_COOKIE |
 					TFO_SERVER_COOKIE_NOT_REQD |
