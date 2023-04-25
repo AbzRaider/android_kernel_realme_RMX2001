@@ -22,10 +22,8 @@
 struct stCAM_CAL_LIST_STRUCT g_camCalList[] = {
 	/*Below is commom sensor */
 	#ifdef VENDOR_EDIT
-	/*Longyuan.Yang@Camera.Driver 20190111 modify for sensor eeprom*/
 	{IMX398_SENSOR_ID, 0xA0, Common_read_region},
 	{GC2375H_SENSOR_ID, 0xA0, Common_read_region},
-	/*weiriqin@Camera.Driver, 2019/09/27, add for 18531 sub+main2 otp read eeprom*/
 	{S5K3P9SP_SENSOR_ID, 0xA8, Common_read_region},
 	{GC5035_SENSOR_ID, 0xA0, Common_read_region},
 	{S5KGM1SP_SENSOR_ID, 0xA0, Common_read_region},

@@ -367,7 +367,6 @@ void msdc_pmic_force_vcore_pwm(bool enable)
 #endif /*if !defined(FPGA_PLATFORM)*/
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM_HQ.BSP.Kernel.Driver 2019.08.22 add sdcard poweroff quick*/
 void msdc_sd_power_off_quick(void)
 {
 	int ret;

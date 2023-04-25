@@ -64,7 +64,6 @@
 #define R_BAT_SENSE	4
 #define R_I_SENSE	4
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2018/10/15, sjc Modify for charging */
 #define R_CHARGER_1	300
 #else
 #define R_CHARGER_1	330

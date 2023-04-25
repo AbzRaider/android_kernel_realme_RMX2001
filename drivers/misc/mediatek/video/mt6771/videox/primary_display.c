@@ -104,12 +104,10 @@
 #include "mtk_dramc.h"
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/05,
 * add power seq api for ulps
 */
 #include <soc/oppo/oppo_project.h>
 #include <linux/leds.h>
-/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 #include <linux/oppo_mm_kevent_fb.h>
 #include <linux/time.h>
 #include <linux/timekeeping.h>
@@ -183,7 +181,6 @@ struct pm_qos_request primary_display_mm_freq_request;
 
 #ifdef VENDOR_EDIT
 /*
-* YongPeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 static struct task_struct *ffl_set_task;
@@ -278,7 +275,6 @@ struct wakeup_source pri_wk_lock;
 
 #ifdef VENDOR_EDIT
 /*
-* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2019/01/12,
 * add to trigger tp irq reset for TD4330 HDL
 */
 void __attribute__((weak)) lcd_trigger_tp_irq_reset(void) {return;}
@@ -301,7 +297,6 @@ struct display_primary_path_context *_get_context(void)
 }
 
 #ifdef VENDOR_EDIT
-/* jie.cheng@swdp.shanghai,2017/06/02,add frame cnt variable to summarize all frame updates on MTK platform */
 unsigned long get_frame_cnt(void)
 {
 	return pgc->frame_cnt;
@@ -541,7 +536,6 @@ primary_display_set_power_mode_nolock(enum mtkfb_power_mode new_mode)
 {
 #ifndef VENDOR_EDIT
 /*
- * YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,
  * modify for AOD feature
  */
 	enum mtkfb_power_mode prev_mode;
@@ -587,7 +581,6 @@ enum mtkfb_power_mode primary_display_get_power_mode(void)
 }
 
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09, add for AOD feature */
 enum mtkfb_power_mode primary_display_get_prev_power_mode_nolock(void)
 {
 	return pgc->prev_pm;
@@ -1809,7 +1802,6 @@ static void _cmdq_build_trigger_loop(void)
 				      CMDQ_BEFORE_STREAM_SOF, 0);
 		#ifdef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 		* add for fingerprint notify frigger
 		*/
 		/* update fpd fence from slot0 to slot1 before trigger path */
@@ -4671,7 +4663,6 @@ int primary_display_init(char *lcm_name, unsigned int lcm_fps,
 	init_cmdq_slots(&(pgc->night_light_params), 17, 0);
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 	* add for fingerprint notify frigger
 	*/
 	if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -4679,7 +4670,6 @@ int primary_display_init(char *lcm_name, unsigned int lcm_fps,
 	}
 	#endif
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09, add for AOD feature */
 	pgc->prev_pm = MTKFB_POWER_MODE_UNKNOWN;
 #endif /*VENDOR_EDIT*/
 	/* init night light related variable */
@@ -5080,7 +5070,6 @@ int primary_display_init(char *lcm_name, unsigned int lcm_fps,
 
         #ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 	* add for face fill light node
 	*/
 	ffl_set_init();
@@ -5545,7 +5534,6 @@ int primary_display_suspend(void)
 {
 	enum DISP_STATUS ret = DISP_STATUS_OK;
 	#ifdef VENDOR_EDIT
-	/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 	unsigned char payload[100] = "";
 	#endif
 
@@ -5553,7 +5541,6 @@ int primary_display_suspend(void)
 
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/03/17,
 	* add for ffl set
 	*/
 	ffl_display_ready = false;
@@ -5671,7 +5658,6 @@ int primary_display_suspend(void)
 	if (primary_display_get_power_mode_nolock() == DOZE_SUSPEND) {
 		#ifndef VENDOR_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/16,
 		* add for Aod feature
 		*/
 		if (primary_display_get_lcm_power_state_nolock() != LCM_ON_LOW_POWER) {
@@ -5777,7 +5763,6 @@ done:
 #endif
 	#ifdef VENDOR_EDIT
 	/*
-	* liping-m@PSW.MM.Display.LCD.Stability, 2018/07/20,
 	* add power seq api for ulps
 	*/
 	if (primary_display_get_power_mode_nolock() == FB_SUSPEND) {
@@ -5815,7 +5800,6 @@ int primary_display_get_lcm_index(void)
 }
 
 #ifdef VENDOR_EDIT
-/* Xinqin.Yang@Cam.Tuning.Display, 2018/11/17, add for multi-lcms */
 int _ioctl_get_lcm_module_info(unsigned long arg)
 {
 	int ret = 0;
@@ -5878,7 +5862,6 @@ static int check_switch_lcm_mode_for_debug(void)
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/06/11,
 * modify for support aod state.
 */
 int primary_display_lcm_power_on_state(int alive)
@@ -5890,7 +5873,6 @@ int primary_display_lcm_power_on_state(int alive)
 			LCM_ON_LOW_POWER) {
 			#ifndef VENDOR_EDIT
 			/*
-			* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/02/14,
 			* modify for support aod state.
 			*/
 			if (pgc->plcm->drv->aod)
@@ -5914,7 +5896,6 @@ int primary_display_lcm_power_on_state(int alive)
 			skip_update = 1;
 			#ifdef VENDOR_EDIT
 			/*
-			* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 			* add for fingerprint notify frigger
 			*/
 			if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -5961,7 +5942,6 @@ int primary_display_resume(void)
 			 MMPROFILE_FLAG_START, 0, 0);
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/06/11,
 	* modify for support aod state.
 	*/
 	if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -5977,7 +5957,6 @@ int primary_display_resume(void)
 		DISPCHECK("primary display path is already resume, skip\n");
 		#ifdef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/06/11,
 		* modify for support aod state.
 		*/
 		if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -5990,7 +5969,6 @@ int primary_display_resume(void)
 			 MMPROFILE_FLAG_PULSE, 0, 1);
 	#ifdef VENDOR_EDIT
 	/*
-	* liping-m@PSW.MM.Display.LCD.Stability, 2018/07/20,
 	* add power seq api for ulps
 	*/
 	if (!(is_project(OPPO_19531) || is_project(OPPO_19391))) {
@@ -6151,7 +6129,6 @@ int primary_display_resume(void)
 			 MMPROFILE_FLAG_PULSE, 0, 3);
 	#ifdef VENDOR_EDIT
 	if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
-	/*Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/06/11,modify for support aod state.*/
 		skip_update = primary_display_lcm_power_on_state(0);
 	} else {
 		if (primary_display_get_power_mode_nolock() == DOZE) {
@@ -6159,7 +6136,6 @@ int primary_display_resume(void)
 				LCM_ON_LOW_POWER) {
 				#ifndef VENDOR_EDIT
 				/*
-				* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/16,
 				* add for Aod feature
 				*/
 				if (pgc->plcm->drv->aod)
@@ -6297,7 +6273,6 @@ int primary_display_resume(void)
 		dpmgr_enable_event(pgc->dpmgr_handle, DISP_PATH_EVENT_IF_VSYNC);
                 #ifdef VENDOR_EDIT
                 /*
-                * Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/06/11,
                 * modify for support aod state.
                 */
                 if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -6364,7 +6339,6 @@ int primary_display_resume(void)
 	}
 
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/12/10, add for TM TD4330 LCM mipi before init */
 	if (!strcmp(pgc->plcm->drv->name, "oppo18531_tianma_td4330_1080p_dsi_cmd") \
 		|| is_project(18561) || is_project(18161)) {
 		if ((!strcmp(pgc->plcm->drv->name, "oppo18561_dsjm_jdi_himax83112a_1080p_dsi_vdo"))
@@ -6391,7 +6365,6 @@ done:
 
 #ifndef VENDOR_EDIT
 /*
- * YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,
  * modify for AOD Feature
  */
 	if (primary_display_get_power_mode_nolock() == DOZE)
@@ -6414,14 +6387,12 @@ done:
 	ddp_clk_check();
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/03/17,
 	* add for ffl set
 	*/
 	ffl_display_ready = true;
 	#endif
     #ifdef VENDOR_EDIT
     /*
-    * ZhongWenjie@PSW.BSP.TP.FUNCTION, 2019/01/12,
     * add to trigger tp irq reset for TD4330 HDL
     */
     lcd_trigger_tp_irq_reset();
@@ -6431,7 +6402,6 @@ done:
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/06/12,
 * add for get dimming layer hbm state
 */
 int primary_display_aod_backlight(int level)
@@ -6440,7 +6410,6 @@ int primary_display_aod_backlight(int level)
 
 	#ifdef VENDOR_EDIT
 	/*
-	 * Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/23,
 	 * add for change aod mode brightness
 	 */
 	enum mtkfb_power_mode cur_pm;
@@ -6453,7 +6422,6 @@ int primary_display_aod_backlight(int level)
 
 	#ifdef VENDOR_EDIT
 	/*
-	 * Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/23,
 	 * add for change aod mode brightness
 	 */
 	if (primary_display_get_lcm_power_state_nolock() != LCM_ON_LOW_POWER) {
@@ -6576,7 +6544,6 @@ skip_resume:
 
 	#ifndef VENDOR_EDIT
 	/*
-	 * Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/23,
 	 * add for change aod mode brightness
 	 */
 	primary_display_setbacklight_nolock(level);
@@ -7742,7 +7709,6 @@ static u64 get_input_data_sz(disp_path_handle disp_handle)
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 * add for fingerprint notify frigger
 */
 bool need_update_fpd_fence(struct disp_frame_cfg_t *cfg)
@@ -8184,7 +8150,6 @@ static int _config_ovl_input(struct disp_frame_cfg_t *cfg,
     }
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 	* add for fingerprint notify frigger
 	*/
 	/* backup fpd_fence to slot0 */
@@ -8250,7 +8215,6 @@ static int primary_frame_cfg_input(struct disp_frame_cfg_t *cfg)
 	}
 
 #ifdef VENDOR_EDIT
-/* jie.cheng@swdp.shanghai,2017/06/02,add frame cnt variable to summarize all frame updates on MTK platform */
         pgc->frame_cnt++;
 #endif
 
@@ -8375,7 +8339,6 @@ out:
 }
 
 #ifdef VENDOR_EDIT
-/*Mark.Yao@PSW.MM.Display.LCD.Stable,2019-05-10 add for dc backlight feature */
 extern int oppo_dc_enable;
 int oppo_dc_enable_real = 0;
 int _set_backlight_by_cmdq(unsigned int level);
@@ -8430,13 +8393,11 @@ int primary_display_frame_cfg(struct disp_frame_cfg_t *cfg)
 	}
 
 	#ifdef VENDOR_EDIT
-	/*Mark.Yao@PSW.MM.Display.LCD.Stable,2019-05-10 add for dc backlight feature */
 	if (oppo_dc_enable != oppo_dc_enable_real) {
 		oppo_dc_enable_real = oppo_dc_enable;
 		_set_backlight_by_cmdq(ffl_backlight_backup);
 	}
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/06/12,
 	* add for get dimming layer hbm state
 	*/
 	if (disp_helper_get_option(DISP_OPT_LCM_HBM) && !ds_rec_fpd && !doze_rec_fpd) {
@@ -9481,7 +9442,6 @@ int primary_display_setbacklight(unsigned int level)
 
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/16,
 	* add for Aod feature
 	*/
 	if (primary_display_get_power_mode_nolock() == DOZE
@@ -9626,7 +9586,6 @@ int primary_display_setlcm_cmd(unsigned int *lcm_cmd, unsigned int *lcm_count,
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/06/12,
 * add for get dimming layer hbm state
 */
 static int _primary_display_set_lcm_hbm(bool en)
@@ -9757,7 +9716,6 @@ int primary_display_setbacklight_nolock(unsigned int level)
 	return 0;
 }
 
-/* LiPing-M@PSW.MultiMedia.Display.LCD.Machine.1077038, 2017/12/06, Add for Porting cabc interface */
 int _set_cabc_mode_by_cmdq(unsigned int level)
 {
 	int ret = 0;
@@ -9803,7 +9761,6 @@ int _set_cabc_mode_by_cmdq(unsigned int level)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2019/01/29,
 * add for samsung lcd hbm node and cabc mode
 */
 extern bool flag_lcd_off;
@@ -10049,7 +10006,6 @@ int primary_display_set_hbm_mode(unsigned int level)
 	return ret;
 }
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/16,
 * add for lcd serial num
 */
 extern int panel_serial_number_read(char cmd, uint64_t *buf, int num);
@@ -10151,7 +10107,6 @@ int primary_display_read_serial(char cmd, uint64_t *buf, int num)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/01/26,
 * add lcm id info read
 */
 extern int lcm_id_info_read(char cmd, uint32_t *buf, int num);
@@ -10253,7 +10208,6 @@ int primary_display_read_lcm_id(char cmd, uint32_t *buf, int num)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 static int ffl_set_worker_kthread(void *data)

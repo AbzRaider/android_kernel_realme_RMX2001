@@ -5,7 +5,6 @@
  * Description: Util about dump in the period of debugging.
  * Version: 1.0
  * Date: 2019/11/01
- * Author: Bin.Xu@BSP.Kernel.Stability
  *
  *----------------------Revision History: ---------------------------
  *   <author>        <date>         <version>         <desc>

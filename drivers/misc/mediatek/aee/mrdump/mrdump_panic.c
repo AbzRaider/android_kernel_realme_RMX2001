@@ -34,12 +34,10 @@
 #include <mt-plat/mtk_ram_console.h>
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@BSP.bootloader.bootflow, 2018/01/08, Add for reboot kernel panic mode */
 #include <mt-plat/mtk_rtc.h>
 extern int is_kernel_panic;
 #endif
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
 extern bool is_triggering_panic;
 extern void flush_cache_on_panic(void);
 #endif  /*VENDOR_EDIT*/
@@ -78,7 +76,6 @@ static void aee_exception_reboot(void)
 		pr_info("exception reboot\n");
 		mode += WD_SW_RESET_KEEP_DDR_RESERVE;
 		#ifdef VENDOR_EDIT
-		/* Bin.Li@BSP.bootloader.bootflow, 2018/01/08, Add for reboot kernel panic mode */
 		if(is_kernel_panic)
 		{
 			oppo_rtc_mark_reboot_kernel();
@@ -164,7 +161,6 @@ int mrdump_common_die(int fiq_step, int reboot_reason, const char *msg,
 		      struct pt_regs *regs)
 {
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
     if(!is_triggering_panic)
     {
         is_triggering_panic = true;

@@ -16,7 +16,6 @@
 #include <linux/kernel.h>
 
 #ifdef ODM_HQ_EDIT
-/* liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting */
 #ifdef CONFIG_SET_LCD_BIAS_ODM_HQ
 typedef enum {
 	FIRST_VSP_AFTER_VSN = 0,
@@ -152,7 +151,6 @@ int display_bias_disable(void)
 EXPORT_SYMBOL(display_bias_disable);
 
 #ifdef ODM_HQ_EDIT
-/* liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting */
 #ifdef CONFIG_SET_LCD_BIAS_ODM_HQ
 void pmi_lcd_bias_set_vspn_vol(unsigned int value)
 {

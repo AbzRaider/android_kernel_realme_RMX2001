@@ -41,7 +41,6 @@
 #include "primary_display.h"
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 * add for fingerprint notify frigger
 */
 #include <soc/oppo/oppo_project.h>
@@ -359,7 +358,6 @@ irqreturn_t disp_irq_handler(int irq, void *dev_id)
 		if (reg_val & (1 << 2)) {
 			#ifdef VENDOR_EDIT
 			/*
-			* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 			* add for fingerprint notify frigger
 			*/
 			if (is_project(OPPO_19531) || is_project(OPPO_19391)) {

@@ -1,5 +1,4 @@
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 #include <linux/version.h>
 #include <linux/sched.h>
 #include <linux/list.h>

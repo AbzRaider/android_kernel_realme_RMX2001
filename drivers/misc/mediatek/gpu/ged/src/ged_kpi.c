@@ -1530,7 +1530,6 @@ static void ged_kpi_work_cb(struct work_struct *psWork)
 						, psKPI);
 			} else {
 				#ifndef VENDOR_EDIT
-				//Deliang.Peng@PSW.MM.Display.GPU.Log.1120734, 2017/9/20,
 				// delete for too many logs
 				GED_PR_DEBUG(
 		"[GED_KPI][Exception] TYPE_2: psKPI NULL, frameID: %lu\n",

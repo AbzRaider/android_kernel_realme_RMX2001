@@ -868,7 +868,6 @@ config NETFILTER_XT_TARGET_LOG
 	  To compile it as a module, choose M here.  If unsure, say N.
 
 #ifdef VENDOR_EDIT
-#Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 #Add for limit speed function
 config NETFILTER_XT_TARGET_IMQ
     tristate '"IMQ" target support'

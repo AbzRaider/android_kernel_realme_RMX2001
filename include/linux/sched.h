@@ -204,7 +204,6 @@ struct task_group;
 #endif
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 enum DYNAMIC_UX_TYPE
 {
     DYNAMIC_UX_BINDER = 0,
@@ -570,18 +569,15 @@ struct sched_entity {
 
 #ifdef VENDOR_EDIT
 
-//cuixiaogang@swdp.shanghai, 2018/3/18, export some symbol
 extern bool sched_boost(void);
 extern int sched_set_updown_migrate(unsigned int up_pct, unsigned int down_pct);
 extern int sched_get_updown_migrate(unsigned int *up_pct, unsigned int *down_pct);
 #endif /* VENDOR_EDIT */
 
 #ifdef CONFIG_SMP
-//wangmengmeng@swdp.shanghai, 2019/6/20, export some symbol
 extern unsigned long sched_get_capacity_orig(int cpu);
 extern unsigned int sched_get_cpu_util(int cpu);
 #else
-//wangmengmeng@swdp.shanghai, 2019/6/20, export some symbol
 static inline unsigned long sched_get_capacity_orig(int cpu)
 {
 	return 0;
@@ -595,7 +591,6 @@ static inline unsigned int sched_get_cpu_util(int cpu)
 
 
 #ifdef VENDOR_EDIT
-//cuixiaogang@swdp.shanghai, 2018/3/18, export some symbol
 extern bool sched_boost(void);
 extern int sched_set_updown_migrate(unsigned int up_migrate,unsigned int down_migrate);
 extern int sched_get_updown_migrate(unsigned int *up_migrate,unsigned int *down_migrate);
@@ -800,9 +795,6 @@ struct wake_q_node {
 };
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
-/* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
- * Record process reclaim infor
- */
 union reclaim_limit {
    unsigned long stop_jiffies;
    unsigned long stop_scan_addr;
@@ -1436,13 +1428,9 @@ struct task_struct {
 	unsigned long preempt_dur;
 #endif
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
-	/* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
-	* Record process reclaim infor
-	*/
 	union reclaim_limit reclaim;
 #endif
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     int static_ux;
     atomic64_t dynamic_ux;
     struct list_head ux_entry;
@@ -1674,7 +1662,6 @@ extern struct pid *cad_pid;
 #define PF_FREEZER_SKIP		0x40000000	/* Freezer should not count it as freezable */
 #define PF_SUSPEND_TASK		0x80000000      /* This thread called freeze_processes() and should not be frozen */
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, flag that current task is process reclaimer */
 #define PF_RECLAIM_SHRINK	0x10000000
 
 #define current_is_reclaimer() (current->flags & PF_RECLAIM_SHRINK)
@@ -2048,7 +2035,6 @@ extern long sched_getaffinity(pid_t pid, struct cpumask *mask);
 #endif
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 #define PROCESS_EVENT_CREATE 1
 #define PROCESS_EVENT_EXIT 2
 #define PROCESS_EVENT_UID 3
@@ -2073,7 +2059,6 @@ extern int process_event_register_notifier(struct notifier_block *nb);
 extern int process_event_unregister_notifier(struct notifier_block *nb);
 extern int process_event_notifier_call_chain(unsigned long action, struct process_event_data *pe_data);
 
-//zhoumingjun@Swdp.shanghai, 2017/07/06, add process_event_notifier_atomic support
 extern int process_event_register_notifier_atomic(struct notifier_block *nb);
 extern int process_event_unregister_notifier_atomic(struct notifier_block *nb);
 extern int process_event_notifier_call_chain_atomic(unsigned long action, struct process_event_data *pe_data);

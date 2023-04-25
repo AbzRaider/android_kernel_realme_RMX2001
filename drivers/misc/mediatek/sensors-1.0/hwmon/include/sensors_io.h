@@ -126,7 +126,6 @@ struct compat_biometric_threshold {
 #define ALSPS_IOCTL_GET_CALI _IOR(ALSPS, 0x10, int)
 
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/15,modify sensor io ctrl error */
 #define ALSPS_IOCTL_SET_CALI _IOW(ALSPS, 0x11, int)
 #else
 #define ALSPS_IOCTL_SET_CALI _IOW(ALSPS, 0x77, int)
@@ -161,7 +160,6 @@ struct compat_biometric_threshold {
 #define COMPAT_ALSPS_ALS_ENABLE_CALI _IO(ALSPS, 0x17)
 #define COMPAT_ALSPS_PS_ENABLE_CALI _IO(ALSPS, 0x18)
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/15,modify sensor io ctrl error */
 #define COMPAT_ALSPS_IOCTL_ALS_GET_CALI _IOW(ALSPS, 0x19, compat_int_t)
 #define COMPAT_ALSPS_IOCTL_ALS_SET_CALI _IOW(ALSPS, 0x20, compat_int_t)
 #else

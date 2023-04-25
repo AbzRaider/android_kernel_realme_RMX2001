@@ -1,15 +1,15 @@
 /*
-* Copyright (C) 2016 MediaTek Inc.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License version 2 as
-* published by the Free Software Foundation.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-* See http://www.gnu.org/licenses/gpl-2.0.html for more details.
-*/
+ * Copyright (C) 2016 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See http://www.gnu.org/licenses/gpl-2.0.html for more details.
+ */
 
 #include <generated/autoconf.h>
 #include <linux/kernel.h>
@@ -50,228 +50,222 @@
 #include "mtk_charger_intf.h"
 
 
+#ifdef VENDOR_EDIT
+#include <linux/oppo_dump.h>
+#endif
 
 void __attribute__((weak)) fg_charger_in_handler(void)
 {
-pr_notice("%s not defined\n", __func__);
+	pr_notice("%s not defined\n", __func__);
 }
 #ifdef VENDOR_EDIT
 extern int oppo_ac_get_property(struct power_supply *psy,
-enum power_supply_property psp,
-union power_supply_propval *val);
+        enum power_supply_property psp,
+        union power_supply_propval *val);
 extern int oppo_usb_get_property(struct power_supply *psy,
-enum power_supply_property psp,
-union power_supply_propval *val);
+        enum power_supply_property psp,
+        union power_supply_propval *val);
 extern int oppo_battery_property_is_writeable(struct power_supply *psy,
-enum power_supply_property psp);
+        enum power_supply_property psp);
 extern int oppo_battery_set_property(struct power_supply *psy,
-enum power_supply_property psp,
-const union power_supply_propval *val);
+        enum power_supply_property psp,
+        const union power_supply_propval *val);
 extern int oppo_battery_get_property(struct power_supply *psy,
-enum power_supply_property psp,
-union power_supply_propval *val);
+        enum power_supply_property psp,
+        union power_supply_propval *val);
 #endif
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 extern int charger_manager_enable_chg_type_det(struct charger_consumer *consumer,
-bool en);
+        bool en);
 #endif
 
 enum charger_type g_chr_type;
 
 struct chg_type_info {
-struct device *dev;
-struct charger_consumer *chg_consumer;
-struct tcpc_device *tcpc_dev;
-struct notifier_block pd_nb;
-bool tcpc_kpoc;
-/* Charger Detection */
-struct mutex chgdet_lock;
-bool chgdet_en;
-atomic_t chgdet_cnt;
-wait_queue_head_t waitq;
-struct task_struct *chgdet_task;
-struct workqueue_struct *pwr_off_wq;
-struct work_struct pwr_off_work;
-struct workqueue_struct *chg_in_wq;
-struct work_struct chg_in_work;
-bool ignore_usb;
-bool plugin;
+	struct device *dev;
+	struct charger_consumer *chg_consumer;
+	struct tcpc_device *tcpc_dev;
+	struct notifier_block pd_nb;
+	bool tcpc_kpoc;
+	/* Charger Detection */
+	struct mutex chgdet_lock;
+	bool chgdet_en;
+	atomic_t chgdet_cnt;
+	wait_queue_head_t waitq;
+	struct task_struct *chgdet_task;
+	struct workqueue_struct *pwr_off_wq;
+	struct work_struct pwr_off_work;
+	struct workqueue_struct *chg_in_wq;
+	struct work_struct chg_in_work;
+	bool ignore_usb;
+	bool plugin;
 };
 
 #ifdef CONFIG_FPGA_EARLY_PORTING
 /*  FPGA */
 int hw_charging_get_charger_type(void)
 {
-return STANDARD_HOST;
+	return STANDARD_HOST;
 }
 
 #else
 
 /* EVB / Phone */
 static const char * const mtk_chg_type_name[] = {
-"Charger Unknown",
-"Standard USB Host",
-"Charging USB Host",
-"Non-standard Charger",
-"Standard Charger",
-"Apple 2.1A Charger",
-"Apple 1.0A Charger",
-"Apple 0.5A Charger",
-"Wireless Charger",
+	"Charger Unknown",
+	"Standard USB Host",
+	"Charging USB Host",
+	"Non-standard Charger",
+	"Standard Charger",
+	"Apple 2.1A Charger",
+	"Apple 1.0A Charger",
+	"Apple 0.5A Charger",
+	"Wireless Charger",
 };
 
 static void dump_charger_name(enum charger_type type)
 {
-switch (type) {
-case CHARGER_UNKNOWN:
-case STANDARD_HOST:
-case CHARGING_HOST:
-case NONSTANDARD_CHARGER:
-case STANDARD_CHARGER:
-case APPLE_2_1A_CHARGER:
-case APPLE_1_0A_CHARGER:
-case APPLE_0_5A_CHARGER:
+	switch (type) {
+	case CHARGER_UNKNOWN:
+	case STANDARD_HOST:
+	case CHARGING_HOST:
+	case NONSTANDARD_CHARGER:
+	case STANDARD_CHARGER:
+	case APPLE_2_1A_CHARGER:
+	case APPLE_1_0A_CHARGER:
+	case APPLE_0_5A_CHARGER:
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
-	pr_err("!!! %s: charger type: %d, %s\n", __func__, type,
-		mtk_chg_type_name[type]);
+		pr_err("!!! %s: charger type: %d, %s\n", __func__, type,
+			mtk_chg_type_name[type]);
 #else
-	pr_err("%s: charger type: %d, %s\n", __func__, type,
-		mtk_chg_type_name[type]);
+		pr_err("%s: charger type: %d, %s\n", __func__, type,
+			mtk_chg_type_name[type]);
 #endif
-	break;
-default:
-	pr_info("%s: charger type: %d, Not Defined!!!\n", __func__,
-		type);
-	break;
-}
+		break;
+	default:
+		pr_info("%s: charger type: %d, Not Defined!!!\n", __func__,
+			type);
+		break;
+	}
 }
 
 /* Power Supply */
 struct mt_charger {
-struct device *dev;
-struct power_supply_desc chg_desc;
-struct power_supply_config chg_cfg;
-struct power_supply *chg_psy;
+	struct device *dev;
+	struct power_supply_desc chg_desc;
+	struct power_supply_config chg_cfg;
+	struct power_supply *chg_psy;
 #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
-struct power_supply_desc ac_desc;
-struct power_supply_config ac_cfg;
-struct power_supply *ac_psy;
-struct power_supply_desc usb_desc;
-struct power_supply_config usb_cfg;
-struct power_supply *usb_psy;
+	struct power_supply_desc ac_desc;
+	struct power_supply_config ac_cfg;
+	struct power_supply *ac_psy;
+	struct power_supply_desc usb_desc;
+	struct power_supply_config usb_cfg;
+	struct power_supply *usb_psy;
 #endif /* VENDOR_EDIT && !CONFIG_OPPO_CHARGER_MT6370_TYPEC */
-struct chg_type_info *cti;
-bool chg_online; /* Has charger in or not */
-enum charger_type chg_type;
+	struct chg_type_info *cti;
+	bool chg_online; /* Has charger in or not */
+	enum charger_type chg_type;
 };
 
 static int mt_charger_online(struct mt_charger *mtk_chg)
 {
-int ret = 0;
+	int ret = 0;
 
 #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/09, sjc Modify for charging */
-int boot_mode = 0;
+	int boot_mode = 0;
 
-if (!mtk_chg->chg_online) {
-	boot_mode = get_boot_mode();
-	if (boot_mode == KERNEL_POWER_OFF_CHARGING_BOOT ||
-	    boot_mode == LOW_POWER_OFF_CHARGING_BOOT) {
-		pr_notice("%s: Unplug Charger/USB\n", __func__);
-		pr_notice("%s: system_state=%d\n", __func__,
-			system_state);
-		if (system_state != SYSTEM_POWER_OFF)
-			kernel_power_off();
+	if (!mtk_chg->chg_online) {
+		boot_mode = get_boot_mode();
+		if (boot_mode == KERNEL_POWER_OFF_CHARGING_BOOT ||
+		    boot_mode == LOW_POWER_OFF_CHARGING_BOOT) {
+			pr_notice("%s: Unplug Charger/USB\n", __func__);
+			pr_notice("%s: system_state=%d\n", __func__,
+				system_state);
+			if (system_state != SYSTEM_POWER_OFF)
+				kernel_power_off();
+		}
 	}
-}
 #endif /* VENDOR_EDIT && !CONFIG_OPPO_CHARGER_MT6370_TYPEC */
 
-return ret;
+	return ret;
 }
 /************************************************/
 /* Power Supply Functions
 *************************************************/
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/09, sjc Add for charging */
 bool pmic_chrdet_status(void);
 #endif
 static int mt_charger_get_property(struct power_supply *psy,
-enum power_supply_property psp, union power_supply_propval *val)
+	enum power_supply_property psp, union power_supply_propval *val)
 {
-struct mt_charger *mtk_chg = power_supply_get_drvdata(psy);
+	struct mt_charger *mtk_chg = power_supply_get_drvdata(psy);
 
-switch (psp) {
-case POWER_SUPPLY_PROP_ONLINE:
-	val->intval = 0;
-	/* Force to 1 in all charger type */
-	if (mtk_chg->chg_type != CHARGER_UNKNOWN)
-		val->intval = 1;
+	switch (psp) {
+	case POWER_SUPPLY_PROP_ONLINE:
+		val->intval = 0;
+		/* Force to 1 in all charger type */
+		if (mtk_chg->chg_type != CHARGER_UNKNOWN)
+			val->intval = 1;
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/09, sjc Add for charging */
-	if ((get_boot_mode() == KERNEL_POWER_OFF_CHARGING_BOOT
-			|| get_boot_mode() == LOW_POWER_OFF_CHARGING_BOOT)
-			&& (val->intval == 0)) {
-		val->intval = pmic_chrdet_status();
-		printk(KERN_ERR "%s: kpoc[%d]\n", __func__, val->intval);
-	}
+		if ((get_boot_mode() == KERNEL_POWER_OFF_CHARGING_BOOT
+				|| get_boot_mode() == LOW_POWER_OFF_CHARGING_BOOT)
+				&& (val->intval == 0)) {
+			val->intval = pmic_chrdet_status();
+			printk(KERN_ERR "%s: kpoc[%d]\n", __func__, val->intval);
+		}
 #endif /* VENDOR_EDIT && CONFIG_OPPO_CHARGER_MT6370_TYPEC */
-	break;
+		break;
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/10/16 modified for bring up charging */		
-case POWER_SUPPLY_PROP_CHARGE_TYPE:
-	val->intval = mtk_chg->chg_type;
-	break;
+	case POWER_SUPPLY_PROP_CHARGE_TYPE:
+		val->intval = mtk_chg->chg_type;
+		break;
 #endif
-default:
-	return -EINVAL;
-}
+	default:
+		return -EINVAL;
+	}
 
-return 0;
+	return 0;
 }
 
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/15, sjc Add for charging */
 extern bool oppo_chg_wake_update_work(void);
 #endif /* VENDOR_EDIT && CONFIG_OPPO_CHARGER_MT6370_TYPEC */
 static int mt_charger_set_property(struct power_supply *psy,
-enum power_supply_property psp, const union power_supply_propval *val)
+	enum power_supply_property psp, const union power_supply_propval *val)
 {
-struct mt_charger *mtk_chg = power_supply_get_drvdata(psy);
-struct chg_type_info *cti;
+	struct mt_charger *mtk_chg = power_supply_get_drvdata(psy);
+	struct chg_type_info *cti;
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/15, sjc Add for charging */
-static struct power_supply *battery_psy = NULL;
-if (!battery_psy) {
-	battery_psy = power_supply_get_by_name("battery");
-}
+	static struct power_supply *battery_psy = NULL;
+	if (!battery_psy) {
+		battery_psy = power_supply_get_by_name("battery");
+	}
 #endif /* VENDOR_EDIT && CONFIG_OPPO_CHARGER_MT6370_TYPEC */
 
-pr_info("%s\n", __func__);
+	pr_info("%s\n", __func__);
 
-if (!mtk_chg) {
-	pr_notice("%s: no mtk chg data\n", __func__);
-	return -EINVAL;
-}
+	if (!mtk_chg) {
+		pr_notice("%s: no mtk chg data\n", __func__);
+		return -EINVAL;
+	}
 
-switch (psp) {
-case POWER_SUPPLY_PROP_ONLINE:
-	mtk_chg->chg_online = val->intval;
-	mt_charger_online(mtk_chg);
-	return 0;
-case POWER_SUPPLY_PROP_CHARGE_TYPE:
-	mtk_chg->chg_type = val->intval;
-		g_chr_type = val->intval;
-#ifdef ODM_WT_EDIT
-/*Sidong.Zhao@ODM_WT.BSP.CHG 2019/11/4,for gm30 baseline upgrade*/
-		oppo_chg_wake_update_work();
-#endif /*ODM_WT_EDIT*/
+	switch (psp) {
+	case POWER_SUPPLY_PROP_ONLINE:
+		mtk_chg->chg_online = val->intval;
+		mt_charger_online(mtk_chg);
+		return 0;
+	case POWER_SUPPLY_PROP_CHARGE_TYPE:
+		mtk_chg->chg_type = val->intval;
+#ifdef VENDOR_EDIT
+               if (mtk_chg->chg_type == CHARGER_UNKNOWN){
+               } else {
+                   OPPO_DUMP(__func__);
+               }
+#endif /*VENDOR_EDIT*/
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/15, sjc Add for charging */
 		if (battery_psy)
 			power_supply_changed(battery_psy);
 		oppo_chg_wake_update_work();
@@ -297,7 +291,6 @@ case POWER_SUPPLY_PROP_CHARGE_TYPE:
 	queue_work(cti->chg_in_wq, &cti->chg_in_work);
 
 #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
 	power_supply_changed(mtk_chg->ac_psy);
 	power_supply_changed(mtk_chg->usb_psy);
 #endif /* VENDOR_EDIT && !CONFIG_OPPO_CHARGER_MT6370_TYPEC */
@@ -305,7 +298,6 @@ case POWER_SUPPLY_PROP_CHARGE_TYPE:
 }
 
 #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
 static int mt_ac_get_property(struct power_supply *psy,
 	enum power_supply_property psp, union power_supply_propval *val)
 {
@@ -361,7 +353,6 @@ static enum power_supply_property mt_charger_properties[] = {
 };
 
 #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
 static enum power_supply_property mt_ac_properties[] = {
 	POWER_SUPPLY_PROP_ONLINE,
 };
@@ -426,7 +417,6 @@ static int pd_tcp_notifier_call(struct notifier_block *pnb,
 				pr_info("%s KPOC Plug out, vbus = %d\n",
 					__func__, vbus);
 				#ifndef ODM_HQ_EDIT
-				/* zhangchao@ODM.HQ.Charger 2019/12/10 modified for vooc power off charging */
 				queue_work_on(cpumask_first(cpu_online_mask),
 					      cti->pwr_off_wq,
 					      &cti->pwr_off_work);
@@ -456,7 +446,6 @@ static int chgdet_task_threadfn(void *data)
 	bool attach = false;
 	int ret = 0;
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/26 modified for power on */
 	int i = 0;
 	int max_wait_cnt = 40;
 
@@ -519,7 +508,6 @@ static int chgdet_task_threadfn(void *data)
 	return 0;
 }
 #if defined(ODM_HQ_EDIT)
-/* zhangchao@ODM.HQ.Charger 2019/10/16 modified for bring up charging */
 static int mt_charger_probe(struct platform_device *pdev)
 {
 	int ret = 0;
@@ -543,7 +531,6 @@ static int mt_charger_probe(struct platform_device *pdev)
 	mt_chg->chg_desc.get_property = mt_charger_get_property;
 	mt_chg->chg_cfg.drv_data = mt_chg;
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	mt_chg->ac_desc.name = "ac";
 	mt_chg->ac_desc.type = POWER_SUPPLY_TYPE_MAINS;
 	mt_chg->ac_desc.properties = mt_ac_properties;
@@ -559,7 +546,6 @@ static int mt_charger_probe(struct platform_device *pdev)
 	mt_chg->usb_cfg.drv_data = mt_chg;
 #endif /* ODM_HQ_EDIT */
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	mt_chg->ac_psy = power_supply_register(&pdev->dev, &mt_chg->ac_desc,
 		&mt_chg->ac_cfg);
 	if (IS_ERR(mt_chg->ac_psy)) {
@@ -586,7 +572,6 @@ static int mt_charger_probe(struct platform_device *pdev)
 	cti->dev = &pdev->dev;
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/26 modified for power on */
 #ifdef CONFIG_TCPC_CLASS
 	cti->tcpc_dev = tcpc_dev_get_by_name("type_c_port0");
 	if (cti->tcpc_dev == NULL) {
@@ -603,7 +588,6 @@ static int mt_charger_probe(struct platform_device *pdev)
 		goto err_get_tcpc_dev;
 	}
 #endif
-/* wangtao@ODM.HQ.Charger 2019/12/3 modified usb not connect */
 	mt_chg->chg_psy = power_supply_register(&pdev->dev,
 		&mt_chg->chg_desc, &mt_chg->chg_cfg);
 	if (IS_ERR(mt_chg->chg_psy)) {
@@ -656,7 +640,6 @@ static int mt_charger_probe(struct platform_device *pdev)
 	return 0;
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/26 modified for power on */
 err_get_tcpc_dev:
 	devm_kfree(&pdev->dev, cti);
 	return ret;
@@ -665,7 +648,6 @@ err_get_tcpc_dev:
 //	power_supply_unregister(mt_chg->usb_psy);
 
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 err_usb_psy:
 	power_supply_unregister(mt_chg->ac_psy);
 err_ac_psy:
@@ -682,7 +664,6 @@ static int mt_charger_remove(struct platform_device *pdev)
     mt_charger = platform_get_drvdata(pdev);
 	power_supply_unregister(mt_charger->chg_psy);
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	power_supply_unregister(mt_charger->ac_psy);
 	power_supply_unregister(mt_charger->usb_psy);
 #endif /* ODM_HQ_EDIT */
@@ -707,12 +688,10 @@ static int mt_charger_resume(struct device *dev)
 {
 	struct platform_device *pdev = NULL;
 	struct mt_charger *mt_charger = NULL;
-	/* zhangchao@ODM.HQ.Charger 2019/10/26 modified for dump problem */
 	pdev = to_platform_device(dev);
 	mt_charger = platform_get_drvdata(pdev);
 	power_supply_changed(mt_charger->chg_psy);
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	power_supply_changed(mt_charger->ac_psy);
 	power_supply_changed(mt_charger->usb_psy);
 #endif /* ODM_HQ_EDIT */
@@ -720,7 +699,6 @@ static int mt_charger_resume(struct device *dev)
 }
 #endif
 #elif defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Modify for charging */
 static int mt_charger_probe(struct platform_device *pdev)
 {
 	int ret = 0;
@@ -807,7 +785,6 @@ static struct platform_driver mt_charger_driver = {
 
 /* Legacy api to prevent build error */
 #ifndef VENDOR_EDIT
-/* Jianwei.Ye@BSP.CHG.Basic, 2019/09/10, Modify for charging */
 bool upmu_is_chr_det(void)
 {
 	struct mt_charger *mtk_chg;
@@ -858,7 +835,6 @@ static void notify_charger_status(bool cur_charger_exist)
 bool pmic_chrdet_status(void)
 {
 #ifdef VENDOR_EDIT
-//Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/01/12, add for fast chargering.
 	if (oppo_vooc_get_fastchg_started()/* || get_oppo_short_check_fast_to_normal()*/) {
 		notify_charger_status(true);
 		return true;
@@ -866,7 +842,6 @@ bool pmic_chrdet_status(void)
 #endif /*VENDOR_EDIT*/
 	if (upmu_is_chr_det()) {
 #ifndef VENDOR_EDIT
-		//Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/13, add for otg operation, to mislead to charger status.
 		return true;
 #else
 		if (mt_usb_is_device()) {
@@ -891,7 +866,6 @@ bool pmic_chrdet_status(void)
 enum charger_type mt_get_charger_type(void)
 {
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/10/25 modified for bring up charging */
 	struct mt_charger *mtk_chg;
 	struct power_supply *psy = power_supply_get_by_name("charger");
 
@@ -903,7 +877,6 @@ enum charger_type mt_get_charger_type(void)
 	return mtk_chg->chg_type;
 #else
 #ifndef VENDOR_EDIT
-/* Jianwei.Ye@BSP.CHG.Basic, 2019/09/10, Modify for charging */
 	struct mt_charger *mtk_chg;
 	struct power_supply *psy = power_supply_get_by_name("charger");
 

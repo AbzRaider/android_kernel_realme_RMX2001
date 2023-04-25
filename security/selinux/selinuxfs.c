@@ -40,6 +40,9 @@
 #include "security.h"
 #include "objsec.h"
 #include "conditional.h"
+
+
+
 unsigned int selinux_checkreqprot = CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE;
 
 static int __init checkreqprot_setup(char *str)
@@ -1925,6 +1928,7 @@ static int __init init_sel_fs(void)
 		err = PTR_ERR(selinuxfs_mount);
 		selinuxfs_mount = NULL;
 	}
+
 
 	return err;
 }

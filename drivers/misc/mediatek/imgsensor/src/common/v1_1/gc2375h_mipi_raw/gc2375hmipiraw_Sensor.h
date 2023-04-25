@@ -87,7 +87,6 @@ typedef struct imgsensor_struct {
 /* SENSOR PRIVATE STRUCT FOR CONSTANT*/
 typedef struct imgsensor_info_struct {
 #ifdef VENDOR_EDIT
-/*Degao.Lan@Camera.DRV add for register device info 20191108*/
     kal_uint16 module_id;
 #endif
     kal_uint32 sensor_id;            //record sensor id defined in Kd_imgsensor.h

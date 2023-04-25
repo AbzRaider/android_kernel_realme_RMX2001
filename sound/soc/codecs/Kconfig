@@ -1229,7 +1229,6 @@ config SND_SOC_RT5509
 	select RT_REGMAP
 	
 #ifdef VENDOR_EDIT
-# hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add smartPa
 config SND_SOC_ALSACODEC_TFA9890
 	bool "Use TFA9890 As ALSACODEC"
 	default n

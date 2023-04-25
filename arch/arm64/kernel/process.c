@@ -547,7 +547,6 @@ void arch_setup_new_exec(void)
 }
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 static BLOCKING_NOTIFIER_HEAD(process_event_notifier);
 
 int process_event_register_notifier(struct notifier_block *nb)
@@ -567,7 +566,6 @@ int process_event_notifier_call_chain(unsigned long action, struct process_event
 	return blocking_notifier_call_chain(&process_event_notifier, action, pe_data);
 }
 
-//zhoumingjun@Swdp.shanghai, 2017/07/06, add process_event_notifier_atomic support
 static ATOMIC_NOTIFIER_HEAD(process_event_notifier_atomic);
 
 int process_event_register_notifier_atomic(struct notifier_block *nb)

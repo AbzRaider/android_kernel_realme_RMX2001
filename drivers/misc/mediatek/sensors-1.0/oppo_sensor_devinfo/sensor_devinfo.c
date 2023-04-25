@@ -5,11 +5,9 @@
 ** Description: Source file for sensor device infomation registered in scp.
 ** Version: 1.0
 ** Date : 2017/12/12
-** Author: Fei.Mo@PSW.BSP.Sensor
 **
 ** --------------------------- Revision History: ---------------------
 * <version>	<date>		<author>              		<desc>
-* Revision 1.0      2017/12/12        Fei.Mo@PSW.BSP.Sensor   	Created,need to sync acp info
 *******************************************************************/
 
 #include <asm/uaccess.h>
@@ -34,7 +32,6 @@
 #include "scp_ipi.h"
 
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor workaround */
 #include <mt-plat/mtk_boot_common.h>
 #include <mt-plat/mtk_rtc.h>
 extern bool oppo_gauge_get_batt_authenticate(void);
@@ -89,7 +86,6 @@ struct devinfo sensorinfo[] = {
 	{ID_ACCELEROMETER,"bmi160","BOSCH",GSENSOR_BMI160},
 	{ID_ACCELEROMETER,"lsm6dsm","ST",GSENSOR_LSM6DSM},
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
 	{ID_ACCELEROMETER,"icm40607","ICM",GSENSOR_ICM40607},
 	{ID_ACCELEROMETER,"bma253","BOSCH",GSENSOR_BMA253},
 	{ID_ACCELEROMETER,"lis2doc","ST",GSENSOR_LIS2DOC},
@@ -99,7 +95,6 @@ struct devinfo sensorinfo[] = {
 	{ID_MAGNETIC,"mmc5603","MICROCHIP",MAG_MMC5603},
 	{ID_MAGNETIC,"mxg4300","MAGNACHIP",MAG_MXG4300},
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
 	{ID_MAGNETIC,"af6133e","VTC",MAG_AF6133E},
 	{ID_MAGNETIC,"af6133","VTC",MAG_AF6133},
 #endif /*ODM_HQ_EDIT*/
@@ -111,14 +106,12 @@ struct devinfo sensorinfo[] = {
 	{ID_LIGHT,"STK3331-A","SensorTek",ALSPS_STK3331},
 	{ID_LIGHT,"STK2232","SensorTek",ALSPS_STK2232},
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
 	{ID_LIGHT,"stk33562","SensorTek",ALSPS_STK33562},
 #endif /*ODM_HQ_EDIT*/
 	{ID_GYROSCOPE,"lsm6ds3","ST",GYRO_LSM6DS3},
 	{ID_GYROSCOPE,"bmi160","BOSCH",GYRO_BMI160},
 	{ID_GYROSCOPE,"lsm6dsm","ST",GYRO_LSM6DSM},
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
 	{ID_GYROSCOPE,"icm40607","ICM",GYRO_ICM40607},
 #endif /*ODM_HQ_EDIT*/
 };
@@ -362,7 +355,6 @@ int get_sensor_name(int sensortye)
 	return 0;//unknow
 }
 #ifndef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/22,modify sensor devinfo reboot error*/
 static int sensor_i2c_gpios[2] = {81, 84};
 static int soft_reset_flag = 0;
 extern void scp_wdt_reset(enum scp_core_id cpu_id);
@@ -372,14 +364,12 @@ static void sensor_dev_work(struct work_struct *work)
 {
 	int err = 0;
 #ifndef ODM_HQ_EDIT
-	/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/22,modify sensor devinfo reboot error*/
 	static int retry = 0;
 #endif /*ODM_HQ_EDIT*/
 	struct data_unit_t data;
 	int temp_cali[6] = {0};
     int prox_cali_to_scp[3] = {0};
 #ifndef ODM_HQ_EDIT
-	/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/22,modify sensor devinfo reboot error*/
 	int i;
 #endif /*ODM_HQ_EDIT*/
 
@@ -391,9 +381,7 @@ static void sensor_dev_work(struct work_struct *work)
 	{
 		parse_sensor_devinfo(data.data[0]);
 #ifndef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/22,modify sensor devinfo reboot error*/
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor i2c error workaround */
 		if (!light_init && !mag_init)
 		{
 			if(get_boot_mode() == NORMAL_BOOT
@@ -445,7 +433,6 @@ static void sensor_dev_work(struct work_struct *work)
 		}
 	}
 #ifndef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/22,modify sensor devinfo reboot error*/
 RETRY_GET_SENSOR:
 	if ((retry < 3) && err) {
 		schedule_delayed_work(&sensor_work, msecs_to_jiffies(SENSOR_DEVINFO_SYNC_TIME));

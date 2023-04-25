@@ -85,7 +85,6 @@ struct tfa98xx {
 	struct delayed_work tapdet_work;
 
 	#ifdef VENDOR_EDIT
-	/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for set volume */
 	struct delayed_work volume_work;
 	#endif /* VENDOR_EDIT */
 

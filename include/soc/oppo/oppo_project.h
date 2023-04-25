@@ -21,7 +21,6 @@ enum{
 };
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 enum HQ_PCB_VERSION{
     HQ_HW_VERSION__UNKNOWN,
     HW_VERSION__EVB1,
@@ -207,7 +206,7 @@ enum OPPO_OPERATOR {
 	OPERATOR_19661_ASIA_SIMPLE_SARTER	 =111,	
 	OPERATOR_19661_All_BAND_SARTER			  = 112,
 	OPERATOR_19661_VIETNAM_8X128G_SARTER			 = 113,
-
+	OPERATOR_19661_All_BAND_NFC_SARTER             = 114,
 
 /* 19741 */
     OPERATOR_19741_All_BAND                   = 111,

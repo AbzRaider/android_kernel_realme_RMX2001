@@ -10,7 +10,6 @@ obj-$(CONFIG_MTK_FLASHLIGHT_LED191)      += flashlights-led191.o
 obj-$(CONFIG_MTK_FLASHLIGHT_LM3642)      += flashlights-lm3642.o
 obj-$(CONFIG_MTK_FLASHLIGHT_LM3643)      += flashlights-lm3643.o
 #ifdef VENDOR_EDIT
-#Feng.Hu@Camera.Driver 20171121 add for mp3331 flash driver IC
 obj-$(CONFIG_MTK_FLASHLIGHT_MP3331)      += flashlights-mp3331.o
 obj-$(CONFIG_MTK_FLASHLIGHT_AW3642)      += flashlights-aw3642.o
 #endif

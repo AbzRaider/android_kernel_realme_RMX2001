@@ -1288,7 +1288,6 @@ static int mt_gpufreq_opp_dump_proc_show(struct seq_file *m, void *v)
 }
 
 #ifdef VENDOR_EDIT
-//huxiaokai@shanghai. 2019/6/20. Add max/min freq information proc show
 static int mt_max_freq_proc_show(struct seq_file *m, void *v)
 {
     int max_gpu_freq;
@@ -1364,7 +1363,6 @@ static int mt_gpufreq_var_dump_proc_show(struct seq_file *m, void *v)
 }
 
 #ifdef VENDOR_EDIT
-//huxiaokai@shanghai. 2019/6/20, Add GPU cur freq information show.
 static int mt_cur_freq_proc_show(struct seq_file *m, void *v)
 {
     seq_printf(m, "%d\n", g_cur_opp_freq);

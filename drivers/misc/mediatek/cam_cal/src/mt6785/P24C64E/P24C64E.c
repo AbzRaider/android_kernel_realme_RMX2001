@@ -45,7 +45,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/*Caohua.Lin@Camera.Driver 20180707 add for s5k3p9sp crosstalk*/
 #define EEPROM_CHECK_ID_ADDR       0x0006
 #define EEPROM_SENSORID_S5K3P9SP   0x62
 #define S5K3P9SP_XTALK_DATA_FLAG   0x1C00
@@ -273,7 +272,6 @@ unsigned int p24c64e_selective_read_region(struct i2c_client *client, unsigned i
 	unsigned char *data, unsigned int size)
 {
 	#ifdef VENDOR_EDIT
-	/*Caohua.Lin@Camera.Driver 20180702 add for imx371 crosstalk*/
 	char xtalk_flag = 0;
 	unsigned char Sensor_ID = 0;
 	#endif
@@ -281,7 +279,6 @@ unsigned int p24c64e_selective_read_region(struct i2c_client *client, unsigned i
 	g_pstI2Cclient = client;
 
 	#ifdef VENDOR_EDIT
-	/*Caohua.Lin@Camera.Driver 20180702 add for imx371 crosstalk*/
 	if (!xtalk_readed) {
 	    #ifndef ODM_HQ_EDIT
 	    /*Cong.Zhou@ODM_HQ Cam.Drv 201901205 for improve open front camera speed*/
@@ -291,7 +288,6 @@ unsigned int p24c64e_selective_read_region(struct i2c_client *client, unsigned i
 	    #endif
 		iReadData(EEPROM_CHECK_ID_ADDR, 1, &Sensor_ID);
 
-		/*Caohua.Lin@Camera.Driver 20180707 add for s5k3p9sp crosstalk*/
 		if (Sensor_ID == EEPROM_SENSORID_S5K3P9SP) {
 			iReadData(S5K3P9SP_XTALK_DATA_FLAG, 1, &xtalk_flag);
 			if (xtalk_flag == 1) {
@@ -324,7 +320,6 @@ unsigned int p24c64e_selective_read_region(struct i2c_client *client, unsigned i
 }
 
 #ifdef VENDOR_EDIT
-/*Caohua.Lin@Camera.Driver 20180707 add for s5k3p9sp crosstalk*/
 unsigned int p24c64e_read_4cell_from_eeprom_s5k3p9sp(char *data)
 {
     int i = 0;

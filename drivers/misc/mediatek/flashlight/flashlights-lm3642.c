@@ -37,7 +37,6 @@
 #endif
 #ifndef LM3642_DTNAME_I2C
 #ifdef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171121 ad for i2c probe*/
 #define LM3642_DTNAME_I2C "mediatek,strobe_main"
 #else
 #define LM3642_DTNAME_I2C "mediatek,flashlights_lm3642_i2c"
@@ -66,7 +65,6 @@
 /* define level */
 #define LM3642_LEVEL_NUM 18
 #ifndef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171227 modify for torch current start from 100ma*/
 #define LM3642_LEVEL_TORCH 4
 #else
 #define LM3642_LEVEL_TORCH 3
@@ -109,7 +107,6 @@ static const int lm3642_current[LM3642_LEVEL_NUM] = {
 };
 
 #ifndef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171227 modify for torch current start from 100ma*/
 static const unsigned char lm3642_flash_level[LM3642_LEVEL_NUM] = {
 	0x00, 0x10, 0x20, 0x30, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -273,7 +270,6 @@ int lm3642_init(void)
 	/* get silicon revision */
 	is_lm3642lt = lm3642_read_reg(lm3642_i2c_client, LM3642_REG_SILICON_REVISION);
 	#ifdef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20180131 add as we never use lm3642lt, avoid use wrong IC*/
 	is_lm3642lt = 0;
 	#endif
 	pr_info("LM3642(LT) revision(%d).\n", is_lm3642lt);
@@ -421,7 +417,6 @@ static int lm3642_set_driver(int set)
 		if (!use_count)
 			ret = lm3642_init();
 		#ifdef VENDOR_EDIT
-		/*Feng.Hu@Camera.Driver modify as when init failed, don't increase users*/
 		if (ret >= 0) {
 			use_count++;
 		}

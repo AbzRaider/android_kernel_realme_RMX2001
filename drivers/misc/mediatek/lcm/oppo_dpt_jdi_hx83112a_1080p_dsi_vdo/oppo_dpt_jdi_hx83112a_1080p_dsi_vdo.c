@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2018/04/13
-** Author: Guoqiang.jiang@PSW.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** Guoqiang.jiang 2018/04/13 1.0 build this module
@@ -416,7 +415,6 @@ static void lcm_init(void)
 	MDELAY(5);
 
 	/*
-	 * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	 * add for backlight IC KTD3136
 	 */
 	if (is_lm3697 == 2) {   /*KTD3136*/

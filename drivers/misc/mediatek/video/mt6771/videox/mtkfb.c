@@ -82,9 +82,7 @@
 #include "ddp_dsi.h"
 
 #ifdef VENDOR_EDIT
-/* Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13, add for backlight IC KTD3136 */
 #include <soc/oppo/oppo_project.h>
-/* Hao.Lin@MM.Display.LCD.Machine, 2019/10/31, add for oppo lcd hbm feature */
 extern bool oppo_display_hbm_support;
 extern bool oppo_display_ffl_support;
 extern bool oppo_display_panelid_support;
@@ -112,11 +110,9 @@ static bool no_update;
 static struct disp_session_input_config session_input;
 #ifdef VENDOR_EDIT
 /*
- * YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,
  * add for AOD feature
  */
 static DEFINE_MUTEX(fb_pow_mod_lock);
-//jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
 static BLOCKING_NOTIFIER_HEAD(mtkfb_notifier_list);
 
 int mtkfb_register_client(struct notifier_block *nb)
@@ -234,12 +230,9 @@ static void mtkfb_late_resume(void);
 static void mtkfb_early_suspend(void);
 
 #ifdef VENDOR_EDIT
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2017/11/03, Add for support backlight ic */
 int is_lm3697 = 1;
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2018/06/14, Add for dpt_hx83112a lcm support */
 int is_dpt_hx83112a_lcd = 0;
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/30,
 * add resume to doze for tp gesture.
 */
 void notify_suspend_to_tp(struct fb_info *info, enum mtkfb_aod_power_mode aod_pm);
@@ -380,7 +373,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 		}
 
 		#ifdef VENDOR_EDIT
-		 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 		mutex_lock(&fb_pow_mod_lock);
 		if (!(is_project(OPPO_19531) || is_project(OPPO_19391))) {
 			if (primary_display_is_alive() &&
@@ -399,7 +391,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 		debug_print_power_mode_check(prev_pm, FB_RESUME);
 
 		#ifdef VENDOR_EDIT
-		 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 		mutex_unlock(&fb_pow_mod_lock);
 		#endif /*VENDOR_EDIT*/
 
@@ -416,7 +407,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 		}
 
 		#ifdef VENDOR_EDIT
-		 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 		mutex_lock(&fb_pow_mod_lock);
 		#endif /*VENDOR_EDIT*/
 		primary_display_set_power_mode(FB_SUSPEND);
@@ -424,7 +414,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 
 		debug_print_power_mode_check(prev_pm, FB_SUSPEND);
 		#ifdef VENDOR_EDIT
-		 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 		mutex_unlock(&fb_pow_mod_lock);
 		#endif /*VENDOR_EDIT*/
 
@@ -437,7 +426,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 }
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 unsigned int ffl_backlight_backup;
@@ -453,7 +441,6 @@ int mtkfb_set_backlight_level(unsigned int level)
 		__func__, level);
 	#ifndef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 	* add for face fill light node,ffl set need after backlight on.
 	*/
 	primary_display_setbacklight(level);
@@ -1220,7 +1207,6 @@ static int mtkfb_ioctl(struct fb_info *info, unsigned int cmd,
 		aod_pm = (enum mtkfb_aod_power_mode)arg;
 		#ifdef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/30,
 		* add resume to doze for tp gesture.
 		*/
 		notify_suspend_to_tp(info,aod_pm);
@@ -1241,7 +1227,6 @@ static int mtkfb_ioctl(struct fb_info *info, unsigned int cmd,
 			 */
 			#ifdef VENDOR_EDIT
 			/*
-			* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 			* add for fingerprint notify frigger
 			*/
 			if (ds_rec_fpd || doze_rec_fpd) {
@@ -1250,7 +1235,6 @@ static int mtkfb_ioctl(struct fb_info *info, unsigned int cmd,
 				doze_rec_fpd = false;
 				return 0;
 			}
-			/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 			mutex_lock(&fb_pow_mod_lock);
 			#endif /*VENDOR_EDIT*/
 			if (primary_display_is_sleepd() &&
@@ -1267,13 +1251,11 @@ static int mtkfb_ioctl(struct fb_info *info, unsigned int cmd,
 			debug_print_power_mode_check(prev_pm, DOZE_SUSPEND);
 
 			#ifdef VENDOR_EDIT
-			 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 			mutex_unlock(&fb_pow_mod_lock);
 			#endif /*VENDOR_EDIT*/
 
 		} else if (aod_pm == MTKFB_AOD_DOZE) {
 			#ifdef VENDOR_EDIT
-			 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 			mutex_lock(&fb_pow_mod_lock);
 			#endif /*VENDOR_EDIT*/
 
@@ -1282,7 +1264,6 @@ static int mtkfb_ioctl(struct fb_info *info, unsigned int cmd,
 
 			debug_print_power_mode_check(prev_pm, DOZE);
 			#ifdef VENDOR_EDIT
-			 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 			mutex_unlock(&fb_pow_mod_lock);
 			#endif /*VENDOR_EDIT*/
 		} else {
@@ -2637,7 +2618,6 @@ static struct fb_info *allocate_fb_by_index(struct device *dev)
 #endif
 
 #ifdef VENDOR_EDIT
-/* Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13, add for backlight IC KTD3136 */
 void get_backlight_ic(void) {
 	if (is_project(OPPO_17175) || is_project(OPPO_18531) || is_project(OPPO_18561) || is_project(OPPO_18311) || is_project(OPPO_18011)) {
 		if (strstr(boot_command_line, "is_lm3697=1")) {
@@ -2651,7 +2631,6 @@ void get_backlight_ic(void) {
 	}
 	pr_err("[LCD] func:%s, is_lm3697 = %d \n", __func__, is_lm3697);
 }
-/*Jian.zhou@MM.Display.LCD.Machine, 2019/09/18, add for himax ic of 18311*/
 void get_lcm_id(void) {
 	if (is_project(OPPO_18311) || is_project(OPPO_18011)) {
 		if (strstr(boot_command_line, "oppo18311_dsjm_himax83112a_1080p_dsi_vdo-2-fps")) {
@@ -2671,7 +2650,6 @@ void get_lcm_id(void) {
 }
 
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/03/30,
 * add resume to doze for tp gesture.
 */
 void notify_suspend_to_tp(struct fb_info *info, enum mtkfb_aod_power_mode aod_pm) {
@@ -2711,7 +2689,6 @@ static int mtkfb_probe(struct platform_device *pdev)
 
 	printk("mtkfb_probe name [%s]  = [%s][%p]\n", pdev->name, pdev->dev.init_name, (void *)&pdev->dev);
 	#ifdef VENDOR_EDIT
-	/* Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13, add for backlight IC KTD3136 */
 	if (is_project(OPPO_17175) || is_project(OPPO_18531)
 		|| is_project(OPPO_18561) || is_project(OPPO_18311)
 		|| is_project(OPPO_18011)) {
@@ -2731,7 +2708,6 @@ static int mtkfb_probe(struct platform_device *pdev)
 	/* repo call DTS gpio module, if not necessary, invoke nothing */
 
 #ifdef VENDOR_EDIT
-	/* Hao.Lin@MM.Display.LCD.Machine, 2019/11/07, modify for oppo lcd feature */
 	oppo_display_hbm_support = of_property_read_bool(pdev->dev.of_node, "oppo_display_hbm_support");
 	oppo_display_ffl_support = of_property_read_bool(pdev->dev.of_node, "oppo_display_ffl_support");
 	oppo_display_panelid_support = of_property_read_bool(pdev->dev.of_node, "oppo_display_panelid_support");
@@ -2889,7 +2865,6 @@ static int mtkfb_probe(struct platform_device *pdev)
 	fbdev->state = MTKFB_ACTIVE;
 
 #ifndef VENDOR_EDIT
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2018/1/3, Add for lcm ic rf mipi clk change */
 	if (!strcmp(mtkfb_find_lcm_driver(),
 			"oppo17321_tianma_td4310_1080p_dsi_vdo") ||
 	    !strcmp(mtkfb_find_lcm_driver(),
@@ -2966,7 +2941,6 @@ static void mtkfb_shutdown(struct platform_device *pdev)
 	}
 
 	#ifdef VENDOR_EDIT
-	 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 	mutex_lock(&fb_pow_mod_lock);
 	#endif /*VENDOR_EDIT*/
 
@@ -2974,7 +2948,6 @@ static void mtkfb_shutdown(struct platform_device *pdev)
 	primary_display_suspend();
 
 	#ifdef VENDOR_EDIT
-	 /* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09,  add for aod feature */
 	mutex_unlock(&fb_pow_mod_lock);
 	#endif /*VENDOR_EDIT*/
 	MTKFB_LOG("[FB Driver] leave %s\n", __func__);
@@ -3024,7 +2997,6 @@ static void mtkfb_early_suspend(void)
 		return;
 
 #ifdef VENDOR_EDIT
-    //jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
     blocking_notifier_call_chain(&mtkfb_notifier_list, 0, NULL);
 #endif
 
@@ -3049,7 +3021,6 @@ static void mtkfb_late_resume(void)
 		return;
 
 #ifdef VENDOR_EDIT
-    //jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
     blocking_notifier_call_chain(&mtkfb_notifier_list, 1, NULL);
 #endif
 

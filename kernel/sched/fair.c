@@ -40,12 +40,10 @@
 #include "tune.h"
 #include "walt.h"
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 #include <soc/oppo/oppo_healthinfo.h>
 #endif /*VENDOR_EDIT*/
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 #include <linux/oppocfs/oppo_cfs_common.h>
 #endif
 #include "eas_plus.h"
@@ -949,7 +947,6 @@ update_stats_wait_start(struct cfs_rq *cfs_rq, struct sched_entity *se)
 }
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/09
 // Add for cat io_wait stats
 extern void ohm_schedstats_record(int sched_type, int fg, u64 delta);
 #endif /*VENDOR_EDIT*/
@@ -977,7 +974,6 @@ update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			return;
 		}
 #if defined (VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/26
 // Add for get sched latency stat
     	ohm_schedstats_record(OHM_SCHED_SCHEDLATENCY, task_is_fg(p), (delta >> 20));
 #endif /*VENDOR_EDIT*/
@@ -1041,7 +1037,6 @@ update_stats_enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 				schedstat_inc(se->statistics.iowait_count);
 				trace_sched_stat_iowait(tsk, delta);
 #if defined (VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/09
 // Add for get iowait
                ohm_schedstats_record(OHM_SCHED_IOWAIT, task_is_fg(tsk), (delta >> 20));
 #endif /*VENDOR_EDIT*/
@@ -5414,7 +5409,6 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		flags = ENQUEUE_WAKEUP;
 	}
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         enqueue_ux_thread(rq, p);
     }
@@ -5495,7 +5489,6 @@ static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		flags |= DEQUEUE_SLEEP;
 	}
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         dequeue_ux_thread(rq, p);
     }
@@ -8685,7 +8678,6 @@ static void check_preempt_wakeup(struct rq *rq, struct task_struct *p, int wake_
 	update_curr(cfs_rq_of(se));
 	BUG_ON(!pse);
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 	if (sysctl_uifirst_enabled && (p->static_ux || atomic64_read(&p->dynamic_ux))) {
 		goto preempt;
 	}
@@ -8782,7 +8774,6 @@ again:
 
 	p = task_of(se);
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         pick_ux_thread(rq, &p, &se);
     }

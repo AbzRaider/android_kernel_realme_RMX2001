@@ -567,7 +567,6 @@ static inline int qdisc_enqueue(struct sk_buff *skb, struct Qdisc *sch,
 }
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 static inline int qdisc_enqueue_root(struct sk_buff *skb, struct Qdisc *sch,
 				      struct sk_buff **to_free)

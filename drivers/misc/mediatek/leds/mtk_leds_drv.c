@@ -41,7 +41,6 @@
  * variables
  ***************************************************************************/
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/08/20 modified for 2048 steps backlight */
 #define MT_LED_LEVEL_BIT 11
 #else /* ODM_HQ_EDIT */
 #define MT_LED_LEVEL_BIT 10
@@ -78,7 +77,6 @@ static int debug_enable_led = 1;
  *****************************************************************************/
 #ifdef LED_INCREASE_LED_LEVEL_MTKPATCH
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/08/20 modified for 2048 steps backlight */
 #define LED_INTERNAL_LEVEL_BIT_CNT 11
 #else /* ODM_HQ_EDIT */
 #define LED_INTERNAL_LEVEL_BIT_CNT 10
@@ -410,7 +408,6 @@ int backlight_brightness_set(int level)
 	} else {
 
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/08/20 modified for 2048 steps backlight */
 		return mt65xx_led_set_cust(&cust_led_list[TYPE_LCD],
 					   level);
 #else

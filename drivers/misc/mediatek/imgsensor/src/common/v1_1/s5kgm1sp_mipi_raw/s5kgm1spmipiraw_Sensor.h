@@ -27,6 +27,8 @@ typedef enum{
 	IMGSENSOR_MODE_CUSTOM1,
 	IMGSENSOR_MODE_CUSTOM2,
 	IMGSENSOR_MODE_CUSTOM3,
+	IMGSENSOR_MODE_CUSTOM4,
+	IMGSENSOR_MODE_CUSTOM5,
 } IMGSENSOR_MODE;
 
 typedef struct imgsensor_mode_struct {
@@ -76,7 +78,6 @@ typedef struct imgsensor_struct {
 
 	kal_uint8 i2c_write_id;			//record current sensor's i2c write id
 #ifdef VENDOR_EDIT
-	/*Chengtian.Ding@Camera, 2018-12-28 add for 18531 n+1 long exposure*/
 	struct IMGSENSOR_AE_FRM_MODE ae_frm_mode;
 	kal_uint8 current_ae_effective_frame;
 #endif
@@ -86,7 +87,6 @@ typedef struct imgsensor_struct {
 typedef struct imgsensor_info_struct {
 	kal_uint16 sensor_id;			//record sensor id defined in Kd_imgsensor.h
 	#ifdef VENDOR_EDIT
-	/*Zhenagjiang.zhu@camera.drv 2017/07/21,modify for different module*/
 	kal_uint16 module_id;
 	#endif
 	kal_uint32 checksum_value;		//checksum value for Camera Auto Test
@@ -100,6 +100,8 @@ typedef struct imgsensor_info_struct {
 	imgsensor_mode_struct custom1;
 	imgsensor_mode_struct custom2;
 	imgsensor_mode_struct custom3;
+	imgsensor_mode_struct custom4;
+	imgsensor_mode_struct custom5;
 
 	kal_uint8  ae_shut_delay_frame;	//shutter delay frame for AE cycle
 	kal_uint8  ae_sensor_gain_delay_frame;	//sensor gain delay frame for AE cycle
@@ -116,6 +118,8 @@ typedef struct imgsensor_info_struct {
 	kal_uint8  custom1_delay_frame;
 	kal_uint8  custom2_delay_frame;
 	kal_uint8  custom3_delay_frame;
+	kal_uint8  custom4_delay_frame;
+	kal_uint8  custom5_delay_frame;
 	kal_uint8  frame_time_delay_frame;
 
 	kal_uint8  margin;				//sensor framelength & shutter margin

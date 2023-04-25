@@ -229,7 +229,6 @@ source "drivers/misc/mediatek/camera_security/Kconfig"
 source "drivers/misc/mediatek/jpeg/Kconfig"
 source "drivers/misc/mediatek/ccu/src/Kconfig"
 #ifdef ODM_HQ_EDIT
-#liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting
 source "drivers/misc/mediatek/lcd_bias/Kconfig"
 #endif #ODM_HQ_EDIT
 
@@ -337,7 +336,6 @@ source "drivers/misc/mediatek/devmpu/Kconfig"
 source "drivers/misc/mediatek/performance/Kconfig"
 source "drivers/misc/mediatek/usb2jtag/Kconfig"
 ##ifdef ODM_HQ_EDIT
-## zuoqiquan@ODM.BSP.Sensor  2019/09/06 bring up nfc
 source "drivers/misc/mediatek/nfc/Kconfig"
 ## /*ODM_HQ_EDIT*/
 source "drivers/misc/mediatek/cqdma/Kconfig"
@@ -439,7 +437,6 @@ source "drivers/misc/mediatek/mtprintk/Kconfig"
 source "drivers/misc/mediatek/mlog/Kconfig"
 source "drivers/misc/mediatek/mcupm/Kconfig"
 source "drivers/misc/mediatek/smartpa/Kconfig"
-#Lijian@ODM.Camera.Drv 20190827 for snesor bringup
 source "drivers/misc/mediatek/camera_ldo/Kconfig"
 
 endmenu    # Misc

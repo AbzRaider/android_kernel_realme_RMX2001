@@ -2219,7 +2219,6 @@ static int mt_mic_bias_0_event(struct snd_soc_dapm_widget *w,
 		}
 
 		#ifndef ODM_HQ_EDIT
-		//fanxiongnan@ODM.HQ.Multimedia.Audio.BSP 2019/11/23 modified for micbias0 voltage setting
 		/* MISBIAS0 = 1P9V */
 		regmap_update_bits(priv->regmap, MT6359_AUDENC_ANA_CON15,
 				   RG_AUDMICBIAS0VREF_MASK_SFT,

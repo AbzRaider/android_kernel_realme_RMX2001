@@ -5,7 +5,6 @@
 ** Description : PMIC PONSTS POFFSTS
 ** Version : 1.0
 ** Date : 2019/6/27
-** Author : Wen.Luo@PSW.BSP.Kernel.Stability
 **
 ** ------------------------------- Revision History: -----------
 **  <author>        <data>        <version >        <desc>

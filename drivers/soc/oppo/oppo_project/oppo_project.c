@@ -12,7 +12,6 @@
 #endif
 
 #ifdef ODM_HQ_EDIT
-/* zhuguangwei_hq@ODM_HQ.Connectivity.NFC, 2019/10/28, Add for with NFC or without NFC */
 //#include <unistd.h>
 #include <linux/syscalls.h>
 #endif  //ODM_HQ_EDIT
@@ -31,7 +30,6 @@ static ProjectInfoCDTType projectInfo = {
 };
 
 #ifdef ODM_HQ_EDIT
-/* zhuguangwei_hq@ODM_HQ.Connectivity.NFC, 2019/10/28, Add for with NFC or without NFC */
 static const char* nfc_feature = "nfc_feature";
 static const char* feature_src = "/vendor/etc/nfc/com.oppo.nfc_feature.xml";
 #endif  //ODM_HQ_EDIT
@@ -108,11 +106,9 @@ unsigned int get_project(void)
 	return 0;
 }
 
-/* xiang.fei@PSW.MM.AudioDriver.Machine, 2018/05/28, Add for kernel driver */
 EXPORT_SYMBOL(get_project);
 
 //#ifdef VENDOR_EDIT
-//Anhui.Sun@PSW.NW.RF, 2019/10/12, add for mtk version
 #ifdef CONFIG_TARGET_BUILD_MTK_VERSION
 EXPORT_SYMBOL(get_PCB_Version);
 #endif
@@ -162,7 +158,6 @@ unsigned int is_confidential(void)
 }
 
 #ifdef ODM_HQ_EDIT
-/* zhuguangwei_hq@ODM_HQ.Connectivity.NFC, 2019/10/28, Add for with NFC or without NFC */
 static int __init update_feature(void)
 {
     mm_segment_t fs;
@@ -171,7 +166,7 @@ static int __init update_feature(void)
     set_fs(KERNEL_DS);
     if (oppoVersion) {
         if ((get_Operator_Version() == OPERATOR_19661_RUSSIA) ||
-        	(get_Operator_Version() == OPERATOR_19741_ASIA_SIMPLE_INDIA)) {
+            (get_Operator_Version() == OPERATOR_19661_All_BAND_NFC_SARTER)) {
             proc_symlink(nfc_feature, oppoVersion, feature_src);
         }
     }
@@ -339,7 +334,6 @@ static ssize_t secureType_read_proc(struct file *file, char __user *buf,
 	char page[256] = {0};
 	int len = 0;
         #ifndef VENDOR_EDIT
-	//LiBin@Prd6.BaseDrv, 2016/11/03,, Add for MTK secureType node
 	//void __iomem *oem_config_base;
 	uint32_t secure_oem_config = 0;
 
@@ -377,7 +371,6 @@ static struct file_operations secureType_proc_fops = {
 	.read = secureType_read_proc,
 };
 
-/*Yang.Tan@BSP.Fingerprint.Secure 2018/12/17 Add serialID for fastboot unlock*/
 #define SERIALNO_LEN 16
 extern char *saved_command_line;
 static ssize_t serialID_read_proc(struct file *file, char __user *buf,
@@ -463,7 +456,6 @@ static int __init oppo_project_init(void)
 		pr_err("create secureType proc failed.\n");
 		goto ERROR_INIT_VERSION;
 	}
-/*Yang.Tan@BSP.Fingerprint.Secure 2018/12/17 Add serialID for fastboot unlock*/
 	pentry = proc_create("serialID", S_IRUGO, oppoVersion, &serialID_proc_fops);
 	if(!pentry) {
 		pr_err("create serialID proc failed.\n");

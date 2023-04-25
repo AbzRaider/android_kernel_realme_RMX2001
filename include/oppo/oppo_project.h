@@ -21,7 +21,6 @@ enum PCB_VERSION{
 };
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 enum HQ_PCB_VERSION{
     HQ_HW_VERSION__UNKNOWN,
     HW_VERSION__EVB1,

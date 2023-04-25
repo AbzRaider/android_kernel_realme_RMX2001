@@ -123,7 +123,6 @@ static struct dsi_debug debug;
 static struct dsi_debug debug_read;
 #endif /*VENDOR_EDIT*/
 
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2017/12/29, Add for lcm ic esd recovery backlight */
 extern unsigned int esd_recovery_backlight_level;
 extern unsigned int islcmconnected;
 

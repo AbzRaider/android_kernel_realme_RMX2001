@@ -125,7 +125,6 @@ static enum IMGSENSOR_RETURN imgsensor_hw_power_sequence(
 
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190912 MTK patch for mipi switch */
 	while (ppwr_seq < ppower_sequence + IMGSENSOR_HW_SENSOR_MAX_NUM &&
 		ppwr_seq->name != NULL) {
 		if (!strcmp(ppwr_seq->name, PLATFORM_POWER_SEQ_NAME)) {
@@ -231,7 +230,6 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 	char str_index[LENGTH_FOR_SNPRINTF];
 
 #ifndef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for snesor bringup */
 	PK_DBG("sensor_idx %d, power %d curr_sensor_name %s, enable list %s\n",
 		sensor_idx,
 		pwr_status,
@@ -246,7 +244,6 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 		return IMGSENSOR_RETURN_ERROR;
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for snesor bringup */
 	printk("sensor_idx %d, power %d curr_sensor_name %s, enable list %s\n",
 		sensor_idx,
 		pwr_status,

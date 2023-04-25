@@ -47,7 +47,6 @@
 #define DEFAULT_TIMEOUT_MS	20000	/* We do nothing on timeout anyway */
 
 #ifdef VENDOR_EDIT
-//#Bin.Li@BSP.Fingerprint.Secure 2019/08/16, Modify for keymaster fail by Drandroid crash
 extern int phx_is_system_boot_completed(void);
 #endif /* VENDOR_EDIT */
 
@@ -457,7 +456,6 @@ static void nq_dump_status(void)
 	size_t i;
 
 #ifdef VENDOR_EDIT
-//#Bin.Li@BSP.Fingerprint.Secure 2019/08/16, Modify for keymaster fail by Drandroid crash
 	int boot_completed_tee = 0;
 #endif /* VENDOR_EDIT */
 
@@ -501,7 +499,6 @@ static void nq_dump_status(void)
 
 	mc_dev_info("  %-22s= 0x%s", "mcExcep.uuid", uuid_str);
 	#ifdef VENDOR_EDIT
-	//#Bin.Li@BSP.Fingerprint.Secure 2019/08/16, Modify for keymaster fail by Drandroid crash
 	if(0 == strcmp(uuid_str, "07170000000000000000000000000000")) {
 		if(get_eng_version() == 1) {
 			boot_completed_tee = phx_is_system_boot_completed();

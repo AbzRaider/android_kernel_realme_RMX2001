@@ -16,7 +16,6 @@
 #define NF_STOP 5	/* Deprecated, for userspace nf_queue compatibility. */
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #define NF_IMQ_QUEUE 6
 #define NF_MAX_VERDICT NF_IMQ_QUEUE

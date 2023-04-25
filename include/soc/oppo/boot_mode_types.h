@@ -8,7 +8,6 @@
  ** Version: 1.0                                                                           
  ** --------------------------- Revision History: --------------------------------         
  **  <author>    <data>          <desc>
- ** tong.han@BasicDrv.TP&LCD 11/01/2014 add this file                                      
  ************************************************************************************/     
 #ifndef _OPPO_BOOT_TYPE_H    
 #define _OPPO_BOOT_TYPE_H
@@ -23,7 +22,6 @@ enum{
         MSM_BOOT_MODE__CHARGE,
         MSM_BOOT_MODE__SILENCE,
         MSM_BOOT_MODE__SAU,
-        //xiaofan.yang@PSW.TECH.AgingTest, 2019/01/07,Add for factory agingtest
         MSM_BOOT_MODE__AGING,
         MSM_BOOT_MODE__SAFE = 999,
         //TODO

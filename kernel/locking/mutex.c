@@ -45,7 +45,6 @@ __mutex_init(struct mutex *lock, const char *name, struct lock_class_key *key)
 	osq_lock_init(&lock->osq);
 #endif
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     lock->ux_dep_task = NULL;
 #endif
 	debug_mutex_init(lock, name, key);
@@ -786,7 +785,6 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 
 	if (!use_ww_ctx) {
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
         if (sysctl_uifirst_enabled) {
             mutex_list_add(current, &waiter.list, &lock->wait_list, lock);
         } else {
@@ -829,7 +827,6 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 		 * wait_lock. This ensures the lock cancellation is ordered
 		 * against mutex_unlock() and wake-ups do not go missing.
 		 */
-		//#ifdef VENDOR_EDIT fangpan@Swdp.shanghai,2015/11/12
 		if (unlikely(signal_pending_state(state, current)) ||
 			hung_long_and_fatal_signal_pending(current)) {
 		//#endif
@@ -843,7 +840,6 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 				goto err;
 		}
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
         if (sysctl_uifirst_enabled) {
             mutex_dynamic_ux_enqueue(lock, current);
         }
@@ -1070,7 +1066,6 @@ static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigne
 	spin_lock(&lock->wait_lock);
 	debug_mutex_unlock(lock);
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         mutex_dynamic_ux_dequeue(lock, current);
     }

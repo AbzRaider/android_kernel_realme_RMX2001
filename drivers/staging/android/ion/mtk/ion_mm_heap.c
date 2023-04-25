@@ -236,6 +236,7 @@ static int ion_mm_pool_total(struct ion_system_heap *heap,
 static int ion_get_domain_id(int from_kernel, int *port)
 {
 	int domain_idx = 0;
+	unsigned int port_id = *port;
 
 #ifdef CONFIG_MTK_IOMMU_V2
 	if (port_id >= M4U_PORT_UNKNOWN) {
@@ -269,7 +270,14 @@ static int ion_get_domain_id(int from_kernel, int *port)
 	domain_idx = 0;
 #endif //CONFIG_MTK_IOMMU_PGTABLE_EXT
 #else  //CONFIG_MTK_IOMMU_V2
+#if defined(CONFIG_MACH_MT6779) || defined(CONFIG_MACH_MT6785)
+	if (port_id >= M4U_PORT_VPU)
+		domain_idx = 1;
+	else
+		domain_idx = 0;
+#else
 	domain_idx = 0;
+#endif
 #endif //CONFIG_MTK_IOMMU_V2
 
 	return domain_idx;
@@ -897,7 +905,6 @@ static struct ion_heap_ops ion_mm_heap_ops = {
 	.phys = ion_mm_heap_phys,
 	.shrink = ion_mm_heap_shrink,
 #if defined(VENDOR_EDIT)
-//wangtao@Swdp.shanghai, 2019/02/11, fix null point error when port elsa
 	.page_pool_total = ion_mm_heap_pool_total,
 #endif
 };
@@ -1496,7 +1503,6 @@ size_t ion_mm_heap_total_memory(void)
 }
 
 #ifdef VENDOR_EDIT
-//fangpan@Swdp.shanghai, 2016/02/02, add ion memory status interface
 size_t ion_mm_heap_pool_total_size(void)
 {
 	struct ion_heap *heap = ion_drv_get_heap(g_ion_device, ION_HEAP_TYPE_MULTIMEDIA, 1);
@@ -1510,7 +1516,6 @@ EXPORT_SYMBOL(ion_mm_heap_pool_total_size);
 #endif
 
 #ifdef VENDOR_EDIT
-/* Wen.Luo@BSP.Kernel.Stability, 2019/04/26, Add for Process memory statistics */
 size_t get_ion_heap_by_pid(pid_t pid)
 {
 	struct ion_device *dev = g_ion_device;

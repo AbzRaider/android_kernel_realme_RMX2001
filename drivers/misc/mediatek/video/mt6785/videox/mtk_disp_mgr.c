@@ -88,7 +88,6 @@
 #include "disp_tphint.h"
 
 #ifdef ODM_HQ_EDIT
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Feature, 2018/09/10, Add for sau and silence close backlight */
 #include <mt-plat/mtk_boot_common.h>
 #include <soc/oppo/oppo_project.h>
 extern unsigned long silence_mode;
@@ -1771,7 +1770,6 @@ long mtk_disp_mgr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case DISP_IOCTL_GET_SUPPORTED_FPS:
 		return _ioctl_get_supported_fps(arg);
 //#ifdef ODM_HQ_EDIT
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/12 modified for TM JDI pq */
 	case DISP_IOCTL_GET_LCM_MODULE_INFO:
 		return _ioctl_get_lcm_module_info(arg);
 //#endif /* ODM_HQ_EDIT */
@@ -1974,7 +1972,6 @@ static const struct file_operations mtk_disp_mgr_fops = {
 
 #ifdef ODM_HQ_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 unsigned int ffl_set_mode = 0;
@@ -2013,7 +2010,6 @@ static int mtk_disp_mgr_probe(struct platform_device *pdev)
 	int ret;
 	#ifdef ODM_HQ_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/16,
 	* add for lcd serial num
 	*/
 	struct device *dev =NULL;
@@ -2042,14 +2038,12 @@ static int mtk_disp_mgr_probe(struct platform_device *pdev)
 	#ifdef ODM_HQ_EDIT
 	dev =(struct device *) class_dev;
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/09/07,
 	* add for face fill light node
 	*/
 	ret = device_create_file(dev, &dev_attr_FFL_SET);
 	if (ret < 0) {
 		printk("%s FFL_SET device create file failed!\n", __func__);
 	}
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Feature, 2018/09/10, Add for sau and silence close backlight */
 	if ((oppo_boot_mode == OPPO_SILENCE_BOOT)
 			||(get_boot_mode() == OPPO_SAU_BOOT))
 	{

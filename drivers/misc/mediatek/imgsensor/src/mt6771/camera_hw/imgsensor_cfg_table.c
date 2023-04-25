@@ -41,7 +41,6 @@ struct IMGSENSOR_HW_CFG imgsensor_custom_config[] = {
 			{IMGSENSOR_HW_PIN_AVDD,  IMGSENSOR_HW_ID_REGULATOR},
 			{IMGSENSOR_HW_PIN_DOVDD, IMGSENSOR_HW_ID_REGULATOR},
 			#ifdef VENDOR_EDIT
-			/*Feng.Hu@Camera.Driver 20171121 add as main avdd use regulator*/
 			{IMGSENSOR_HW_PIN_DVDD,  IMGSENSOR_HW_ID_REGULATOR},
 			#else
 			{IMGSENSOR_HW_PIN_DVDD,  IMGSENSOR_HW_ID_GPIO},
@@ -299,7 +298,6 @@ struct IMGSENSOR_HW_POWER_SEQ sensor_power_sequence[] = {
 		},
 	},
 #endif
-/*Longyuan.Yang@Camera.Driver 20181204 add for power sequence*/
 #if defined(IMX398_MIPI_RAW)
 	{
 		SENSOR_DRVNAME_IMX398_MIPI_RAW,

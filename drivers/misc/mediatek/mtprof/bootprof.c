@@ -169,7 +169,6 @@ static void bootup_finish(void)
 	initcall_debug = 0;
 #ifdef CONFIG_MTK_PRINTK_UART_CONSOLE
 #if defined(VENDOR_EDIT) && !defined(CONFIG_MTK_ENG_BUILD)
-/*xing.xiong@BSP.Kernel.Debug, 2018/10/26, Add for do not disable uart in engbuild*/
 	mt_disable_uart();
 #endif
 #endif

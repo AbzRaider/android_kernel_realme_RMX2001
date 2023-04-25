@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2017/05/06
-** Author: LiPing-M@PSW.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** liping 2018/01/20 1.0 build this module
@@ -50,7 +49,6 @@
 
 #ifdef VENDOR_EDIT
 /*
-* Liping-m@PSW.MM.Display.LCD.Stability, 2018/05/23, add for 18311&18011 lcd
 */
 #include <soc/oppo/oppo_project.h>
 #endif /*VENDOR_EDIT*/
@@ -454,7 +452,6 @@ static void lcm_init(void)
 	MDELAY(5);
 
 	/*
-	 * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	 * add for backlight IC KTD3136
 	 */
 	if (is_lm3697 == 2) {   /*KTD3136*/

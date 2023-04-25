@@ -36,7 +36,6 @@ MODULE_DESCRIPTION("Xtables: packet \"rejection\" target for IPv4");
 #endif
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 //Add code for appo sla function
 void (*mark_streams_for_iptables_reject)(struct sk_buff *skb,enum ipt_reject_with reject_type) = NULL;
 EXPORT_SYMBOL(mark_streams_for_iptables_reject);
@@ -77,7 +76,6 @@ reject_tg(struct sk_buff *skb, const struct xt_action_param *par)
 		break;
 	}
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 //Add code for appo sla function	for mark streams deal with iptables reject
 	if (mark_streams_for_iptables_reject) {
 		mark_streams_for_iptables_reject(skb,reject->with);

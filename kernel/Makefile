@@ -25,7 +25,6 @@ obj-$(CONFIG_MODULES) += kmod.o
 obj-$(CONFIG_MULTIUSER) += groups.o
 
 #ifdef VENDOR_EDIT
-#yanwu@TECH.Storage.FS, 2019/08/27, add code to flush device cache in panic
 obj-y += panic_flush.o
 #endif
 
@@ -50,7 +49,6 @@ CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
 CFLAGS_sys_ni.o = $(DISABLE_LTO)
 
 #ifdef VENDOR_EDIT
-#Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 obj-y += oppocfs/
 
 # Don't instrument error handlers
@@ -65,12 +63,11 @@ obj-y += rcu/
 obj-y += livepatch/
 
 #ifdef VENDOR_EDIT
-#Liang.Zhang@PSW.TECH.BOOTUP, 2018/11/16, Add for panic recovery
 #ifdef HANG_OPPO_ALL
 obj-$(CONFIG_HANG_OPPO_ALL) += op_panic_recovery.o
 
-#wangzhenhua@Plf.Framework,2017/07/28, add for kevent action upload,root action upload to user layer
 obj-$(CONFIG_OPPO_KEVENT_UPLOAD) += oppo_kevent_upload.o
+obj-$(CONFIG_OPPO_KEVENT_TEST) += oppo_kevent_test.o
 
 
 

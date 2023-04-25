@@ -36,7 +36,6 @@ $(KERNEL_ZIMAGE_OUT): $(TARGET_KERNEL_CONFIG) $(KERNEL_MAKE_DEPENDENCIES)
 	# check the kernel image size
 	python device/mediatek/build/build/tools/check_kernel_size.py $(KERNEL_OUT) $(KERNEL_DIR)
 #ifdef VENDOR_EDIT
-#Ke.Li@Rom.Security, KernelHotFix, 2019.10.15 Add for HotFix of kernel
 	$(KERNEL_DIR)/tools/toSDK.sh
 #endif /* VENDOR_EDIT */
 ifeq ($(strip $(MTK_HEADER_SUPPORT)), yes)

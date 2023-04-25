@@ -256,7 +256,6 @@ int set_rtc_spare0_fg_value(int val)
 }
 
 #ifndef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/02, Add for charger memory electricity */
 int get_rtc_spare_oppo_fg_value(void)
 {
 	u16 temp;
@@ -438,7 +437,6 @@ void rtc_mark_fast(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for /panic mode/silence mode/meta mode/SAU mode */
 void oppo_rtc_mark_reboot_kernel(void)
 {
 	unsigned long flags;
@@ -490,7 +488,6 @@ void oppo_rtc_mark_factory(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-//xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest
 void oppo_rtc_mark_agingtest(void)
 {
 	unsigned long flags;
@@ -501,7 +498,6 @@ void oppo_rtc_mark_agingtest(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-/*xiongxing@BSP.Kernel.Driver, 2019/02/27, Add for safemode*/
 void oppo_rtc_mark_safe(void)
 {
 	unsigned long flags;
@@ -512,7 +508,6 @@ void oppo_rtc_mark_safe(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor i2c workaround*/
 #if 0
 void oppo_rtc_mark_sensor_cause_panic(void)
 {

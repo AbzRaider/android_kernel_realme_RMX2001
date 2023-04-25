@@ -676,8 +676,6 @@ static struct snd_soc_dai_link mt_soc_extspk_dai[] = {
 		.ops = &cs35l35_ops,
 #else
 #ifdef VENDOR_EDIT
-		/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,
-		 * add TFA9890 ALSA driver for MT6763 */
 #ifdef CONFIG_SND_SOC_ALSACODEC_TFA9890
 		.codec_dai_name = "tfa98xx-aif-3-35",
 		.codec_name = "tfa98xx.3-0035",
@@ -723,8 +721,6 @@ static void get_ext_dai_codec_name(void)
 }
 #endif
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.feature.1209435, 2017/08/01,
- * add for KTV */
 #ifdef CONFIG_OPPO_KTV_DEV
 DEFINE_SPINLOCK(ktv_dl_data_lock);
 DEFINE_SPINLOCK(ktv_dl_ctrl_lock);
@@ -794,10 +790,6 @@ static ssize_t ktvdev_write(struct file *fp, const char __user *data, size_t cou
 	}
 	spin_unlock_irqrestore(&ktv_dl_ctrl_lock, flags);
 
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.Feature, 2018/03/01,
-	 * we do not need memset 0 value in this routine
-	 * because the voice data comes from UL.
-	 * Unnecessary memset 0 will cause consumption */
 
 	tmp = kmalloc(ktvUnitSize, GFP_KERNEL);
 	if (tmp == NULL) {
@@ -847,7 +839,6 @@ static int mt_soc_snd_probe(struct platform_device *pdev)
 	int ret;
 	int daiLinkNum = 0;
 	#ifndef VENDOR_EDIT
-	//hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, Remove for load tfa98xx
 	ret = mtk_spk_update_dai_link(mt_soc_extspk_dai, pdev);
 	if (ret) {
 		dev_err(&pdev->dev, "%s(), mtk_spk_update_dai_link error\n",
@@ -910,8 +901,6 @@ static int mt_soc_snd_probe(struct platform_device *pdev)
 
 #ifdef VENDOR_EDIT
 #ifdef CONFIG_OPPO_KTV_DEV
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.feature.1209435, 2017/08/01,
-	 * add for KTV */
 	/* register KTV MISC device */
 	ret = misc_register(&ktvw_device);
 	if (ret) {

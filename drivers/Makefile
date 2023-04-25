@@ -185,3 +185,6 @@ obj-$(CONFIG_FSI)		+= fsi/
 obj-$(CONFIG_TEE)		+= tee/
 obj-$(CONFIG_MULTIPLEXER)	+= mux/
 obj-$(CONFIG_TRUSTY)	+= trusty/
+#ifdef VENDOR_EDIT
+obj-$(CONFIG_QIHOO)             += qihoo/
+#endif /* VENDOR_EDIT */

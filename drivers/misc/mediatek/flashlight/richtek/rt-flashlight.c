@@ -63,7 +63,6 @@ static ssize_t flashlight_show_mode(struct device *dev,
 }
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera 20190816 for Flashlight Bringup */
 static ssize_t flashlight_store_mode(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -235,7 +234,6 @@ static ssize_t flashlight_show_strobe_brightness(struct device *dev,
 }
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera 20190816 for Flashlight Bringup */
 static ssize_t flashlight_show_ata_control(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -333,7 +331,6 @@ static void flashlight_device_release(struct device *dev)
 static DEVICE_ATTR(name, 0444, flashlight_show_name, NULL);
 static DEVICE_ATTR(type, 0444, flashlight_show_type, NULL);
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera 20190816 for Flashlight Bringup */
 static DEVICE_ATTR(mode, 0664, flashlight_show_mode, flashlight_store_mode);
 #else
 static DEVICE_ATTR(mode, 0444, flashlight_show_mode, NULL);
@@ -356,7 +353,6 @@ static DEVICE_ATTR(strobe_brightness, 0664,
 	flashlight_show_strobe_brightness,
 	flashlight_store_strobe_brightness);
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera 20190816 for Flashlight Bringup */
 static DEVICE_ATTR(ata_control, 0664,
 	flashlight_show_ata_control,
 	flashlight_store_ata_control);//add for ATA control flashlight by Murphy Zhou 2018-10-17
@@ -374,7 +370,6 @@ static struct attribute *flashlight_class_attrs[] = {
 	&dev_attr_torch_brightness.attr,
 	&dev_attr_strobe_brightness.attr,
         #ifdef ODM_HQ_EDIT
-        /* Lijian@ODM.Camera 20190816 for Flashlight Bringup  */
 	&dev_attr_ata_control.attr,
         #endif
 	NULL,

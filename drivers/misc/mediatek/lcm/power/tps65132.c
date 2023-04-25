@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2017/05/06
-** Author: Rongchun.Zhang@EXP.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** zhangrongchun 2017/05/06 1.0 build this module

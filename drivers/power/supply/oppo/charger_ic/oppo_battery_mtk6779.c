@@ -7,11 +7,9 @@
 **
 ** Version: 1.0
 ** Date created: 2018-11-09
-** Author: Jianchao.Shi@PSW.BSP.CHG
 **
 ** --------------------------- Revision History: ------------------------------------
 * <version>       <date>         <author>              			<desc>
-* Revision 1.0    2018-11-09   Jianchao.Shi@PSW.BSP.CHG   	Created for new architecture
 *************************************************************************************/
 #include <linux/init.h>		/* For init/exit macros */
 #include <linux/module.h>	/* For MODULE_ marcros  */
@@ -56,7 +54,6 @@
 
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging */
 //====================================================================//
 #include <linux/gpio.h>
 #include <linux/of_gpio.h>
@@ -69,9 +66,13 @@
 #include "op_charge.h"
 #include "../../../misc/mediatek/typec/tcpc/inc/tcpci.h"
 
+#ifdef ODM_HQ_EDIT
+#include <soc/oppo/oppo_project.h>
+extern int g_cphy_dphy_gpio_value;
+#endif /* ODM_HQ_EDIT */
+
 struct oppo_chg_chip *g_oppo_chip = NULL;
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 int battery_meter_get_charger_voltage(void);
 #else
 static int battery_meter_get_charger_voltage(void);
@@ -95,14 +96,12 @@ void oppo_wake_up_usbtemp_thread(void);
 #endif /* VENDOR_EDIT */
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/11/29 add for pd charging*/
 static int mtk_chgstat_notify(struct charger_manager *info);
 int pd_notify = 0;
 #endif
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/01/22, sjc Add for usb status */
 #define USB_TEMP_HIGH		0x01//bit0
 #define USB_WATER_DETECT	0x02//bit1
 #define USB_RESERVE2		0x04//bit2
@@ -258,7 +257,6 @@ void charger_log_flash(const char *fmt, ...)
 void _wake_up_charger(struct charger_manager *info)
 {
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Modify for charging */
 	return;
 #else
 	unsigned long flags;
@@ -527,7 +525,6 @@ int charger_manager_get_charger_temperature(struct charger_consumer *consumer,
 }
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 int charger_manager_enable_chg_type_det(struct charger_consumer *consumer,
 	bool en)
 {
@@ -566,7 +563,6 @@ int charger_manager_enable_chg_type_det(struct charger_consumer *consumer,
 }
 #endif
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/11/29 add for pd charging*/
 void notify_adapter_event(enum adapter_type type, enum adapter_event evt,
 	void *val)
 {
@@ -694,7 +690,6 @@ int charger_manager_enable_kpoc_shutdown(struct charger_consumer *consumer,
 	bool en)
 {
 #ifndef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Delete for charging */
 	struct charger_manager *info = consumer->cm;
 
 	if (en)
@@ -859,7 +854,6 @@ int charger_manager_notifier(struct charger_manager *info, int event)
 void mtk_charger_int_handler(void)
 {
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging */
 	chr_err("mtk_charger_int_handler\n");
 	if (mt_get_charger_type() != CHARGER_UNKNOWN)
 		oppo_wake_up_usbtemp_thread();
@@ -1047,7 +1041,6 @@ static int pd_tcp_notifier_call(struct notifier_block *pnb,
 		if (pinfo->water_detected == true) {
 			pinfo->notify_code |= CHG_TYPEC_WD_STATUS;
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/01/22, sjc Add for usb status */
 			oppo_set_usb_status(USB_WATER_DETECT);
 			oppo_vooc_set_disable_adapter_output(true);
 			if (g_oppo_chip && g_oppo_chip->usb_psy)
@@ -1057,7 +1050,6 @@ static int pd_tcp_notifier_call(struct notifier_block *pnb,
 		} else {
 			pinfo->notify_code &= ~CHG_TYPEC_WD_STATUS;
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/01/22, sjc Add for usb status */
 			oppo_clear_usb_status(USB_WATER_DETECT);
 			oppo_vooc_set_disable_adapter_output(false);
 			if (g_oppo_chip && g_oppo_chip->usb_psy)
@@ -1072,7 +1064,6 @@ static int pd_tcp_notifier_call(struct notifier_block *pnb,
 
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging */
 //====================================================================//
 static void oppo_mt6360_dump_registers(void)
 {
@@ -1235,7 +1226,6 @@ static int oppo_mt6360_input_current_limit_write(int value)
 	if (g_oppo_chip->chg_ops->oppo_chg_get_pd_type) {
 		if (g_oppo_chip->chg_ops->oppo_chg_get_pd_type() == true) {
 			#ifdef ODM_HQ_EDIT
-			/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 			rc = oppo_pdc_get(&vbus_mv, &ibus_ma);
 			#else
 			rc = oppo_pdc_get(&vbus_mv, &ibus_ma);
@@ -1555,7 +1545,6 @@ static int mt_power_supply_type_check(void)
 }
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 int battery_meter_get_charger_voltage(void)
 {
 	return battery_get_vbus();
@@ -1705,7 +1694,6 @@ close_time:
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for chargerID */
 enum {
 	Channel_12 = 2,
 	Channel_13,
@@ -1747,7 +1735,6 @@ static int mt_vadc_read(int times, int Channel)
 	return ret;
 }
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 #else
 extern bool g_ignore_usb;
 #endif
@@ -1760,7 +1747,6 @@ static void set_usbswitch_to_rxtx(struct oppo_chg_chip *chip)
 		return;
 	}
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 #else
 	if (g_ignore_usb) {zhangchao
 		chg_err("g_ignore_usb is true, do not set_usbswitch_to_rxtx\n");
@@ -1948,7 +1934,6 @@ static int oppo_chg_chargerid_parse_dt(struct oppo_chg_chip *chip)
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for HW shortc */
 static bool oppo_shortc_check_is_gpio(struct oppo_chg_chip *chip)
 {
 	if (!chip) {
@@ -2046,7 +2031,6 @@ static int oppo_chg_shortc_hw_parse_dt(struct oppo_chg_chip *chip)
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for using gpio as shipmode stm6620 */
 static bool oppo_ship_check_is_gpio(struct oppo_chg_chip *chip)
 {
 	if (!chip) {
@@ -2129,7 +2113,14 @@ static void enter_ship_mode_function(struct oppo_chg_chip *chip)
 
 	if (chip->enable_shipmode) {
 		printk(KERN_ERR "[OPPO_CHG][%s]: enter_ship_mode_function\n", __func__);
-		smbchg_enter_shipmode(chip);
+		pr_err("get_project = %d ,get_Operator_Version = %d, g_cphy_dphy_gpio_value = %d\n",get_project(),get_Operator_Version(),g_cphy_dphy_gpio_value);
+		if((get_project() == 19661) && ((get_Operator_Version() == 111) || (get_Operator_Version() == 112) || (get_Operator_Version() == 113) || (get_Operator_Version() == 114) || (g_cphy_dphy_gpio_value == 1))) {
+			printk(KERN_ERR "[OPPO_CHG][%s]: MTK mt6360 !\n", __func__);
+			mt6360_enter_shipmode();
+		} else {
+			printk(KERN_ERR "[OPPO_CHG][%s]: 1878 HW chip !\n", __func__);
+			smbchg_enter_shipmode(chip);
+		}
 	}
 }
 
@@ -2170,7 +2161,6 @@ static int oppo_chg_shipmode_parse_dt(struct oppo_chg_chip *chip)
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/18, sjc Add for usbtemp */
 static bool oppo_usbtemp_check_is_gpio(struct oppo_chg_chip *chip)
 {
 	if (!chip) {
@@ -2233,7 +2223,6 @@ static int oppo_dischg_gpio_init(struct oppo_chg_chip *chip)
 }
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/12/06 modified for USB_NTC */
 extern int oppo_usb_ntc_adc1_read(void);
 extern int oppo_usb_ntc_adc2_read(void);
 
@@ -2642,7 +2631,6 @@ static int oppo_chg_parse_custom_dt(struct oppo_chg_chip *chip)
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging */
 /************************************************/
 /* Power Supply Functions
 *************************************************/
@@ -2691,7 +2679,6 @@ static int mt_usb_get_property(struct power_supply *psy,
 			break;
 		case POWER_SUPPLY_PROP_TYPEC_SBU_VOLTAGE:
 			#ifdef ODM_HQ_EDIT
-			/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 			val->intval = 0;
 			#else
 				val->intval = oppo_get_typec_sbu_voltage();
@@ -2700,7 +2687,6 @@ static int mt_usb_get_property(struct power_supply *psy,
 
 		case POWER_SUPPLY_PROP_WATER_DETECT_FEATURE:
 			#ifdef ODM_HQ_EDIT
-			/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 			val->intval = 0;
 			#else
 				val->intval = oppo_get_water_detect();
@@ -2738,13 +2724,11 @@ static int mt_usb_set_property(struct power_supply *psy,
 			printk(KERN_ERR "[OPPO_CHG][%s]: oppo_set_water_detect[%d]\n", __func__, val->intval);
 			if (val->intval == 0) {
 			#ifdef ODM_HQ_EDIT
-			/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 			#else
 				oppo_set_water_detect(false);
 			#endif
 			} else {
 			#ifdef ODM_HQ_EDIT
-			/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 			#else
 				oppo_set_water_detect(true);
 			#endif
@@ -2828,7 +2812,7 @@ static enum power_supply_property battery_properties[] = {
 	POWER_SUPPLY_PROP_BATTERY_CC,
 	POWER_SUPPLY_PROP_BATTERY_RM,
 	POWER_SUPPLY_PROP_BATTERY_NOTIFY_CODE,
-	POWER_SUPPLY_PROP_ICHG_COOL_DOWN,          //zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling
+	POWER_SUPPLY_PROP_ICHG_COOL_DOWN,
 	POWER_SUPPLY_PROP_ADAPTER_FW_UPDATE,
 	POWER_SUPPLY_PROP_VOOCCHG_ING,
 #ifdef CONFIG_OPPO_CHECK_CHARGERID_VOLT
@@ -2941,7 +2925,6 @@ err_ac_psy:
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2018/12/10, sjc Add for OTG switch */
 void oppo_set_otg_switch_status(bool value)
 {
 	if (pinfo != NULL && pinfo->tcpc != NULL) {
@@ -2956,7 +2939,6 @@ EXPORT_SYMBOL(oppo_set_otg_switch_status);
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2019/07/05, sjc Add for mmi status */
 int oppo_chg_get_mmi_status(void)
 {
 	struct oppo_chg_chip *chip = g_oppo_chip;
@@ -2976,7 +2958,6 @@ EXPORT_SYMBOL(oppo_chg_get_mmi_status);
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/01/11, sjc Add for PD */
 static bool oppo_mt6360_get_pd_type(void)
 {
 	if (pinfo != NULL) {
@@ -2993,7 +2974,6 @@ static int oppo_mt6360_pd_setup(void)
 	int ibus_ma = 0;
 	int ret = 0;
 #ifdef ODM_HQ_EDIT
-	/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 	ret = oppo_pdc_setup(&vbus_mv, &ibus_ma);
 	printk(KERN_ERR "%s: vbus[%d], ibus[%d]\n", __func__, vbus_mv, ibus_ma);
 #else
@@ -3071,7 +3051,6 @@ struct oppo_chg_operations  mtk6360_chg_ops = {
 static int mtk_charger_probe(struct platform_device *pdev)
 {
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging*/
 	struct oppo_chg_chip *oppo_chip;
 #endif
 	struct charger_manager *info = NULL;
@@ -3083,7 +3062,6 @@ static int mtk_charger_probe(struct platform_device *pdev)
 	chr_err("%s: starts\n", __func__);
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging*/
 	oppo_chip = devm_kzalloc(&pdev->dev, sizeof(*oppo_chip), GFP_KERNEL);
 	if (!oppo_chip)
 		return -ENOMEM;
@@ -3116,7 +3094,6 @@ static int mtk_charger_probe(struct platform_device *pdev)
 	info->pdev = pdev;
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging*/
 	oppo_chip->chgic_mtk.oppo_info = info;
 
 	info->chg1_dev = get_charger_by_name("primary_chg");
@@ -3134,7 +3111,6 @@ static int mtk_charger_probe(struct platform_device *pdev)
 	mutex_init(&info->charger_pd_lock);
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging*/
 	g_oppo_chip = oppo_chip;
 	oppo_power_supply_init(oppo_chip);
 	oppo_chg_parse_custom_dt(oppo_chip);
@@ -3146,7 +3122,6 @@ static int mtk_charger_probe(struct platform_device *pdev)
 	oppo_tbatt_power_off_task_init(oppo_chip);
 #endif
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/18, sjc Add for usbtemp */
 	if (oppo_usbtemp_check_is_support() == true)
 		oppo_usbtemp_thread_init();
 #endif
@@ -3168,7 +3143,6 @@ static int mtk_charger_probe(struct platform_device *pdev)
 	mtk_pdc_init(info);
 
 	#ifdef ODM_HQ_EDIT
-	/*zhangchao@ODM.HQ.BSP.CHG 2019/10/24 modify for charging*/
 	mutex_lock(&consumer_mutex);
 	list_for_each(pos, phead) {
 		ptr = container_of(pos, struct charger_consumer, list);
@@ -3211,7 +3185,6 @@ static void mtk_charger_shutdown(struct platform_device *dev)
 		pr_debug("%s: reset TA before shutdown\n", __func__);
 	}
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for shipmode stm6620 */
 	if (g_oppo_chip) {
 		enter_ship_mode_function(g_oppo_chip);
 	}

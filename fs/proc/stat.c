@@ -15,7 +15,6 @@
 #include <linux/tick.h>
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 #include <linux/delay.h>
 #include <soc/oppo/oppo_healthinfo.h>
@@ -205,7 +204,6 @@ static const struct file_operations proc_stat_operations = {
 };
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 struct cpu_load_stat {
         u64 t_user;

@@ -44,7 +44,6 @@ struct REGULATOR_CTRL regulator_control[REGULATOR_TYPE_MAX_NUM] = {
 static struct REGULATOR reg_instance;
 
 #ifdef VENDOR_EDIT
-/*Femg.Hu@Camera.Driver 20171120 add for flash&lens to use i2c individual*/
 static struct regulator *gVCamIO;
 static struct regulator *gVCamAF;
 #endif
@@ -77,7 +76,6 @@ static enum IMGSENSOR_RETURN regulator_init(
 		}
 	}
 	#ifdef VENDOR_EDIT
-	//*Femg.Hu@Camera.Driver 20171120 add for flash&lens to use i2c individual*/
 	gVCamIO = regulator_get(&pcommon->pplatform_device->dev, "vcamio");
 	gVCamAF = regulator_get(&pcommon->pplatform_device->dev, "vldo28");
 	#endif
@@ -216,7 +214,6 @@ static struct IMGSENSOR_HW_DEVICE device = {
 };
 
 #ifdef VENDOR_EDIT
-/*Femg.Hu@Camera.Driver 20171120 add for flash&lens to use i2c individual*/
 int kdVIOPowerOn(int On)
 {
 	if (On) {

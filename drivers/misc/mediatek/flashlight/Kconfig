@@ -48,7 +48,6 @@ config MTK_FLASHLIGHT_LM3643
 
 	  Say M here if you want to compile this driver as a module.
 #ifdef VENDOR_EDIT
-#Feng.Hu@Camera.Driver 20171121 add for mp3331 flash driver IC
 config MTK_FLASHLIGHT_MP3331
 	tristate "Mediatek flashlight with driver IC (MP3331)"
 	depends on MTK_FLASHLIGHT

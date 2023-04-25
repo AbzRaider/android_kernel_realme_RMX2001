@@ -14,7 +14,6 @@ obj-y	+= oppo_vooc.o
 obj-y	+= oppo_adapter.o
 obj-y	+= oppo_short.o
 #ifdef ODM_HQ_EDIT
-#zhangchao@ODM.HQ.Charger 2019/12/06 modified for USB_NTC
 obj-y	+= oppo_usb_ntc1.o
 obj-y	+= oppo_usb_ntc2.o
 #endif

@@ -45,7 +45,6 @@
 /**definfo log end**/
 
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/19, Add for sdcard  detect*/
 int sdcard_gpio_value = -1;
 int kboard_gpio_value = -1;
 #endif
@@ -66,7 +65,6 @@ struct devinfo_data {
 	int main_hw_id5;
 	int main_hw_id6;
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	int sub_board_id;
 	int sdcard_gpio;
 #endif
@@ -251,7 +249,6 @@ static int mainboard_verify(struct devinfo_data *const devinfo_data)
 	hw_opreator_version = get_hw_opreator_version(devinfo_data);
 	switch(get_PCB_Version()) {
 #ifndef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 		case HW_VERSION__10:
 			mainboard_info.version ="10";
 			snprintf(mainboard_info.manufacture, INFO_BUF_LEN, "%d-SA", hw_opreator_version);
@@ -339,7 +336,6 @@ static int mainboard_verify(struct devinfo_data *const devinfo_data)
 }
 
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/19, Add for kboard detect*/
 static ssize_t kboard_read_proc(struct file *file, char __user *buf,
                 size_t count, loff_t *off)
 {
@@ -374,13 +370,11 @@ static int subboard_init(struct devinfo_data *const devinfo_data) {
 	int ret = 0;
 	struct device_node *np = NULL;
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/19, Add for sdcard detect*/
 	struct proc_dir_entry *pentry;
 #endif
 	np = devinfo_data->devinfo->dev.of_node;
 
 #ifndef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	devinfo_data->sub_hw_id1 = of_get_named_gpio(np, "Hw,sub_hwid_1", 0);
 	if(devinfo_data->sub_hw_id1 < 0 ) {
 		DEVINFO_ERR("devinfo_data->sub_hw_id1 not specified\n");
@@ -437,7 +431,6 @@ static int subboard_init(struct devinfo_data *const devinfo_data) {
 		devinfo_data->sub_mainboard_info.manufacture);
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	ret = register_device_proc("sub_mainboard",
 		devinfo_data->sub_mainboard_info.version,
 		devinfo_data->sub_mainboard_info.manufacture);
@@ -457,7 +450,6 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 	int id1 = -1;
   	int id2 = -1;
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	int id = -1;
 #endif
 	static int operator = OPERATOR_UNKOWN ;
@@ -469,7 +461,6 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 	}
 
 #ifndef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	ret = pinctrl_select_state(devinfo_data->pinctrl,devinfo_data->hw_sub_id_active);
 
 	if(devinfo_data->sub_hw_id1 >= 0 ) {
@@ -500,7 +491,6 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 #endif
 	operator = get_Operator_Version();
 #ifndef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	DEVINFO_ERR("id1(%d) = %d id2(%d) = %d Operator = %d", devinfo_data->sub_hw_id1, id1,
 		devinfo_data->sub_hw_id2, id2, operator);
 #else
@@ -613,11 +603,11 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 			}
 			break;
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 		case OPPO_19661:
 			if ((id == 1)&& (operator == OPERATOR_19661_ASIA_SIMPLE || operator == OPERATOR_19661_RUSSIA|| operator == OPERATOR_19661_All_NET 
 					|| operator == OPERATOR_19661_All_BAND|| operator == OPERATOR_19661_All_WORLD || operator == OPERATOR_19661_VIETNAM_8X128G)
-					|| operator == OPERATOR_19661_ASIA_SIMPLE_SARTER || operator == OPERATOR_19661_All_BAND_SARTER || operator == OPERATOR_19661_VIETNAM_8X128G_SARTER) {
+					|| operator == OPERATOR_19661_ASIA_SIMPLE_SARTER || operator == OPERATOR_19661_All_BAND_SARTER || operator == OPERATOR_19661_VIETNAM_8X128G_SARTER
+					|| operator == OPERATOR_19661_All_BAND_NFC_SARTER) {
 				snprintf(devinfo_data->sub_mainboard_info.manufacture, INFO_BUF_LEN, "HQsub-match");
 			} else {
 				snprintf(devinfo_data->sub_mainboard_info.manufacture, INFO_BUF_LEN, "HQsub-unmatch");
@@ -629,7 +619,6 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 			break;
 	}
 #ifndef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.bootloader, 2019/10/17, Add for oppo project*/
 	ret = pinctrl_select_state(devinfo_data->pinctrl,devinfo_data->hw_sub_id_sleep);
 	if (ret < 0) {
 		DEVINFO_ERR("set sub id1 failed\n");
@@ -640,7 +629,6 @@ static int subboard_verify(struct devinfo_data *const devinfo_data)
 	return ret;
 }
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/19, Add for sdcard detect*/
 static ssize_t sdcard_read_proc(struct file *file, char __user *buf,
                 size_t count, loff_t *off)
 {
@@ -903,7 +891,6 @@ static int devinfo_probe(struct platform_device *pdev)
 	}
 
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/19, Add for sdcard detect*/
 	ret = sdcard_init(devinfo_data);
 	if (ret < 0) {
 		DEVINFO_ERR("register sdcard failed\n");

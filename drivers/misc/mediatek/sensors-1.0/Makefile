@@ -9,7 +9,6 @@ obj-$(CONFIG_CUSTOM_KERNEL_ACCELEROMETER) += accelerometer/
 obj-$(CONFIG_CUSTOM_KERNEL_GYROSCOPE) += gyroscope/
 endif
 #ifdef VENDOR_EDIT
-#/*Fei.Mo@PSW.BSP.Sensor, 2017/12/13, Add for oppo sensor type to send some info to scp*/
 obj-y += oppo_sensor_devinfo/
 #endif //VENDOR_EDIT
 obj-$(CONFIG_CUSTOM_KERNEL_MAGNETOMETER) += magnetometer/

@@ -933,7 +933,6 @@ config WQ_WATCHDOG
 
 endmenu # "Debug lockups and hangs"
 #ifdef VENDOR_EDIT
-#Wen.Luo@Bsp.Kernel.Stability, 2018/12/05, Add for aging test,
 #aging disable DEATHHEALER to Keep scene, Release load enable DEATHHEALER
 config DEATH_HEALER
 	bool "Enable DeathHealer"

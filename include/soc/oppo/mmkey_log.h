@@ -8,7 +8,6 @@
 ** Version: 1.0
 ** --------------------------- Revision History: --------------------------------
 **  <author><data>      <desc>
-** John.Xu@PhoneSw.AudioDriver.OppoDebug.CriticalLog, 2016/02/22, Add for critical_log
 ************************************************************************************/
 
 #ifndef MMKEYLOG_H_
@@ -34,7 +33,6 @@ enum mmkeylog_issue{
 };
 
 #ifdef VENDOR_EDIT
-//Yadong.Hu@Prd.Svc.Wifi, 2016/01/04, Add for wifi critical log
 enum conkeylog_issue{
     TYPE_SYMBOL_VERSION_DISAGREE = 803,
     TYPE_WDI_EXCEPTION,
@@ -42,7 +40,6 @@ enum conkeylog_issue{
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-//Canjie.Zheng@Swdp.Android.OppoDebug.CriticalLog,2016/06/03,add for critical
 //record subSystem crash
 enum androidlog_issue{
     TYPE_SUBSYSTEM_RESTART = 1001,

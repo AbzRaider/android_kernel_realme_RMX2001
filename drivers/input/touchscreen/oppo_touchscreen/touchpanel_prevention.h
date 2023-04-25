@@ -5,7 +5,6 @@
  * Description: head file for Touch edge handle
  * Version   : 1.0
  * Date        : 2019-03-29
- * Author    : Cong.Dai@Bsp.Group.Tp
  * TAG         : BSP.TP.Function
  ****************************************************************/
 

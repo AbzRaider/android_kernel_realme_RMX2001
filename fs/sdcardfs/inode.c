@@ -22,20 +22,14 @@
 #include <linux/fs_struct.h>
 #include <linux/ratelimit.h>
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 #include "dellog.h"
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 #define DCIM_DELETE_ERR  999
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 #include "xattr.h"
 #endif /* VENDOR_EDIT */
 #include <linux/sched/task.h>
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 #include "dellog.h"
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 #define DCIM_DELETE_ERR  999
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 #include "xattr.h"
 #endif /* VENDOR_EDIT */
 
@@ -130,7 +124,6 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 	fsstack_copy_inode_size(dir, d_inode(lower_parent_dentry));
 	fixup_lower_ownership(dentry, dentry->d_name.name);
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 	sdcardfs_setxattr(lower_dentry);
 #endif /* VENDOR_EDIT */
 
@@ -157,7 +150,6 @@ static int sdcardfs_unlink(struct inode *dir, struct dentry *dentry)
 	struct path lower_path;
 	const struct cred *saved_cred = NULL;
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 	struct sdcardfs_inode_info *info = SDCARDFS_I(d_inode(dentry));
 #endif /* VENDOR_EDIT */
 
@@ -166,7 +158,6 @@ static int sdcardfs_unlink(struct inode *dir, struct dentry *dentry)
 		goto out_eacces;
 	}
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	if (!is_oppo_skiped(info->data->oppo_flags)) {
 		if (!sdcardfs_unlink_uevent(dentry, info->data->oppo_flags)) {
 			err = DCIM_DELETE_ERR;
@@ -176,7 +167,6 @@ static int sdcardfs_unlink(struct inode *dir, struct dentry *dentry)
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	if (!is_oppo_skiped(info->data->oppo_flags)) {
 		if (!sdcardfs_unlink_uevent(dentry, info->data->oppo_flags)) {
 			err = DCIM_DELETE_ERR;
@@ -210,7 +200,6 @@ static int sdcardfs_unlink(struct inode *dir, struct dentry *dentry)
 	if (err)
 		goto out;
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdcardFs, 2018/08/30, Add for record all unlink based on uid
 	sdcardfs_allunlink_uevent(dentry);
 #endif /* VENDOR_EDIT */
 	fsstack_copy_attr_times(dir, lower_dir_inode);
@@ -220,7 +209,6 @@ static int sdcardfs_unlink(struct inode *dir, struct dentry *dentry)
 	d_inode(dentry)->i_ctime = dir->i_ctime;
 	d_drop(dentry); /* this is needed, else LTP fails (VFS won't do it) */
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 	if (info->data->oppo_flags && !err) {
 		DEL_LOG("[%u] del %s\n",
 			(unsigned int) current_uid().val,
@@ -234,7 +222,6 @@ out:
 	revert_fsids(saved_cred);
 out_eacces:
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 	if (info->data->oppo_flags && err == DCIM_DELETE_ERR) {
 		DEL_LOG("[%u] want to del %s\n",
 			(unsigned int) current_uid().val,
@@ -330,7 +317,6 @@ static int sdcardfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode
 	}
 
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 	sdcardfs_setxattr(lower_dentry);
 #endif /* VENDOR_EDIT */
 
@@ -416,7 +402,6 @@ static int sdcardfs_rmdir(struct inode *dir, struct dentry *dentry)
 	struct path lower_path;
 	const struct cred *saved_cred = NULL;
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 	struct sdcardfs_inode_info *info = SDCARDFS_I(d_inode(dentry));
 #endif /* VENDOR_EDIT */
 
@@ -425,7 +410,6 @@ static int sdcardfs_rmdir(struct inode *dir, struct dentry *dentry)
 		goto out_eacces;
 	}
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	if (!is_oppo_skiped(info->data->oppo_flags)) {
 		if (!sdcardfs_unlink_uevent(dentry, info->data->oppo_flags)) {
 			err = DCIM_DELETE_ERR;
@@ -529,7 +513,6 @@ static int sdcardfs_rename(struct inode *old_dir, struct dentry *old_dentry,
 		goto out;
 
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	sdcardfs_rename_record(old_dentry, new_dentry);
 #endif /* VENDOR_EDIT */
 
@@ -885,7 +868,6 @@ const struct inode_operations sdcardfs_symlink_iops = {
 	.permission2	= sdcardfs_permission,
 	.setattr2	= sdcardfs_setattr,
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 //	.getxattr	= sdcardfs_getxattr,
 	.listxattr	= sdcardfs_listxattr,
 #endif /*VENDOR_EDIT */
@@ -911,7 +893,6 @@ const struct inode_operations sdcardfs_dir_iops = {
 	.setattr2	= sdcardfs_setattr,
 	.getattr	= sdcardfs_getattr,
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 //	.getxattr	= sdcardfs_getxattr,
 	.listxattr	= sdcardfs_listxattr,
 #endif /*VENDOR_EDIT */
@@ -924,7 +905,6 @@ const struct inode_operations sdcardfs_main_iops = {
 	.setattr2	= sdcardfs_setattr,
 	.getattr	= sdcardfs_getattr,
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@AD.Android.SdcardFs, 2018/08/15, Add for using lower xattr to record uid
 //	.getxattr	= sdcardfs_getxattr,
 	.listxattr	= sdcardfs_listxattr,
 #endif /*VENDOR_EDIT */

@@ -45,7 +45,6 @@ enum tfa98xx_dsp_init_state {
 	TFA98XX_DSP_INIT_DONE,		/* DSP running */
 	TFA98XX_DSP_INIT_INVALIDATED,	/* DSP was running, requires re-init */
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/12/07, modify for synchronizing audioout and tfa_start */
 	TFA98XX_DSP_INIT_NOT_DONE,
 #endif
 
@@ -80,9 +79,6 @@ struct tfa98xx {
 	struct workqueue_struct *tfa98xx_wq;
 	struct delayed_work init_work;
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-	 * add recover solution for SWS/PLLS error of NXP DSP
-	 * which is caused by I2S issues for NXP's suggesttion */
 	struct delayed_work monitor_work;
 #else /* VENDOR_EDIT */
 	struct delayed_work monitor_work;

@@ -791,7 +791,6 @@ static struct ctl_table ipv4_table[] = {
 		.extra1		= &one
 	},
 	 #ifdef VENDOR_EDIT
-	//Mengqing.Zhao@PSW.CN.WiFi.Network.internet.1394484, 2019/04/02,
 	//add for: When find TCP SYN-ACK Timestamp value error, just do not use Timestamp
 	{
 		.procname	= "tcp_timestamps_control",
@@ -803,7 +802,6 @@ static struct ctl_table ipv4_table[] = {
 	#endif /* VENDOR_EDIT */
 
 	 #ifdef VENDOR_EDIT
-	//Ming.Liu@PSW.CN.WiFi.Network.quality.1065762, 2016/10/09,
 	//add for: [monitor tcp info]
 	{
 		.procname	= "tcp_info_print",
@@ -1216,7 +1214,6 @@ static struct ctl_table ipv4_net_table[] = {
 		.proc_handler	= proc_dointvec
 	},
 	#ifdef VENDOR_EDIT
-	//Hao.Peng@PSW.CN.WiFi.Network.login.1854960, 2019/03/30,
 	//add for [BUGID],disable tcp random timestamp,some networks limit tcp syn before login
 	{
 		.procname	= "tcp_random_timestamp",

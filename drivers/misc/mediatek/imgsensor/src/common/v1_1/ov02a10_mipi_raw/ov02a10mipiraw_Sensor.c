@@ -32,7 +32,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/*Caohua.Lin@Camera.Driver  add for 18011  board 20180723*/
 //#include <soc/oppo/oppo_project.h>  //compiler not found 20190812
 #define DEVICE_VERSION_OV02A10    "ov02a10"
 #define IMGSENSOR_MODULE_ID_SUNNY       0x01
@@ -55,7 +54,6 @@ static  imgsensor_info_struct imgsensor_info = {
 	/*record sensor id defined in Kd_imgsensor.h*/
 	.sensor_id = OV02A10_SENSOR_ID,
 	#ifdef VENDOR_EDIT
-	/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 	.module_id = 0x01,	//0x01 Sunny,0x05 QTEK
 	#endif
 
@@ -828,7 +826,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			*sensor_id = ((read_cmos_sensor(0x0200) << 8) | read_cmos_sensor(0x0300));
 			if (*sensor_id == imgsensor_info.sensor_id) {
 				#ifdef VENDOR_EDIT
-				/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 				#if 0  //compiler not found 20190812
 				if (is_project(OPPO_18011) || is_project(OPPO_18311)) {
 					imgsensor_info.module_id = IMGSENSOR_MODULE_ID_SUNNY;

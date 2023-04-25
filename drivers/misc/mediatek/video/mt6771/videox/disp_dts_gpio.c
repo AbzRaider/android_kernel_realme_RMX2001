@@ -18,8 +18,6 @@
 static struct pinctrl *this_pctrl; /* static pinctrl instance */
 
 #ifndef VENDOR_EDIT
-/* LiPing-m@PSW.MM.Display.LCD.Machine, 2017/11/03, Add for porting 17331 lcd driver */
-/* LiPing-m@PSW.MM.Display.LCD.Machine, 2017/12/27, Add for porting 17197 lcd driver */
 /* DTS state mapping name */
 static const char *this_state_name[DTS_GPIO_STATE_MAX] = {
 	"mode_te_gpio",

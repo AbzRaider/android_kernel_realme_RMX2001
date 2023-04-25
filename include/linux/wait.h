@@ -233,8 +233,6 @@ void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr);
 
 extern void init_wait_entry(struct wait_queue_entry *wq_entry, int flags);
 
-//#ifdef VENDOR_EDIT //fangpan@Swdp.shanghai,2015/11/12
-/* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, set the task to be killed */
 #define PF_OPPO_KILLING        0x00000001
 
 static inline int hung_long_signal_pending(struct task_struct *p)
@@ -273,7 +271,6 @@ static inline int hung_long_and_fatal_signal_pending(struct task_struct *p)
  * on purpose; we use long where we can return timeout values and int
  * otherwise.
  */
-//#ifdef VENDOR_EDIT //fangpan@Swdp.shanghai,2015/11/12
 #define ___wait_event(wq_head, condition, state, exclusive, ret, cmd)		\
 ({										\
 	__label__ __out;							\

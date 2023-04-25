@@ -15,7 +15,6 @@
 #define _FLASHLIGHT_DT_H
 
 #ifdef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171121 add for mp3331 flash driver IC*/
 #define MP3331_DTNAME "mediatek,flashlights_mp3331"
 #define AW3642_DTNAME     "mediatek,flashlights_aw3642"
 #define AW3642_DTNAME_I2C "mediatek,strobe_main_2"

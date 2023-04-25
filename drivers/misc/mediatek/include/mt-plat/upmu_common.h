@@ -191,7 +191,6 @@ extern unsigned short pmic_set_register_value_nolock(
 						PMU_FLAGS_LIST_ENUM flagname,
 						unsigned int val);
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/07/17, Modify for vibrator some act abnormal(case:ALPS03078335) */
 extern unsigned short pmic_set_register_value_nolock(
 						PMU_FLAGS_LIST_ENUM flagname, unsigned int val);
 #endif /*VENDOR_EDIT*/

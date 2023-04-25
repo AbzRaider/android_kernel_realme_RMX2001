@@ -928,7 +928,6 @@ struct rq {
 #endif
 	unsigned long rotate_flags;
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     struct list_head ux_thread_list;
     int active_ux_balance;
     struct cpu_stop_work ux_balance_work;

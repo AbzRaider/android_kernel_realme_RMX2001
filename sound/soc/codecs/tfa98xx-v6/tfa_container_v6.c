@@ -864,7 +864,6 @@ int tfa_cont_get_idx(struct tfa_device *tfa)
 	for (i=0; i<tfa->cnt->ndev; i++) {
 		dev = tfaContDevice_v6(tfa->cnt, i);
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/06/14, Modify for coverity*/
 		if ((dev != NULL) && (dev->dev == tfa->slave_address))
 		#else
 		if (dev->dev == tfa->slave_address)

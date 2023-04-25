@@ -74,7 +74,6 @@
 
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Add for charger */
 #include <soc/oppo/device_info.h>
 #include <soc/oppo/oppo_project.h>
 #include <linux/gpio.h>
@@ -86,22 +85,18 @@
 
 #endif  /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/15, Add for charger full status */
 extern bool oppo_chg_check_chip_is_null(void);
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/15, Add for charger full status */
 extern bool oppo_chg_check_chip_is_null(void);
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-//zhouhengguo@psw.bsp.kernel.stablity, 2019/11/25, add back door for stablity
 extern int door_open;
 #endif
 
 #ifdef VENDOR_EDIT
 /************ kpoc_charger *******************/
-//huangtongfeng@BSP.CHG.Basic, 2017/12/14, add for kpoc charging param.
 extern int oppo_chg_get_ui_soc(void);
 extern int oppo_chg_get_notify_flag(void);
 extern int oppo_chg_show_vooc_logo_ornot(void);
@@ -121,7 +116,6 @@ extern struct oppo_chg_operations  bq25601d_chg_ops;
 extern struct oppo_chg_operations  smb1351_chg_ops;
 #endif
 #ifdef CONFIG_OPPO_CHARGER_MT6370_TYPEC
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Add for charging */
 extern struct oppo_chg_operations mt6370_chg_ops;
 extern int oppo_get_typec_cc_orientation(void);
 #endif
@@ -145,7 +139,6 @@ void oppo_set_otg_switch_status(bool value);
 void oppo_wake_up_usbtemp_thread(void);
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/25, sjc Add for usb status */
 #define USB_TEMP_HIGH		0x01//bit0
 #define USB_WATER_DETECT	0x02//bit1
 #define USB_RESERVE2		0x04//bit2
@@ -181,7 +174,6 @@ int oppo_battery_meter_get_battery_voltage(void)
 
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/01/11, mtk patch for distinguish fast charging and normal charging*/
 bool is_vooc_project(void)
 {
 	if (is_project(OPPO_17197) || is_project(OPPO_18531) || is_project(OPPO_18561) || (is_project(OPPO_18311) && get_Operator_Version() != OPERATOR_18328_ASIA_SIMPLE_NORMALCHG)
@@ -194,11 +186,9 @@ bool is_vooc_project(void)
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for charging */
 bool meter_fg_30_get_battery_authenticate(void);
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for charging */
 int charger_ic_flag = 1;
 int oppo_which_charger_ic(void)
 {
@@ -208,7 +198,6 @@ int oppo_which_charger_ic(void)
 
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging*/
 static int oppo_chg_parse_custom_dt(struct oppo_chg_chip *chip)
 {
 	int rc = 0;
@@ -222,7 +211,6 @@ static int oppo_chg_parse_custom_dt(struct oppo_chg_chip *chip)
 	}
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging*/
 	if (chip) {
 		chip->normalchg_gpio.chargerid_switch_gpio =
 				of_get_named_gpio(node, "qcom,chargerid_switch-gpio", 0);
@@ -245,7 +233,6 @@ static int oppo_chg_parse_custom_dt(struct oppo_chg_chip *chip)
 #endif /*VENDOR_EDIT*/
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/03/02, sjc Add for using gpio as shipmode stm6620 */
 	if (chip) {
 		chip->normalchg_gpio.ship_gpio =
 				of_get_named_gpio(node, "qcom,ship-gpio", 0);
@@ -269,7 +256,6 @@ static int oppo_chg_parse_custom_dt(struct oppo_chg_chip *chip)
 #endif /*VENDOR_EDIT*/
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/03/02, sjc Add for HW shortc */
 	if (chip) {
 		chip->normalchg_gpio.shortc_gpio =
 				of_get_named_gpio(node, "qcom,shortc-gpio", 0);
@@ -307,7 +293,7 @@ extern bool upmu_is_chr_det(void);
 extern enum charger_type g_chr_type;
 //extern int otg_is_exist;
 
-#ifdef VENDOR_EDIT//Qiao.Hu@BSP.BaseDrv.CHG.Basic,add 2017/12/09 for shipmode  stm6620
+#ifdef VENDOR_EDIT
 
 
 static bool oppo_ship_check_is_gpio(struct oppo_chg_chip *chip)
@@ -381,7 +367,6 @@ void enter_ship_mode_function(struct oppo_chg_chip *chip)
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-//tongfeng.Huang@BSP.BaseDrv.CHG.Basic,add 2018/02/09 for short c hw check;
 bool oppo_shortc_check_is_gpio(struct oppo_chg_chip *chip)
 {
 	if (gpio_is_valid(chip->normalchg_gpio.shortc_gpio))
@@ -513,7 +498,6 @@ int mt_power_supply_type_check(void)
 	}
 
 #ifdef VENDOR_EDIT
-//zhouhengguo@psw.bsp.kernel.stablity, 2019/11/25, add back door for stablity
 	if (unlikely(door_open == 1)) {
 		pr_err("%s: enter dump\n", __func__);
 		BUG_ON(1);
@@ -691,7 +675,6 @@ bool oppo_pmic_check_chip_is_null(void)
 
 //====================================================================//
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/25, sjc Add for usbtemp */
 static bool oppo_usbtemp_check_is_gpio(struct oppo_chg_chip *chip)
 {
 	if (!chip) {
@@ -1383,7 +1366,6 @@ default_temp_normal_vfloat_mv=%d, default_normal_vfloat_over_sw_limit=%d\n",
 
 //====================================================================//
 #ifdef CONFIG_OPPO_CHARGER_MT6370_TYPEC
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2019/07/05, sjc Add for mmi status */
 int oppo_chg_get_mmi_status(void)
 {
 	struct oppo_chg_chip *chip = g_oppo_chip;
@@ -1403,7 +1385,6 @@ EXPORT_SYMBOL(oppo_chg_get_mmi_status);
 static int oppo_charger_probe(struct platform_device *pdev)
 {
 #ifdef VENDOR_EDIT
-       /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/26, sjc Add for charging*/
         int ret = 0;
         struct oppo_chg_chip *oppo_chip = NULL;
         //struct mt_charger *mt_chg = NULL;

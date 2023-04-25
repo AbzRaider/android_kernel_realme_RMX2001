@@ -32,13 +32,11 @@
 #include <linux/mfd/mt6358/core.h>
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for charging */
 #include <mt-plat/charger_type.h>
 extern enum charger_type g_chr_type;
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 unsigned int g_eint_pmic_num = 182;
 
 #define PMIC_INT_REG_WIDTH  16
@@ -632,7 +630,6 @@ irqreturn_t legacy_pmic_int_handler(int irq, void *data)
 }
 
 #ifndef VENDOR_EDIT
-//Fuchun.Liao@BSP.CHG.Basic 2018/01/01 modify for oppo chaarger
 /* Chrdet Int Handler */
 #if (CONFIG_MTK_GAUGE_VERSION != 30)
 void chrdet_int_handler(void)
@@ -672,17 +669,14 @@ extern void oppo_vooc_reset_fastchg_after_usbout(void);
 extern void oppo_chg_clear_chargerid_info(void);
 extern void oppo_chg_set_chargerid_switch_val(int);
 #ifdef VENDOR_EDIT
-//Bingyuan.Liu@BSP.TP.Function, 2019/10/28, Add for informing tp driver of usb state
 extern void switch_usb_state(int usb_state);
 #endif /*VENDOR_EDIT*/
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/11, sjc Add for charging */
 extern void oppo_chg_set_charger_type_unknown(void);
 #endif
 
 #ifdef VENDOR_EDIT
-//PengNan@BSP.CHG.Basic, 2018/01/20, add for bq24190 chargertype detect.
 //extern int get_oppo_short_check_fast_to_normal(void);
 #endif /*VENDOR_EDIT*/
 void chrdet_int_handler(void)
@@ -693,7 +687,6 @@ void chrdet_int_handler(void)
 		return;
 	}
 #ifdef VENDOR_EDIT
-    //Bingyuan.Liu@BSP.TP.Function, 2019/10/28, Add for informing tp driver of usb state
 	switch_usb_state(upmu_get_rgs_chrdet());
 #endif /*VENDOR_EDIT*/
 	if(oppo_vooc_get_fastchg_started() == true && oppo_vooc_get_adapter_update_status() != 1){
@@ -717,7 +710,6 @@ void chrdet_int_handler(void)
 				oppo_chg_clear_chargerid_info();
 		}
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/07/11, sjc Add for charging */
 		oppo_chg_set_charger_type_unknown();
 #else
 		g_chr_type = CHARGER_UNKNOWN;
@@ -729,7 +721,6 @@ void chrdet_int_handler(void)
 }
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 int pmic_int_check(char * wakeup_name)
 {
 	unsigned int spNo, sp_conNo, j;
@@ -1016,7 +1007,6 @@ void PMIC_EINT_SETTING(struct platform_device *pdev)
 		dev_notice(&pdev->dev, "request HOMEKEY_R irq fail\n");
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/30, modify for charger */
 	pmic_register_interrupt_callback(INT_CHRDET_EDGE, chrdet_int_handler);
 	pmic_enable_interrupt(INT_CHRDET_EDGE, 1, "PMIC");
 #endif

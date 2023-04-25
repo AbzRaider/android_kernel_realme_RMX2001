@@ -549,7 +549,6 @@ static void lcm_setbacklight_cmdq(void *handle, unsigned int level)
 }
 
 /*
- * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/06/23,
  * add for Lcd cabc config
  */
 int tianma_td4310_lcm_set_cabc_mode(void *handle, int mode)

@@ -280,12 +280,10 @@ DEVICE_ATTR(sib_enable, 0664, musb_sib_enable_show, musb_sib_enable_store);
 #endif
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@@Prd6.BaseDrv.USB.Basic, 2017/07/28, Add for otg */
 struct ssusb_mtk *mtu3_ssusb;
 extern bool is_switch_done(void);
 extern void mtk_xhci_eint_iddig_gpio_mode(void);
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/10, sjc Add for compile error */
 #ifdef CONFIG_MTK_USB_IDDIG
 extern int iddig_gpio_mode(int mode);
 #else
@@ -351,7 +349,6 @@ static int set_start_id_polling(void)
 }
 
  #if defined(VENDOR_EDIT) && !defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/15, sjc Modify for OTG switch, typec not define it */
 void oppo_set_otg_switch_status(bool value)
 {
 	start_id_polling = value;
@@ -418,7 +415,6 @@ struct attribute *mtu3_attributes[] = {
 	&dev_attr_cmode.attr,
 	&dev_attr_saving.attr,
 	#ifdef VENDOR_EDIT
-	/* Qiao.Hu@@Prd6.BaseDrv.USB.Basic, 2017/07/25, Add for charger */
 	&dev_attr_idpolling.attr,
 	&dev_attr_idstate.attr,
 	#endif /* VENDOR_EDIT */
@@ -759,7 +755,6 @@ static int mtu3_probe(struct platform_device *pdev)
 	}
 
 	#ifdef VENDOR_EDIT
-	/* Qiao.Hu@@Prd6.BaseDrv.USB.Basic, 2017/07/28, Add for otg */
 	mtu3_ssusb = ssusb;
 	mtu3_ssusb->user_request_polling = false;
 	spin_lock_init(&mtu3_ssusb->change_irq_lock);
@@ -779,7 +774,6 @@ static int mtu3_probe(struct platform_device *pdev)
 
 #ifdef CONFIG_MTK_BOOT
 #ifdef ODM_HQ_EDIT
-	/*wangtao@BSP.recovery.gsi, 2019/12/6,modify gsi not dowload.*/
 	if ((get_boot_mode() == META_BOOT) || (get_boot_mode() == RECOVERY_BOOT)) {
 #else
 	if (get_boot_mode() == META_BOOT) {

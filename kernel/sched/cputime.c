@@ -486,7 +486,6 @@ void thread_group_cputime_adjusted(struct task_struct *p, u64 *ut, u64 *st)
 	*st = cputime.stime;
 }
 #ifdef VENDOR_EDIT
-//fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(thread_group_cputime_adjusted);
 #endif
 #else /* !CONFIG_VIRT_CPU_ACCOUNTING_NATIVE */
@@ -703,7 +702,6 @@ void thread_group_cputime_adjusted(struct task_struct *p, u64 *ut, u64 *st)
 	cputime_adjust(&cputime, &p->signal->prev_cputime, ut, st);
 }
 #ifdef VENDOR_EDIT
-//fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(thread_group_cputime_adjusted);
 #endif
 #endif /* !CONFIG_VIRT_CPU_ACCOUNTING_NATIVE */

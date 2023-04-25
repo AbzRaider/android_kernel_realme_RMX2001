@@ -22,8 +22,6 @@
 #include <linux/platform_device.h>	/* struct platform_device */
 
 #ifndef VENDOR_EDIT
-/* LiPing-m@PSW.MM.Display.LCD.Machine, 2017/11/03, Add for porting 17331 lcd driver */
-/* LiPing-m@PSW.MM.Display.LCD.Machine, 2017/12/27, Add for porting 17197 lcd driver */
 
 /* DTS state */
 enum DTS_GPIO_STATE {

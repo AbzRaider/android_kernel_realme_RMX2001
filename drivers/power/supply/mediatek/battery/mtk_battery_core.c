@@ -237,7 +237,6 @@ int gauge_set_nag_en(int nafg_zcv_en)
 #ifdef VENDOR_EDIT
 
 
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/15, Add for charger full status */
 	if (!is_vooc_project()) {
 		if (gm.disable_nafg_int == false) {
 			gauge_dev_enable_nag_interrupt(gm.gdev, nafg_zcv_en);
@@ -458,7 +457,6 @@ void fg_custom_init_from_header(void)
 {
 	int i, j;
 #ifndef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Modify for charger */
 	fgauge_get_profile_id();
 #endif /* VENDOR_EDIT */
 
@@ -937,7 +935,6 @@ void fg_custom_init_from_dts(struct platform_device *dev)
 	char node_name[128];
 
 #ifndef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Modify for charger */
 	fgauge_get_profile_id();
 #endif /* VENDOR_EDIT */
 	bat_id = gm.battery_id;
@@ -1409,7 +1406,6 @@ void fg_custom_init_from_dts(struct platform_device *dev)
 
 #if 0        
 #ifdef VENDOR_EDIT
-        /* Qiao.Hu@EXP.BSP.BaseDrv.USB.Basic, 2017/08/03, Add for charger  electricity */
         if (!of_property_read_u32(np, "g_FG_PSEUDO1_T0", &val)) {
             fg_cust_data.pseudo1_t0 = (int)val * UNIT_TRANS_100;
             bm_debug("Get g_FG_PSEUDO1_T0: %d\n",
@@ -1675,7 +1671,6 @@ void sw_check_bat_plugout(void)
 
 			battery_notifier(EVENT_BATTERY_PLUG_OUT);
 #ifndef VENDOR_EDIT
-/* tongfeng.huang@EXP.BSP.CHG.basic, 2018/01/24, Remove for charge driver */
             battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_UNKNOWN;
             wakeup_fg_algo(FG_INTR_BAT_PLUGOUT);
             battery_update(&battery_main);
@@ -2102,7 +2097,6 @@ void fg_bat_temp_int_internal(void)
 	int tmp = 0;
 	int fg_bat_new_ht, fg_bat_new_lt;
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/15, Add for charger full status */
     if (is_vooc_project()) {
         return;
     }
@@ -2110,7 +2104,6 @@ void fg_bat_temp_int_internal(void)
 
 	if (is_fg_disabled()) {
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */ 
 		battery_main.BAT_batt_temp = 25;
 		battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -2120,12 +2113,10 @@ void fg_bat_temp_int_internal(void)
 
 #if defined(CONFIG_MTK_DISABLE_GAUGE) || defined(FIXED_TBAT_25)
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 	battery_main.BAT_batt_temp = 25;
 	battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/10/16 modified for bring up charging */
 	tmp = 1;
 	fg_bat_new_ht = 1;
 	fg_bat_new_lt = 1;
@@ -2166,7 +2157,6 @@ void fg_bat_temp_int_internal(void)
 		gm.fg_bat_tmp_c_lt,
 		fg_bat_new_lt, fg_bat_new_ht);
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 	battery_main.BAT_batt_temp = tmp;
 	battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -2237,7 +2227,6 @@ void fg_bat_plugout_int_handler(void)
 	if (is_bat_exist == 0) {
 		battery_notifier(EVENT_BATTERY_PLUG_OUT);
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 		battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_UNKNOWN;
 		wakeup_fg_algo(FG_INTR_BAT_PLUGOUT);
 		battery_update(&battery_main);
@@ -2518,7 +2507,6 @@ int battery_update_routine(void *x)
 {
 
 #ifndef VENDOR_EDIT
-    /* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 	battery_update_psd(&battery_main);
 #endif /* VENDOR_EDIT */
 
@@ -2966,7 +2954,6 @@ void bmd_ctrl_cmd_from_user(void *nl_data, struct fgd_nl_msg_t *ret_msg)
 			/* CHR_ERR = -1 */
 			/* CHR_NORMAL = 0 */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Modify for charge driver */
 			if (battery_main.BAT_STATUS ==
 				POWER_SUPPLY_STATUS_NOT_CHARGING)
 				charger_status = -1;
@@ -3228,7 +3215,6 @@ void bmd_ctrl_cmd_from_user(void *nl_data, struct fgd_nl_msg_t *ret_msg)
 	{
 		int voltage = 0;
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 		battery_main.BAT_batt_temp = force_get_tbat(true);
 #endif /* VENDOR_EDIT */
 
@@ -3973,7 +3959,6 @@ void bmd_ctrl_cmd_from_user(void *nl_data, struct fgd_nl_msg_t *ret_msg)
 				gm.disableGM30, old_uisoc, diff.tv_sec);
 			gm.uisoc_oldtime = now_time;
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 			battery_main.BAT_CAPACITY = gm.ui_soc;
 			battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -3983,7 +3968,6 @@ void bmd_ctrl_cmd_from_user(void *nl_data, struct fgd_nl_msg_t *ret_msg)
 				daemon_ui_soc, gm.ui_soc, gm.disableGM30);
 			/* ac_update(&ac_main); */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 			battery_main.BAT_CAPACITY = gm.ui_soc;
 			battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -4527,7 +4511,6 @@ void gm3_log_dump(bool force)
 	/* CHR_ERR = -1 */
 	/* CHR_NORMAL = 0 */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 	if (battery_main.BAT_STATUS ==
 		POWER_SUPPLY_STATUS_NOT_CHARGING)
 		gm.log.chr_status = -1;

@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2018/05/17
-** Author: LiPing-M@PSW.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** liping 2018/05/17 1.0 build this module
@@ -384,7 +383,6 @@ static void poweron_before_ulps(void)
 	MDELAY(6);
 	tp_control_reset_gpio(true);
 	MDELAY(5);
-	/* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2018/6/7, Add for no-flash TP */
 	spi_csn_en_setting(1);
 	lcm_power_write_byte(0x00, 0x0F);
 	lcm_power_write_byte(0x03, 0x0F);
@@ -433,7 +431,6 @@ static void lcm_resume_power(void)
 	LCD_DEBUG("[tianma] lcm_resume_power \n");
 	lcm_init_power();
 	MDELAY(10);
-        /* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2018/6/7, Add for no-flash TP */
         lcd_queue_load_tp_fw();
 }
 
@@ -441,7 +438,6 @@ static void poweroff_after_ulps(void)
 {
 	LCD_DEBUG("[lcd] poweroff_after_ulps tianma nt36672 1.8\n");
 	lcd_1p8_en_setting(0);
-	/* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2018/6/7, Add for no-flash TP */
 	spi_csn_en_setting(0);
 	MDELAY(10);
 }
@@ -456,7 +452,6 @@ static void lcm_init(void)
 	MDELAY(5);
 
 	/*
-	 * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	 * add for backlight IC KTD3136
 	 */
 	if (is_lm3697 == 2) {   /*KTD3136*/

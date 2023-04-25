@@ -27,10 +27,8 @@
 #endif
 
 #ifndef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for otg */
 //#include <linux/gpio.h>
 //extern int iddig_gpio_mode(int mode);
 extern int bq24190_otg_enable(void);
@@ -120,7 +118,6 @@ static enum alarmtimer_restart
 int usb_otg_set_vbus(int is_on)
 {
 #if defined(ODM_HQ_EDIT)
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 	if (!IS_ERR(drvvbus)) {
 		if (is_on)
 			pinctrl_select_state(drvvbus, drvvbus_high);
@@ -135,7 +132,6 @@ int usb_otg_set_vbus(int is_on)
 		return -1;
 #else
 #ifndef VENDOR_EDIT
-/* JianWei.Ye@BSP.BaseDrv.CHG.Basic, 2019/09/07, Add for otg */
 
 	if (!IS_ERR(drvvbus)) {
 		if (is_on)
@@ -154,17 +150,14 @@ int usb_otg_set_vbus(int is_on)
 #if CONFIG_MTK_GAUGE_VERSION == 30
 	if (is_on) {
 #if defined(ODM_HQ_EDIT)
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 
         charger_dev_enable_otg(g_info->primary_charger, true);
-		/* zhangchao@ODM.HQ.Charger 2019/11/27,change otg OC */
 		charger_dev_set_boost_current_limit(g_info->primary_charger,
 			1100000);
 		charger_dev_kick_wdt(g_info->primary_charger);
 		enable_boost_polling(true);
 #else
 #ifndef VENDOR_EDIT
-/* JianWei.Ye@BSP.BaseDrv.CHG.Basic, 2019/09/07, Add for otg */
 		charger_dev_enable_otg(g_info->primary_charger, true);
 		charger_dev_set_boost_current_limit(g_info->primary_charger,
 			1500000);
@@ -183,13 +176,11 @@ int usb_otg_set_vbus(int is_on)
 #endif
 	} else {
 #if defined(ODM_HQ_EDIT)
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 
         charger_dev_enable_otg(g_info->primary_charger, false);
 		enable_boost_polling(false);
 #else
 #ifndef VENDOR_EDIT
-/* JianWei.Ye@BSP.BaseDrv.CHG.Basic, 2019/09/07, Add for otg */
 		charger_dev_enable_otg(g_info->primary_charger, false);
 		enable_boost_polling(false);
 #else

@@ -30,13 +30,11 @@
 #include <extcon_usb.h>
 
 #ifdef VENDOR_EDIT
-//Fuchun.Liao@BSP.CHG.Basic 2017/11/22 add for otg
 #include <linux/of_gpio.h>
 #endif /* VENDOR_EDIT */
 #define RET_SUCCESS 0
 #define RET_FAIL 1
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for otg */
 struct platform_device *musb_pltfm_dev = NULL;
 #define OTGID_GPIO_MODE 1
 #define OTGID_IRQ_MODE  0
@@ -89,7 +87,6 @@ static void mtk_set_iddig_in_detect(struct usb_iddig_info *info)
 
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/25, modify for otg */
 int otg_is_exist=0;
 #endif
 static void iddig_mode_switch(struct work_struct *work)
@@ -99,7 +96,6 @@ static void iddig_mode_switch(struct work_struct *work)
 						    id_delaywork);
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/04/16, modify for otg */
 //	if (get_otg_switch() == false){
 //		return ;
 //	}
@@ -110,12 +106,10 @@ static void iddig_mode_switch(struct work_struct *work)
 		mt_vbus_on();
 		mtk_set_iddig_out_detect(info);
 		#ifdef VENDOR_EDIT
-		/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/25, modify for otg */
 		otg_is_exist = 1;
 		#endif
 	} else {
 		#ifdef VENDOR_EDIT
-		/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/25, modify for otg */
 		otg_is_exist = 0;
 		#endif
 		mtk_idpin_cur_stat = IDPIN_OUT;
@@ -128,7 +122,6 @@ static void iddig_mode_switch(struct work_struct *work)
 static irqreturn_t iddig_eint_isr(int irqnum, void *data)
 {
 #ifdef VENDOR_EDIT
-//Jianwei.Ye@BSP.CHG.Basic 2019/09/07 modify for otg
 	struct usb_iddig_info *info = platform_get_drvdata(musb_pltfm_dev);
 #else
 	struct usb_iddig_info *info = data;
@@ -141,7 +134,6 @@ static irqreturn_t iddig_eint_isr(int irqnum, void *data)
 }
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for otg */
 int iddig_gpio_mode(int mode)
 {
 	int retval;
@@ -234,7 +226,6 @@ static int otg_iddig_probe(struct platform_device *pdev)
 	int ret = 0;
 	struct device *dev = &pdev->dev;
 #ifndef VENDOR_EDIT
-//Fuchun.Liao@BSP.CHG.Basic 2017/11/22 modify for otg
 	struct device_node *node = dev->of_node;
 #else
 	struct device_node *node = NULL;
@@ -250,7 +241,6 @@ static int otg_iddig_probe(struct platform_device *pdev)
 	info->dev = dev;
 
 #ifndef VENDOR_EDIT
-//Fuchun.Liao@BSP.CHG.Basic 2017/11/22 modify for otg
 	info->id_irq = irq_of_parse_and_map(node, 0);
 	if (info->id_irq < 0)
 		return -ENODEV;
@@ -298,7 +288,6 @@ static int otg_iddig_probe(struct platform_device *pdev)
 		pinctrl_select_state(info->pinctrl, info->id_init);
 
 #ifndef VENDOR_EDIT
-//Jianwei.Ye@BSP.CHG.Basic 2019/09/07 modify for otg
 	info->id_enable = pinctrl_lookup_state(pinctrl, "id_enable");
 	info->id_disable = pinctrl_lookup_state(pinctrl, "id_disable");
 	if (IS_ERR(info->id_enable))
@@ -316,7 +305,6 @@ static int otg_iddig_probe(struct platform_device *pdev)
 
 	INIT_DELAYED_WORK(&info->id_delaywork, iddig_mode_switch);
 #ifndef VENDOR_EDIT
-//Jianwei.Ye@BSP.CHG.Basic 2019/09/07 modify for otg
 	ret = devm_request_irq(dev, info->id_irq, iddig_eint_isr,
 					0, pdev->name, info);
 	if (ret < 0) {
@@ -328,7 +316,6 @@ static int otg_iddig_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, info);
 
 	#ifdef VENDOR_EDIT
-	/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/19, Add for otg */
 	otg_isr_enable = 0;
 	iddig_gpio_mode(OTGID_GPIO_MODE);
 	#endif /* VENDOR_EDIT */

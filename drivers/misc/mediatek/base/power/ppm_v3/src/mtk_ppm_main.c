@@ -609,7 +609,6 @@ static void ppm_main_log_print(unsigned int policy_mask,
 
 	if (!filter_log)
 #if defined(VENDOR_EDIT)
-/*xing.xiong@BSP.Kernel.Debug, 2019/1/12, Modify for limiting kernel log*/
 	if (get_eng_version() != 0) {
 		ppm_info("(0x%x)(%d)(%d)%s\n", policy_mask,
 			min_power_budget, root_cluster, msg);

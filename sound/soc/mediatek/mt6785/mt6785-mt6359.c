@@ -16,11 +16,9 @@
 #include "../../codecs/mt6359.h"
 #include "../common/mtk-sp-spk-amp.h"
 #ifdef ODM_HQ_EDIT
-//fanxiongnan@ODM.HQ.Multimedia.Audio 2019/11/06 added for SIA8109 speaker pa
 #ifdef CONFIG_SND_SOC_SIA8109
 #include "../sia81xx/sia81xx_aux_dev_if.h"
 
-//fanxiongnan@ODM.HQ.MM.Audio.BSP 2020/01/16 added to fix pop issue
 extern int sia81xx_power_on(void);
 extern int sia81xx_power_off(void);
 #endif /* CONFIG_SND_SOC_SIA8109 */
@@ -52,12 +50,10 @@ static const struct soc_enum mt6785_spk_type_enum[] = {
 };
 
 #ifdef ODM_HQ_EDIT
-/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/10/09 modified for aw87339 bringup */
 #ifdef CONFIG_SND_SOC_AW87339
 extern unsigned char aw87339_audio_kspk(void);
 extern unsigned char aw87339_audio_drcv(void);
 extern unsigned char aw87339_audio_off(void);
-//fanxiongnan@ODM.HQ.Multimedia.Audio 2019/12/06 added for aw87339 speaker & voice mode switch
 extern unsigned char aw87339_audio_voicespk(void);
 
 enum {
@@ -138,7 +134,6 @@ static int mt6785_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 	case SND_SOC_DAPM_POST_PMU:
 		/* spk amp on control */
 		#ifdef ODM_HQ_EDIT
-		/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/10/09 modified for aw87339 bringup */
 		#ifdef CONFIG_SND_SOC_AW87339
 		if(aw87339_speaker_scene == SPEAKER_SCENE_PLAYBACK)
 			aw87339_audio_kspk();
@@ -148,7 +143,6 @@ static int mt6785_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 			aw87339_audio_kspk();
 		#endif
 
-		//fanxiongnan@ODM.HQ.MM.Audio.BSP 2020/01/16 added to fix pop issue
 		#ifdef CONFIG_SND_SOC_SIA8109
 		sia81xx_power_on();
 		#endif
@@ -157,12 +151,10 @@ static int mt6785_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 	case SND_SOC_DAPM_PRE_PMD:
 		/* spk amp off control */
 		#ifdef ODM_HQ_EDIT
-		/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/10/09 modified for aw87339 bringup */
 		#ifdef CONFIG_SND_SOC_AW87339
 		aw87339_audio_off();
 		#endif
 
-		//fanxiongnan@ODM.HQ.MM.Audio.BSP 2020/01/16 added to fix pop issue
 		#ifdef CONFIG_SND_SOC_SIA8109
 		sia81xx_power_off();
 		#endif
@@ -194,7 +186,6 @@ static const struct snd_kcontrol_new mt6785_mt6359_controls[] = {
 	SOC_ENUM_EXT("MTK_SPK_I2S_IN_TYPE_GET", mt6785_spk_type_enum[1],
 		     mt6785_spk_i2s_in_type_get, NULL),
 #ifdef ODM_HQ_EDIT
-//fanxiongnan@ODM.HQ.Multimedia.Audio 2019/12/06 added for aw87339 speaker & voice mode switch
 	SOC_ENUM_EXT("AW87339 Spk Scene", aw87339_spk_scene_enum,
 			aw87339_spk_scene_get, aw87339_spk_scene_set),
 #endif /* ODM_HQ_EDIT */
@@ -1195,7 +1186,6 @@ static int mt6785_mt6359_dev_probe(struct platform_device *pdev)
 
 	card->dev = &pdev->dev;
 	#ifdef ODM_HQ_EDIT
-	//fanxiongnan@ODM.HQ.Multimedia.Audio 2019/11/06 added for SIA8109 speaker pa
 	#ifdef CONFIG_SND_SOC_SIA8109
 	ret = soc_aux_init_only_sia81xx(pdev, card);
 	if (ret)

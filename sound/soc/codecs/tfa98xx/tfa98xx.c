@@ -35,8 +35,6 @@
 #include <linux/gpio.h>
 #include <linux/proc_fs.h>
 #include <linux/dma-mapping.h>
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
- * modify for TFA firmware multi-project shared baseline */
 #include <soc/oppo/oppo_project.h>
 
 extern int main_hwid6_val;
@@ -65,7 +63,6 @@ extern int main_hwid6_val;
 #define TFA98XX_VERSION		"2.10.1-a"
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MultiMedia.AudioDriver.SmartPA, 2017/06/30, modify for MT6763 */
 struct pinctrl *pinctrltfa;
 struct pinctrl_state *tfarstdefault, *tfarsthigh, *tfarstlow;
 #endif /* VENDOR_EDIT */
@@ -99,8 +96,6 @@ struct pinctrl_state *tfarstdefault, *tfarsthigh, *tfarstlow;
 #define XMEM_TAP_READ 0x010f
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.Multimedia.AudioDriver.Machine, 2017/07/29,
- * modify for wrong I2C freq */
 
 #define I2C_MASTER_CLOCK       (400000)
 #define FW_LOADING_RETRY_TIMES (5)
@@ -111,9 +106,6 @@ static dma_addr_t DMAbuffer_pa_tfa98xx;
 //static u8 *DMAbuffer_va_tfa98xx = NULL;
 //static dma_addr_t DMAbuffer_pa_tfa98xx;
 struct tfa98xx *tfa98xx_whole;
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 extern unsigned short tfa98xx_vol;
 extern bool tfa_vol_force;
 
@@ -173,8 +165,6 @@ static struct tfa98xx_rate rate_to_fssel[] = {
 };
 
 #ifdef VENDOR_EDIT
-/*yongzhi.zhang@Multimedia, 2016/03/24, add for MTK i2c read/write using DMA*/
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/10/27, add for climax depending on i2c node for temp */
 int NXPspk_i2c_tfa98xx_write(struct i2c_client *client, const u8 *txbuf, u16 len)
 {
 	int i = 0;
@@ -291,7 +281,6 @@ static struct miscdevice AudDrv_nxpspk_device =
     .fops = &AudDrv_nxpspk_fops,
 };
 
-/* yongzhi.zhang@Multimedia.AudioDriver.SmartPA, 2016/11/24, Add for avoiding reading wrong version */
 bool is_tfa98xx_series(int rev){
     bool ret = false;
     if((rev == 0x80) || (rev == 0x81) || (rev == 0x92)) {
@@ -301,7 +290,6 @@ bool is_tfa98xx_series(int rev){
 }
 #endif /* VENDOR_EDIT */
 
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.FTM, 2017/07/25, Add for get spk revsion */
 
 static char const *ftm_spk_rev_text[] = {"NG", "OK"};
 static const struct soc_enum ftm_spk_rev_enum = SOC_ENUM_SINGLE_EXT(2, ftm_spk_rev_text);
@@ -501,7 +489,6 @@ static void tfa98xx_inputdev_unregister(struct tfa98xx *tfa98xx)
 }
 
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/12/07, modify for synchronizing audioout and tfa_start */
 static int tfa98xx_volume_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
 {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0)
@@ -544,9 +531,6 @@ static int tfa98xx_volume_set(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
 	int waitcnt = 100;
 
 	tfa98xx_vol = ucontrol->value.integer.value[0];
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 	tfa_vol_force = true;
 
 	printk("%s: volume: %d\n", __func__, tfa98xx_vol);
@@ -1073,18 +1057,12 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
 	} else if (!strncmp(buf, mon_start_cmd, sizeof(mon_start_cmd) - 1)) {
 		pr_info("Manual start of monitor thread...\n");
 #ifndef VENDOR_EDIT
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-		 * add recover solution for SWS/PLLS error of NXP DSP
-		 * which is caused by I2S issues for NXP's suggesttion */
 		queue_delayed_work(tfa98xx->tfa98xx_wq,
 					&tfa98xx->monitor_work, HZ);
 #endif /* VENDOR_EDIT */
 	} else if (!strncmp(buf, mon_stop_cmd, sizeof(mon_stop_cmd) - 1)) {
 		pr_info("Manual stop of monitor thread...\n");
 #ifndef VENDOR_EDIT
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-		 * add recover solution for SWS/PLLS error of NXP DSP
-		 * which is caused by I2S issues for NXP's suggesttion */
 		cancel_delayed_work_sync(&tfa98xx->monitor_work);
 #endif /* VENDOR_EDIT */
 	} else {
@@ -1467,14 +1445,12 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
 #endif
 	struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(codec);
 #ifndef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/11/07, remove for extra i2c actions when setting profiles */
 	unsigned int base_addr_inten = TFA_FAM(tfa98xx->handle,INTENVDDS) >> 8;
 #endif /* VENDOR_EDIT */
 	int profile_count = tfa98xx_mixer_profiles;
 	int profile = tfa98xx_mixer_profile;
 	int new_profile = ucontrol->value.integer.value[0];
 #ifndef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/11/07, remove for extra i2c actions when setting profiles */
 	int ready = 0;
 #endif /* VENDOR_EDIT */
 	int prof_idx;
@@ -1492,7 +1468,6 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
 
 	/* get the container profile for the requested sample rate */
 #ifndef VENDOR_EDIT
-/* yongzhi.zhang@Multimedia, 2016/06/20, modify for bug */
 	prof_idx = get_profile_id_for_sr(new_profile, tfa98xx->rate);
 #else
 	prof_idx = new_profile;
@@ -1517,7 +1492,6 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
 	 * For TFA2 is able to load the profile without clock.
 	 */
 #ifndef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/11/07, remove for extra i2c actions when setting profiles */
 	mutex_lock(&tfa98xx->dsp_lock);
 	tfa98xx_open(tfa98xx->handle);
 	tfa98xx_dsp_system_stable(tfa98xx->handle, &ready);
@@ -2414,8 +2388,6 @@ static void tfa98xx_interrupt_enable(struct tfa98xx *tfa98xx, bool enable)
  * FIXME: may need to review that (one per instance of codec device?)
  */
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
- * modify for TFA firmware multi-project shared baseline */
 static char fw_name[100] = {0};
 static char fw_comm_name[100] = {0};
 static char *fw_name_orig = "tfa98xx.cnt";
@@ -2430,8 +2402,6 @@ MODULE_PARM_DESC(fw_name, "TFA98xx DSP firmware (container file) name.");
 static nxpTfaContainer_t *container;
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
- * modify for TFA firmware multi-project shared baseline */
 int fwload_cnt = 0;
 int fwload_comm_cnt = 0;
 #endif /* VENDOR_EDIT */
@@ -2449,8 +2419,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 
 	if (!cont) {
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
- * modify for TFA firmware multi-project shared baseline */
 		if(fwload_cnt < FW_LOADING_RETRY_TIMES) {
 			pr_err("%s: Failed to read %s, try again: %d\n", __func__, fw_name, fwload_cnt);
 			request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
@@ -2476,8 +2444,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 	}
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
- * modify for TFA firmware multi-project shared baseline */
 	if(fwload_comm_cnt == 0) {
 		pr_err("loaded %s - size: %zu\n", fw_name,
 						cont ? cont->size : 0);
@@ -2582,7 +2548,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
 {
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2017/01/17, Add for tfa9890 and tfa9891 compatibility */
 	unsigned int reg;
 	int ret;
 	int retries = I2C_RETRIES;
@@ -2600,8 +2565,6 @@ retry:
 	if(reg == 0x92) //tfa9891
 		sprintf(fw_name, "tfa9891.cnt");
 	else {
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
-		 * modify for TFA firmware multi-project shared baseline */
 		sprintf(fw_name,"tfa/oppo6771_%d/tfa98xx.cnt", get_project());
 		sprintf(fw_comm_name,"tfa/common/tfa98xx.cnt");
 	}
@@ -2610,8 +2573,6 @@ retry:
 
 	tfa98xx->dsp_fw_state = TFA98XX_DSP_FW_PENDING;
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/27,
-	 * modify for TFA firmware multi-project shared baseline */
 	fwload_cnt = 0;
 	fwload_comm_cnt = 0;
 #endif /* VENDOR_EDIT */
@@ -2684,8 +2645,6 @@ static void tfa98xx_tapdet_work(struct work_struct *work)
 }
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/25,
- * add recover solution for SPKS error */
 
 static void tfa98xx_monitor(struct work_struct *work)
 {
@@ -2702,8 +2661,6 @@ static void tfa98xx_monitor(struct work_struct *work)
 	pr_info("TFA PWDN: %d after tfa_start\n", TFA_GET_BF(tfa98xx->handle, PWDN));
 
 	if (TFA_GET_BF(tfa98xx->handle, PWDN) == 0) {
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/25,
-		 * add recover solution for SPKS error */
 		pr_info("TFA list regs in monitor:\n");
 		for (regnum = 0; regnum <= TFA98XX_I2S_SEL_REG; regnum++) {
 			val_reglist = snd_soc_read(tfa98xx->codec, regnum);
@@ -2856,9 +2813,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 			cancel_delayed_work(&tfa98xx->init_work);
 			tfa98xx->init_count = 0;
 #ifndef VENDOR_EDIT
-			/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-			 * add recover solution for SWS/PLLS error of NXP DSP
-			 * which is caused by I2S issues for NXP's suggesttion */
 
 			/*
 			 * start monitor thread to check IC status bit
@@ -3031,15 +2985,12 @@ static int tfa98xx_startup(struct snd_pcm_substream *substream,
 	}
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@@PSW.MM.AudioDriver.SmartPA, 2018/08/17,
- * add for fixing memory leakage */
 	devm_kfree(tfa98xx->codec->dev, basename);
 #endif /* VENDOR_EDIT */
 
 	return snd_pcm_hw_constraint_list(substream->runtime, 0,
 				   SNDRV_PCM_HW_PARAM_RATE,
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@Multimedia, 2016/06/24, modify for debugging */
 				   &constraints_12_24);
 #else
 				   &tfa98xx->rate_constraint);
@@ -3157,9 +3108,6 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 			return 0;
 
 #ifdef VENDOR_EDIT
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-		 * add recover solution for SWS/PLLS error of NXP DSP
-		 * which is caused by I2S issues for NXP's suggesttion */
 		cancel_delayed_work_sync(&tfa98xx->monitor_work);
 #else /* VENDOR_EDIT */
 		cancel_delayed_work_sync(&tfa98xx->monitor_work);
@@ -3180,13 +3128,8 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 			tfa98xx->cstream = 1;
 		/* Start DSP */
 		if (tfa98xx->dsp_init != TFA98XX_DSP_INIT_PENDING) {
-			/* Yongzhi.Zhang@PSW.MultiMedia.AudioDriver.SmartPA, 2017/06/30,
-			 * modify for MT6763 */
 			tfa98xx_dsp_init(tfa98xx);
 #ifdef VENDOR_EDIT
-			/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-			 * add recover solution for SWS/PLLS error of NXP DSP
-			 * which is caused by I2S issues for NXP's suggesttion */
 			queue_delayed_work(tfa98xx->tfa98xx_wq,
 						&tfa98xx->monitor_work,
 						1*HZ);
@@ -3215,7 +3158,6 @@ static int tfa98xx_trigger(struct snd_pcm_substream *substream, int cmd,
 		 * so this should be the place where DSP is initialized
 		 */
 		#ifndef VENDOR_EDIT
-		//John.Xu@PhoneSw.AudioDriver, 2016/02/01, Modify for avoid delay first time open spk
 		/*
 		queue_work(tfa98xx->tfa98xx_wq, &tfa98xx->init_work);
 		*/
@@ -3279,8 +3221,6 @@ static struct snd_soc_dai_driver tfa98xx_dai[] = {
 		 },
 		.ops = &tfa98xx_dai_ops,
 #ifndef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MultiMedia.AudioDriver.SmartPA, 2017/07/27,
- * remove for unmatch symmetry hw_params in conflict playback scenes */
 		.symmetric_rates = 1,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)
 		.symmetric_channels = 1,
@@ -3313,9 +3253,6 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
 
 	INIT_DELAYED_WORK(&tfa98xx->init_work, tfa98xx_dsp_init_work);
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-	 * add recover solution for SWS/PLLS error of NXP DSP
-	 * which is caused by I2S issues for NXP's suggesttion */
 	INIT_DELAYED_WORK(&tfa98xx->monitor_work, tfa98xx_monitor);
 #else /* VENDOR_EDIT */
 	INIT_DELAYED_WORK(&tfa98xx->monitor_work, tfa98xx_monitor);
@@ -3326,7 +3263,6 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
 	tfa98xx->codec = codec;
 
 #ifndef VENDOR_EDIT
-/* yongzhi.zhang@Multimedia, 2016/06/24, remove for MTK request_firmware process */
 	ret = tfa98xx_load_container(tfa98xx);
 	pr_debug("Container loading requested: %d\n", ret);
 #endif
@@ -3342,7 +3278,6 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
 	tfa98xx_add_widgets(tfa98xx);
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.FTM, 2017/07/25, Add for get spk revsion */
 	snd_soc_add_codec_controls(tfa98xx->codec,
 		ftm_spk_rev_controls, ARRAY_SIZE(ftm_spk_rev_controls));
 #endif /* VENDOR_EDIT */
@@ -3360,9 +3295,6 @@ static int tfa98xx_remove(struct snd_soc_codec *codec)
 
 	cancel_delayed_work_sync(&tfa98xx->interrupt_work);
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-	 * add recover solution for SWS/PLLS error of NXP DSP
-	 * which is caused by I2S issues for NXP's suggesttion */
 	cancel_delayed_work_sync(&tfa98xx->monitor_work);
 #else /* VENDOR_EDIT */
 	cancel_delayed_work_sync(&tfa98xx->monitor_work);
@@ -3423,7 +3355,6 @@ static const struct regmap_config tfa98xx_regmap = {
 };
 
 #ifdef VENDOR_EDIT
-/*yongzhi.zhang@Multimedia, 2016/03/24, add for MTK*/
 static int tfa98xx_late_fw_load(void)
 {
     int ret;
@@ -3560,8 +3491,6 @@ static int tfa98xx_ext_reset(struct tfa98xx *tfa98xx)
 	int ret = 0;
 	pr_info("tfa9890 rst \n");
 
-	/* Yongzhi.Zhang@MM.AudioDriver.SmartPA, 2017/11/22,
-	 * modify RST pin control timing for tfa9890 on MTK */
 	ret = pinctrl_select_state(pinctrltfa, tfarsthigh);
 	if (ret) {
 		pr_err("%s: could not set tfa98xx rst pin high\n", __func__);
@@ -3718,14 +3647,12 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	unsigned int reg;
 	int ret;
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2017/01/17, Add for tfa9890 and tfa9891 compatibility */
 	int retries = I2C_RETRIES;
 	struct proc_dir_entry *prEntry_temp = NULL;
 	struct proc_dir_entry *prEntry_tfa9890 = NULL;
 #endif
 	pr_info("%s\n", __func__);
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/10/27, add for climax depending on i2c node for temp */
 	prEntry_tfa9890 = proc_mkdir("tfa98xx", NULL);
 #endif /* VENDOR_EDIT */
 	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C)) {
@@ -3741,7 +3668,6 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	tfa98xx->dev = &i2c->dev;
 	tfa98xx->i2c = i2c;
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/12/07, modify for synchronizing audioout and tfa_start */
 	tfa98xx->dsp_init = TFA98XX_DSP_INIT_NOT_DONE;
 #else /* VENDOR_EDIT */
 	tfa98xx->dsp_init = TFA98XX_DSP_INIT_STOPPED;
@@ -3818,13 +3744,11 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	printk("%s tfa98xx_ext_reset ret = %d\n", __func__, ret);
 	if (no_start == 0) {
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2017/01/17, Add for tfa9890 and tfa9891 compatibility */
 retry:
 #endif
 		printk("%s read chip ver\n", __func__);
 		ret = regmap_read(tfa98xx->regmap, 0x03, &reg);
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2017/01/17, Add for tfa9890 and tfa9891 compatibility */
 		if ((ret < 0) || !is_tfa98xx_series(reg & 0xff)) {
 			printk("%s i2c error at retries left: %d, rev: 0x%x\n", __func__, retries, (reg & 0xff));
 			if (retries) {
@@ -3916,7 +3840,6 @@ retry:
 	}
 
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@MultiMedia.AudioDriver.SmartPA, 2016/10/27, add for climax depending on i2c node for temp */
 	prEntry_temp = proc_create("oppo_tfa98xx_fw_update", 0644, prEntry_tfa9890,&proc_firmware_update);
 
 // register MISC device
@@ -3956,9 +3879,6 @@ static int tfa98xx_i2c_remove(struct i2c_client *i2c)
 
 	cancel_delayed_work_sync(&tfa98xx->interrupt_work);
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/09/26,
-	 * add recover solution for SWS/PLLS error of NXP DSP
-	 * which is caused by I2S issues for NXP's suggesttion */
 	cancel_delayed_work_sync(&tfa98xx->monitor_work);
 #else /* VENDOR_EDIT */
 	cancel_delayed_work_sync(&tfa98xx->monitor_work);
@@ -4059,8 +3979,6 @@ static struct platform_driver AudDrv_nxpspk = {
 	},
 };
 
-/* Zhix.zhang@PSW.MM.AudioDriver.SmartPA, 2019/11/04,
-* delete oppo special config for tfa trace_level */
 static int trace_level = 1;
 
 module_param(trace_level, int, S_IRUGO);
@@ -4070,13 +3988,11 @@ static int __init tfa98xx_i2c_init(void)
 	int ret = 0;
 
 #ifdef VENDOR_EDIT
-	/* xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for hw flag */
 	if (get_project() == 17197) {
 		if (main_hwid6_val) {
 			return 0;
 		}
 	}
-	/* Xiaojun.Lv@PSW.MM.AudioDriver.Codec, 2018/05/12, Add for 18011 & 18311 temp debug */
 	if ((get_project() == 18011) || (get_project() == 18311) || (get_project() == 18531) ||
 	    (get_project() == 18561) || (get_project() == 18161) || (get_project() == 19531)) {
 		return 0;
@@ -4086,8 +4002,6 @@ static int __init tfa98xx_i2c_init(void)
 	pr_info("TFA98XX driver version %s module_init\n", TFA98XX_VERSION);
 
 #ifdef VENDOR_EDIT
-        /* Zhix.zhang@PSW.MM.AudioDriver.SmartPA, 2019/11/04,
-         * delete oppo special config for tfa trace_level */
         if (get_eng_version() == 1)
             trace_level = 2;
 #endif /* VENDOR_EDIT */

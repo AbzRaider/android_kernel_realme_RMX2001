@@ -5,11 +5,9 @@
  * Description: Source file for synaptics S4322 driver
  * Version   : 1.0
  * Date        : 2017-04-17
- * Author    : MingQiang.Guo@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
- * Revision 1.1, 2017-04-17, MingQiang.Guo@Bsp.Group.Tp, modify based on gerrit review result(http://gerrit.scm.adc.com:8080/#/c/326176)
  ****************************************************************/
 #include <linux/of_gpio.h>
 #include <linux/delay.h>

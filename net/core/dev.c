@@ -144,7 +144,6 @@
 #include <linux/netfilter_ingress.h>
 #include <linux/crash_dump.h>
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #include <linux/imq.h>
 #endif /* VENDOR_EDIT */
@@ -3010,7 +3009,6 @@ static int xmit_one(struct sk_buff *skb, struct net_device *dev,
 	int rc;
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	if ((!list_empty(&ptype_all) || !list_empty(&dev->ptype_all)) &&
 		!(skb->imq_flags & IMQ_F_ENQUEUE))
@@ -3057,7 +3055,6 @@ out:
 }
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 EXPORT_SYMBOL_GPL(dev_hard_start_xmit);
 #endif /* VENDOR_EDIT */
@@ -7890,7 +7887,6 @@ static void netdev_wait_allrefs(struct net_device *dev)
 		refcnt = netdev_refcnt_read(dev);
 
         #ifndef VENDOR_EDIT
-        //Laixin@PSW.CN.WiFi.Basic.Switch.NA, 2019/05/27
         //Modify for: debug wlan0 refcnt is not 0
         if (refcnt && time_after(jiffies, warning_time + 10 * HZ)) {
         #else /* VENDOR_EDIT */

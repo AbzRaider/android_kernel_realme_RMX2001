@@ -5,11 +5,8 @@
 *
 * Version   : 1.0
 * Date       : 2010-01-05
-* Author     : wen.luo@PSW.Kernel.Stability
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                            <desc>
-* Revision 1.0        2010-01-05       wen.luo@PSW.Kernel.Stability       Created for shutdown_detect Monitor
-* Revision 1.1        2019-04-28       liang.zhang@TECH.Storage.Stability modify shutdown_detect and add log back
 ***********************************************************************************/
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
@@ -59,7 +56,6 @@
 #include <linux/kmsg_dump.h>
 
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for aging version
 #include <soc/oppo/oppo_project.h>
 //#endif
 

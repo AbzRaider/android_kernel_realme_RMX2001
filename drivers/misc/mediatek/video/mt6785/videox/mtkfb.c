@@ -115,7 +115,6 @@ extern bool oppo_display_sau_support;
 #endif /*ODM_HQ_EDIT*/
 
 #ifdef VENDOR_EDIT
-//jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
 static BLOCKING_NOTIFIER_HEAD(mtkfb_notifier_list);
 int mtkfb_register_client(struct notifier_block *nb)
 {
@@ -343,7 +342,6 @@ static int mtkfb_blank(int blank_mode, struct fb_info *info)
 }
 #ifdef ODM_HQ_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 unsigned int ffl_backlight_backup;
@@ -361,7 +359,6 @@ int mtkfb_set_backlight_level(unsigned int level)
 	DISPDBG("%s:%d Start\n", __func__, level);
 	#ifndef ODM_HQ_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 	* add for face fill light node,ffl set need after backlight on.
 	*/
 	if (aal_is_support)
@@ -2475,7 +2472,6 @@ int pan_display_test(int frame_num, int bpp)
 }
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/9/7 add for devinfo*/
 void meta_display(unsigned int color){
 	unsigned int j = 0;
 	unsigned long fb_va;
@@ -2597,7 +2593,6 @@ static int mtkfb_probe(struct platform_device *pdev)
 	/* repo call DTS gpio module, if not necessary, invoke nothing */
 
 	#ifdef ODM_HQ_EDIT
-		/* Hao.Lin@MM.Display.LCD.Machine, 2019/11/07, modify for oppo lcd feature */
 		oppo_display_ffl_support = of_property_read_bool(pdev->dev.of_node, "oppo_display_ffl_support");
 		oppo_display_sau_support = of_property_read_bool(pdev->dev.of_node, "oppo_display_sau_support");
 	#endif /*ODM_HQ_EDIT*/
@@ -2859,7 +2854,6 @@ static void mtkfb_early_suspend(void)
 	if (disp_helper_get_stage() != DISP_HELPER_STAGE_NORMAL)
 		return;
 #ifdef VENDOR_EDIT
-	//jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
 	blocking_notifier_call_chain(&mtkfb_notifier_list, 0, NULL);
 #endif
 	DISPMSG("%s+\n", __func__);
@@ -2891,7 +2885,6 @@ static void mtkfb_late_resume(void)
 	if (disp_helper_get_stage() != DISP_HELPER_STAGE_NORMAL)
 		return;
 #ifdef VENDOR_EDIT
-	//jie.cheng@Swdp.shanghai, 2017/06/05, Add notifier for fb info
 		blocking_notifier_call_chain(&mtkfb_notifier_list, 1, NULL);
 #endif
 	DISPMSG("%s+\n", __func__);

@@ -5,13 +5,10 @@
 *                          Manage all charger IC and define abstarct function flow.
 * Version   : 1.0
 * Date          : 2015-06-22
-* Author        : fanhui@PhoneSW.BSP
 *                         : Fanhong.Kong@ProDrv.CHG
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                            <desc>
-* Revision 1.0        2015-06-22        fanhui@PhoneSW.BSP             Created for new architecture
 * Revision 1.0        2015-06-22        Fanhong.Kong@ProDrv.CHG        Created for new architecture
-* Revision 1.1        2016-03-07        wenbin.liu@SW.Bsp.Driver       edit for log optimize
 * Revision 2.0        2018-04-14        Fanhong.Kong@ProDrv.CHG        Upgrade for SVOOC
 ***********************************************************************************/
 #include <linux/delay.h>
@@ -71,7 +68,6 @@
 #include "charger_ic/oppo_short_ic.h"
 
 #ifdef CONFIG_OPPO_EMMC_LOG
-/*Jingchun.Wang@BSP.Kernel.Debug, 2016/12/21,*/
 /*add for emmc log*/
 #include <soc/oppo/oppo_emmclog.h>
 #endif /*CONFIG_OPPO_EMMC_LOG*/
@@ -87,7 +83,6 @@ static struct oppo_chg_chip *g_charger_chip = NULL;
 int enable_charger_log = 2;
 int charger_abnormal_log = 0;
 
-/* wenbin.liu@SW.Bsp.Driver, 2016/03/01  Add for log tag*/
 #define charger_xlog_printk(num, fmt, ...) \
         do { \
                 if (enable_charger_log >= (int)num) { \
@@ -1904,7 +1899,6 @@ void oppo_chg_variables_reset(struct oppo_chg_chip *chip, bool in)
         chip->stop_voter = 0x00;
         chip->charging_state = CHARGING_STATUS_CCCV;
 #ifndef SELL_MODE
-        /* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/12, delete for sell_mode */
         if(chip->mmi_fastchg == 0)
                 chip->mmi_chg = 0;
         else 

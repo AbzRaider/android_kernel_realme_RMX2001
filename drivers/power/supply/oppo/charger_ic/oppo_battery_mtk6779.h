@@ -7,11 +7,9 @@
 **
 ** Version: 1.0
 ** Date created: 2018-11-09
-** Author: Jianchao.Shi@PSW.BSP.CHG
 **
 ** --------------------------- Revision History: ------------------------------------
 * <version>       <date>         <author>              			<desc>
-* Revision 1.0    2018-11-09   Jianchao.Shi@PSW.BSP.CHG   	Created for new architecture
 *************************************************************************************/
 #ifndef __OPPO_BATTERY_MTK6779_H__
 #define __OPPO_BATTERY_MTK6779_H__
@@ -30,7 +28,6 @@
 
 #include "../../mediatek/misc/mtk_gauge_time_service.h"
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 #include <mt-plat/charger_class.h>
 #else
 #include "../../mediatek/charger/charger_class.h"
@@ -397,7 +394,6 @@ struct charger_custom_data {
 
 	int max_charging_time; /* second */
 	#ifdef ODM_HQ_EDIT
-	/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 	int bc12_charger;
 	#endif
 };
@@ -524,7 +520,6 @@ struct charger_manager {
 };
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/09, sjc Add for charging */
 
 struct mtk_pmic {
 	struct charger_manager* oppo_info;
@@ -541,6 +536,7 @@ extern int mt6360_reset_charger(void);
 extern int mt6360_set_chging_term_disable(bool disable);
 extern int mt6360_aicl_enable(bool enable);
 extern int mt6360_set_register(u8 addr, u8 mask, u8 data);
+extern int mt6360_enter_shipmode(void);
 //extern int oppo_battery_meter_get_battery_voltage(void);
 //extern int charger_pretype_get(void);
 

@@ -22,7 +22,6 @@
 #include <mt-plat/mtk_boot_common.h>
 
 #ifdef ODM_HQ_EDIT
-/*zhangchao@ODM.HQ.Charger 2020/03/09 modified for HW reset sarter*/
 #include <soc/oppo/oppo_project.h>
 extern int g_cphy_dphy_gpio_value;
 #endif /* ODM_HQ_EDIT */
@@ -61,9 +60,15 @@ void long_press_reboot_function_setting(void)
 {
 #ifdef CONFIG_MTK_PMIC_NEW_ARCH /*for pmic not ready*/
 #ifdef ODM_HQ_EDIT
+<<<<<<< HEAD
 if((get_Operator_Version() == 111) || (get_Operator_Version() == 112) || (get_Operator_Version() == 113) || (get_Operator_Version() == 114) || (g_cphy_dphy_gpio_value == 1)) {
 #endif
 
+=======
+pr_err("get_project = %d ,get_Operator_Version = %d, g_cphy_dphy_gpio_value = %d\n",get_project(),get_Operator_Version(),g_cphy_dphy_gpio_value);
+if((get_project() == 19661) && ((get_Operator_Version() == 111) || (get_Operator_Version() == 112) || (get_Operator_Version() == 113) || (get_Operator_Version() == 114) || (g_cphy_dphy_gpio_value == 1))) {
+#endif
+>>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 	if (kpd_enable_lprst && get_boot_mode() == NORMAL_BOOT) {
 		kpd_info("Normal Boot long press reboot selection\n");
 
@@ -106,7 +111,10 @@ if((get_Operator_Version() == 111) || (get_Operator_Version() == 112) || (get_Op
 
 	}
 #ifdef ODM_HQ_EDIT
+<<<<<<< HEAD
 /*zhangchao@ODM.HQ.Charger 2020/03/09 modified for HW reset sarter*/
+=======
+>>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 }
 #endif
 #endif
@@ -122,7 +130,6 @@ bool __attribute__ ((weak)) mtk_audio_condition_enter_suspend(void)
 void kpd_wakeup_src_setting(int enable)
 {
 #ifndef ODM_HQ_EDIT
-/* sunjingtao@EXP.BSP.bootloader.bootflow, 2019/10/26, Remove for keypad volume up and volume down */
 	int is_fm_radio_playing = 0;
 
 	/* If FM is playing, keep keypad as wakeup source */

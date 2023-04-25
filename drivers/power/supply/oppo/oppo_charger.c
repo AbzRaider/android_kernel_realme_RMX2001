@@ -5,13 +5,10 @@
 *                          Manage all charger IC and define abstarct function flow.
 * Version   : 1.0
 * Date          : 2015-06-22
-* Author        : fanhui@PhoneSW.BSP
 *                         : Fanhong.Kong@ProDrv.CHG
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                            <desc>
-* Revision 1.0        2015-06-22        fanhui@PhoneSW.BSP             Created for new architecture
 * Revision 1.0        2015-06-22        Fanhong.Kong@ProDrv.CHG        Created for new architecture
-* Revision 1.1        2016-03-07        wenbin.liu@SW.Bsp.Driver       edit for log optimize
 * Revision 2.0        2018-04-14        Fanhong.Kong@ProDrv.CHG        Upgrade for SVOOC
 ***********************************************************************************/
 #include <linux/delay.h>
@@ -66,7 +63,6 @@
 #endif
 
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for aging version
 #include <soc/oppo/oppo_project.h>
 //#endif
 
@@ -78,10 +74,14 @@
 #include "charger_ic/oppo_short_ic.h"
 
 #ifdef CONFIG_OPPO_EMMC_LOG
-/*Jingchun.Wang@BSP.Kernel.Debug, 2016/12/21,*/
 /*add for emmc log*/
 #include <soc/oppo/oppo_emmclog.h>
 #endif /*CONFIG_OPPO_EMMC_LOG*/
+
+#ifdef ODM_HQ_EDIT
+#include <soc/oppo/oppo_project.h>
+#endif
+
 
 static struct oppo_chg_chip *g_charger_chip = NULL;
 
@@ -91,11 +91,14 @@ static struct oppo_chg_chip *g_charger_chip = NULL;
 
 #define OPPO_CHG_DEFAULT_CHARGING_CURRENT        512
 
+#ifdef ODM_HQ_EDIT
+#define LIMIT_INPUT_CURRENT_MA_HIGH_1879 900
+#endif
+
 int enable_charger_log = 2;
 int charger_abnormal_log = 0;
 int tbatt_pwroff_enable = 1;
 
-/* wenbin.liu@SW.Bsp.Driver, 2016/03/01  Add for log tag*/
 #define charger_xlog_printk(num, fmt, ...) \
         do { \
                 if (enable_charger_log >= (int)num) { \
@@ -117,7 +120,6 @@ static void oppo_chg_battery_update_status(struct oppo_chg_chip *chip);
 
 
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/11/22 add for tp charge mode*/
 extern void switch_usb_state(bool usb_state);
 #endif  /* ODM_HQ_EDIT */
 
@@ -172,7 +174,7 @@ enum power_supply_property oppo_batt_props[] = {
         POWER_SUPPLY_PROP_BATTERY_CC,
         POWER_SUPPLY_PROP_BATTERY_RM,
         POWER_SUPPLY_PROP_BATTERY_NOTIFY_CODE,
-        POWER_SUPPLY_PROP_ICHG_COOL_DOWN,       //zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling 
+        POWER_SUPPLY_PROP_ICHG_COOL_DOWN,
         POWER_SUPPLY_PROP_ADAPTER_FW_UPDATE,
         POWER_SUPPLY_PROP_VOOCCHG_ING,
 #ifdef CONFIG_OPPO_CHECK_CHARGERID_VOLT
@@ -240,7 +242,6 @@ int oppo_usb_get_property(struct power_supply *psy,
                 val->intval = chip->otg_switch;
                 break;
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/12/3 modify otg test fail*/
         case POWER_SUPPLY_PROP_OTG_ONLINE:
 				if(chip->otg_online)
 					val->intval = 3;
@@ -387,7 +388,6 @@ int oppo_battery_property_is_writeable(struct power_supply *psy,
         case POWER_SUPPLY_PROP_MMI_CHARGING_ENABLE:
                 rc = 1;
                 break;
-        /* zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling */
         case POWER_SUPPLY_PROP_ICHG_COOL_DOWN:
                 rc = 1;
                 break;
@@ -478,7 +478,6 @@ int oppo_battery_set_property(struct power_supply *psy,
                         }
                 }
                 break;
-        /* zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling */
         case POWER_SUPPLY_PROP_ICHG_COOL_DOWN:
 				oppo_smart_charge_by_cool_down(chip, val->intval);
                 charger_xlog_printk(CHG_LOG_CRTI, "set cool_down = [%d].\n", chip->cool_down);
@@ -568,7 +567,6 @@ int oppo_battery_get_property(struct power_supply *psy,
                         val->intval = POWER_SUPPLY_STATUS_CHARGING;
                 } else if (!chip->authenticate) {
                         val->intval = POWER_SUPPLY_STATUS_NOT_CHARGING;
-				/*wangtao@ODM.HQ.BSP.CHG 2020/01/04 change over vbat charging status*/
                 } else if (chip->vbatt_over) {
                         val->intval = POWER_SUPPLY_STATUS_NOT_CHARGING;
                 } else {
@@ -672,7 +670,6 @@ int oppo_battery_get_property(struct power_supply *psy,
         case POWER_SUPPLY_PROP_BATTERY_NOTIFY_CODE:
                 val->intval = chip->notify_code;
                 break;
-        /* zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling */
         case POWER_SUPPLY_PROP_ICHG_COOL_DOWN:
                 val->intval = chip->cool_down;
                 break;
@@ -767,7 +764,6 @@ int oppo_battery_get_property(struct power_supply *psy,
 }
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/11/01 add /proc/batt_param_noplug sysfs */
 static ssize_t proc_batt_param_noplug_write(struct file *filp, const char __user *buf, size_t len, loff_t *data)
 {
 	return len;
@@ -1163,7 +1159,6 @@ static void init_proc_vbat_low_det(void)
 
 #endif /* CONFIG_OPPO_RTC_DET_SUPPORT */
 
-/*ye.zhang@BSP.Sensor.Function, 2017-03-30, add interface for charging special feature in different projects*/
 static int charging_limit_time_show(struct seq_file *seq_filp, void *v)
 {
         seq_printf(seq_filp, "%d\n", g_charger_chip->limits.max_chg_time_sec);
@@ -1413,14 +1408,12 @@ int oppo_chg_init(struct oppo_chg_chip *chip)
         init_proc_critical_log();
         init_proc_tbatt_pwroff();
 		#ifdef ODM_HQ_EDIT
-		/* zhangchao@ODM.HQ.Charger 2019/11/01 add /proc/batt_param_noplug sysfs */
 		init_proc_batt_param_noplug();
 		#endif
 #ifdef CONFIG_OPPO_RTC_DET_SUPPORT
         init_proc_rtc_det();
         init_proc_vbat_low_det();
 #endif
-        /*ye.zhang@BSP.Sensor.Function, 2017-03-30, add interface for charging special feature in different projects*/
         init_proc_charging_feature();
         /*ye.zhang add end*/
         schedule_delayed_work(&chip->update_work, OPPO_CHG_UPDATE_INIT_DELAY);
@@ -1471,6 +1464,9 @@ int oppo_chg_parse_charger_dt(struct oppo_chg_chip *chip)
 	int rc;
 	struct device_node *node = chip->dev->of_node;
 	int batt_cold_degree_negative, batt_removed_degree_negative;
+#ifdef ODM_HQ_EDIT
+	int boot_mode = get_boot_mode();
+#endif
 
 	if (!node) {
 		dev_err(chip->dev, "device tree info. missing\n");
@@ -1496,7 +1492,6 @@ int oppo_chg_parse_charger_dt(struct oppo_chg_chip *chip)
 	}
 
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for aging version
 	if(get_eng_version() == 1) {
 		chip->limits.input_current_usb_ma = 1000;
 	} else {
@@ -1529,7 +1524,13 @@ int oppo_chg_parse_charger_dt(struct oppo_chg_chip *chip)
 	if (rc) {
 		chip->limits.input_current_led_ma_high = chip->limits.input_current_led_ma;
 	}
-
+#ifdef ODM_HQ_EDIT
+	if((get_project() == 19661) && ((get_Operator_Version() == 111) || (get_Operator_Version() == 112) || (get_Operator_Version() == 113) || (get_Operator_Version() == 114))){
+		if (boot_mode == KERNEL_POWER_OFF_CHARGING_BOOT || boot_mode == LOW_POWER_OFF_CHARGING_BOOT){
+			chip->limits.input_current_led_ma_high = LIMIT_INPUT_CURRENT_MA_HIGH_1879;
+		}
+	}
+#endif
 	rc = of_property_read_u32(node, "qcom,input_current_led_ma_limit_high", &chip->limits.input_current_led_ma_limit_high);
 	if (rc) {
 		chip->limits.input_current_led_ma_limit_high = chip->limits.input_current_led_ma;
@@ -3010,7 +3011,6 @@ static bool oppo_chg_check_tbatt_is_good(struct oppo_chg_chip *chip)
                                         && chip->charging_state == CHARGING_STATUS_FULL) {
                                 chip->batt_full = false;
                                 #ifdef ODM_HQ_EDIT
-                                /* zhangchao@ODM.HQ.Charger 2020.01.03 modify for cold/warm charging full to normal charging */
                                 oppo_chg_voter_charging_start(chip, CHG_STOP_VOTER__FULL);
                                 charger_xlog_printk(CHG_LOG_CRTI, "cold/warm charging full to normal temp begin charging\n");
                                 #else
@@ -3127,16 +3127,13 @@ static bool oppo_chg_check_vbatt_is_good(struct oppo_chg_chip *chip)
 static bool oppo_chg_check_time_is_good(struct oppo_chg_chip *chip)
 {
 #ifdef SELL_MODE
-		/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/10/26, delete over_time for sell_mode */
 		chip->chging_over_time = false;
 		printk("oppo_chg_check_time_is_good_sell_mode\n");
 		return true;
 #endif //SELL_MODE
 
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for aging version
 	if(get_eng_version() == 1) {
-		/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2019/3/8, delete over_time for aging_mode */
 		chip->chging_over_time = false;
 		printk("oppo_chg_check_time_is_good_aging_mode\n");
 		return true;
@@ -3200,13 +3197,11 @@ static int fb_notifier_callback(struct notifier_block *nb, unsigned long event, 
                         if (blank == FB_BLANK_UNBLANK) {
                                 g_charger_chip->led_on = true;
                                 g_charger_chip->led_on_change = true;
-								/*zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling*/
 								//if (g_charger_chip->calling_on)
 									g_charger_chip->cool_down = 1;
                         } else if (blank == FB_BLANK_POWERDOWN) {
                                 g_charger_chip->led_on = false;
                                 g_charger_chip->led_on_change = true;
-                                /* zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling */
                                 if (!g_charger_chip->calling_on)
                                    g_charger_chip->cool_down = 0;
                         }
@@ -3486,7 +3481,6 @@ void oppo_chg_variables_reset(struct oppo_chg_chip *chip, bool in)
         }
 
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/11/22 add for tp charge mode*/
        switch_usb_state(chip->charger_exist);
 #endif  /* ODM_HQ_EDIT */
 
@@ -3507,7 +3501,6 @@ void oppo_chg_variables_reset(struct oppo_chg_chip *chip, bool in)
         chip->stop_voter = 0x00;
         chip->charging_state = CHARGING_STATUS_CCCV;
 #ifndef SELL_MODE
-        /* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/12, delete for sell_mode */
         if(chip->mmi_fastchg == 0)
                 chip->mmi_chg = 0;
         else 
@@ -3776,7 +3769,6 @@ void oppo_charger_detect_check(struct oppo_chg_chip *chip)
             if (chip->charger_type == POWER_SUPPLY_TYPE_UNKNOWN) 
 			{
 				#ifdef ODM_HQ_EDIT
-				/* zhangchao@ODM.HQ.Charger 2019/11/01 add /proc/batt_param_noplug sysfs */
 				noplug_temperature = chip->temperature;
 				noplug_batt_volt_max = chip->batt_volt_max;
 				noplug_batt_volt_min = chip->batt_volt_min;
@@ -4016,7 +4008,6 @@ static void oppo_chg_protection_check(struct oppo_chg_chip *chip)
         if (false == oppo_chg_check_vbatt_is_good(chip)) {
                 chg_err("oppo_chg_check_vbatt_is_good func ,false!\n");
                 oppo_chg_voter_charging_stop(chip, CHG_STOP_VOTER__VBAT_TOO_HIGH);
-        /*wangtao@ODM.HQ.BSP.CHG 2020/01/04 change over vbat charging status*/
 		} else {
                 if ((chip->stop_voter & CHG_STOP_VOTER__VBAT_TOO_HIGH) == CHG_STOP_VOTER__VBAT_TOO_HIGH) {
                         charger_xlog_printk(CHG_LOG_CRTI, "oppo_chg_check_vbatt_is_good func ,true! To Normal\n");
@@ -4942,7 +4933,6 @@ static void oppo_chg_kpoc_power_off_check(struct oppo_chg_chip *chip)
 
 static void oppo_chg_print_log(struct oppo_chg_chip *chip)
 {
-/* wenbin.liu@SW.Bsp.Driver, 2016/02/29  Add for log tag*/
         charger_xlog_printk(CHG_LOG_CRTI, " CHGR[ %d / %d / %d / %d / %d ], BAT[ %d / %d / %d / %d / %d / %d ], GAUGE[ %d / %d / %d / %d / %d / %d / %d / %d ], "
                 "STATUS[ 0x%x / %d / %d / %d / %d / 0x%x ], OTHER[ %d / %d / %d / %d / %d/ %d ]\n",
         chip->charger_exist, chip->charger_type, chip->charger_volt, chip->prop_status, chip->boot_mode,
@@ -4953,7 +4943,6 @@ static void oppo_chg_print_log(struct oppo_chg_chip *chip)
 
 
 #ifdef CONFIG_OPPO_EMMC_LOG
-/*Jingchun.Wang@BSP.Kernel.Debug, 2016/12/21,*/
 /*add for emmc log*/
         kernel_emmclog_print(" CHGR[ %d / %d / %d / %d / %d ], BAT[ %d / %d / %d / %d / %d / %d ], GAUGE[ %d / %d / %d / %d / %d / %d / %d / %d ], "
                 "STATUS[ 0x%x / %d / %d / %d / %d / 0x%x ], OTHER[ %d / %d / %d / %d / %d/ %d ]\n",
@@ -5451,7 +5440,6 @@ int oppo_chg_get_notify_flag(void)
         }
 }
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 int is_vooc_project(void)
 {
 		if (!g_charger_chip) {
@@ -5600,7 +5588,6 @@ void oppo_chg_clear_chargerid_info(void)
         }
 }
 
-/* zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling */
 int oppo_chg_get_cool_down_status(void)
 {
         if (!g_charger_chip) {

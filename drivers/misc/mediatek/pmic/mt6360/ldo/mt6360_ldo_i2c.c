@@ -627,7 +627,6 @@ static int mt6360_ldo_apply_pdata(struct mt6360_ldo_info *mli,
 				  struct mt6360_ldo_platform_data *pdata)
 {
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/8/28 add for SD card*/
 	int i, ret;
 #endif // ODM_HQ_EDIT
 
@@ -637,7 +636,6 @@ static int mt6360_ldo_apply_pdata(struct mt6360_ldo_info *mli,
 	if (ret < 0)
 		return ret;
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/8/28 add for SD card*/
 	for (i = 0; i < MT6360_LDO_CTRLS_NUM; i++) {
 		ret = mt6360_ldo_reg_update_bits(mli,
 				 MT6360_LDO_LDO5_EN_CTRL1 + i, ldo_ctrl_mask[i],
@@ -677,7 +675,6 @@ static int mt6360_ldo_parse_dt_data(struct device *dev,
 	pdata->irq_res = res;
 	pdata->irq_res_cnt = ret;
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/8/28 add for SD card*/
 	of_property_read_u8_array(np, "ldo5_ctrls",
 				  pdata->ldo5_ctrls, MT6360_LDO_CTRLS_NUM);
 #endif // ODM_HQ_EDIT

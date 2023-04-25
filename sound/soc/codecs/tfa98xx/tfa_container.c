@@ -35,9 +35,6 @@ static int nxp_tfa_vstep[TFACONT_MAXDEVS];
 static char errorname[] = "!ERROR!";
 static char nonename[] = "NONE";
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 extern unsigned short tfa98xx_vol;
 extern bool tfa_vol_force;
 #endif
@@ -349,9 +346,6 @@ static enum Tfa98xx_Error tfaContWriteVstep(int dev_idx,  nxpTfaVolumeStep2File_
 		if (vol > 255)	/* restricted to 8 bits */
 			vol = 255;
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 		if(tfa_vol_force) {
 			vol = tfa98xx_vol;
 			printk("%s: vol already set by kctl as %d\n", __func__, vol);

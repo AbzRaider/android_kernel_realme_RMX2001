@@ -132,7 +132,6 @@ struct LCM_setting_table {
     unsigned char para_list[64];
 };
 
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 static int blmap_table[] = {
 	36, 16,
 	16, 22,
@@ -716,14 +715,11 @@ static void lcm_get_params(LCM_PARAMS *params)
     params->dsi.lcm_esd_check_table[0].cmd = 0x0A;
     params->dsi.lcm_esd_check_table[0].count = 1;
     params->dsi.lcm_esd_check_table[0].para_list[0] = 0x9C;
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 	params->blmap = blmap_table;
 	params->blmap_size = sizeof(blmap_table)/sizeof(blmap_table[0]);
 	params->brightness_max = 2047;
 	params->brightness_min = 6;
-	/* liyan@ODM.Multimedia.LCD  2019/10/22 modify for t3-PREBEGIN */
 	params->dsi.HS_ZERO = 48;
-	/* Liyan@ODM.HQ.Multimedia.LCM 2019/11/07 add for lcd devinfo */
 	register_device_proc("lcd", "nt36672c_dpt", "boe vdo mode");
 }
 

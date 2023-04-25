@@ -135,7 +135,6 @@ typedef __u32 __bitwise req_flags_t;
 struct request {
 	struct list_head queuelist;
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	struct list_head fg_list;
 #endif /*VENDOR_EDIT*/
 	union {
@@ -411,7 +410,6 @@ struct request_queue {
 	 */
 	struct list_head	queue_head;
 #ifdef VENDOR_EDIT
-	/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	struct list_head	fg_head;
 	int fg_count;
 	int both_count;
@@ -741,7 +739,6 @@ static inline void queue_flag_clear(unsigned int flag, struct request_queue *q)
 	__clear_bit(flag, &q->queue_flags);
 }
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 extern unsigned int sysctl_fg_io_opt;
 static inline void queue_throtl_add_request(struct request_queue *q,
 					    struct request *rq, bool front)

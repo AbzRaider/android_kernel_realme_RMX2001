@@ -119,18 +119,15 @@ static int EEPROM_get_cmd_info(unsigned int sensorID,
 {
 	struct stCAM_CAL_LIST_STRUCT *pCamCalList = NULL;
         #ifdef ODM_HQ_EDIT
-        /* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
         struct stCAM_CAL_FUNC_STRUCT *pCamCalFunc = NULL;
         #endif
 	int i = 0;
 
 	cam_cal_get_sensor_list(&pCamCalList);
         #ifdef ODM_HQ_EDIT
-        /* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
         cam_cal_get_func_list(&pCamCalFunc);
         #endif
         #ifndef ODM_HQ_EDIT
-        /* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
 	if (pCamCalList != NULL) {
         #else
         if (pCamCalList != NULL && pCamCalFunc != NULL) {
@@ -147,7 +144,6 @@ static int EEPROM_get_cmd_info(unsigned int sensorID,
 				cmdInfo->maxEepromSize =
 					pCamCalList[i].maxEepromSize;
                                 #ifdef ODM_HQ_EDIT
-                                /* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
                                 for (i = 0; pCamCalFunc[i].sensorID != 0; i++) {
                                     if (pCamCalFunc[i].sensorID == sensorID){
                                        cmdInfo->readCMDFunc =pCamCalFunc[i].readCamCalData;

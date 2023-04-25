@@ -32,7 +32,6 @@
 #include "mt-plat/mtk_chip.h"
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/09/26,
 * add for aod feature
 */
 #include <soc/oppo/oppo_project.h>
@@ -421,7 +420,6 @@ void disp_helper_option_init(void)
 
 	#ifndef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/09/26,
 	* add for Aod feature
 	*/
 	disp_helper_set_option(DISP_OPT_AOD, 1);
@@ -451,7 +449,6 @@ void disp_helper_option_init(void)
 	disp_helper_set_option(DISP_OPT_MOD_RECOVERY, 0);
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 	* add for dimming layer HBM mode
 	*/
 	if (is_project(OPPO_19531) || is_project(OPPO_19391)) {

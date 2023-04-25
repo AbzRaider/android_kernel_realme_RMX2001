@@ -132,7 +132,6 @@ struct netns_ipv4 {
 	int sysctl_max_syn_backlog;
 
 	#ifdef VENDOR_EDIT
-	//Hao.Peng@PSW.CN.WiFi.Network.login.1854960, 2019/03/30,
 	//add for [BUGID],disable tcp random timestamp,some networks limit tcp syn before login
 	int sysctl_tcp_random_timestamp;
 	#endif /* VENDOR_EDIT */

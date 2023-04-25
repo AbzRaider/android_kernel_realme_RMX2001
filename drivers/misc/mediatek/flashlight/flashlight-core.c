@@ -48,14 +48,10 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171215 add to control flashlight via proc file*/
 #include<linux/proc_fs.h>
-/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 #include <linux/regulator/consumer.h>
-/*Feiping.Li@Cam.Drv, 20191101, add for 19165 single torch*/
 #include<soc/oppo/oppo_project.h>
 
-/*Yijun.Tan@Camera.Driver 20180322 add for resove flash cann't be closed sometimes after poweroff */
 #include <linux/gpio.h>
 #include <linux/of_gpio.h>
 
@@ -106,9 +102,7 @@ void __attribute__ ((weak)) kicker_pbm_by_flash(bool status)
 #ifndef ODM_HQ_EDIT
 /*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 #ifdef VENDOR_EDIT
-/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 void FlashRegulatorCtrl(int Stage);
 #endif
 #endif
@@ -337,7 +331,6 @@ static struct flashlight_dev *flashlight_find_dev_by_full_index(
 	return NULL;
 }
 #ifdef VENDOR_EDIT
-/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 static struct flashlight_dev *flashlight_find_dev_by_index(
 		const int type, const int ct, const int part)
@@ -578,17 +571,14 @@ ssize_t strobe_VDIrq(void)
 EXPORT_SYMBOL(strobe_VDIrq);
 
 #ifdef VENDOR_EDIT
-/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 extern int mp3331_readReg(int reg);
 extern int lm3642_readReg(int reg);
-/*Yijun.Tan@Camera.Driver, 2017/12/06  add new flashlight driver ic aw3642*/
 extern int aw3642_readReg(int reg);
 #endif
 
 /*Yijun.Tan@Camera modify for can not read deivce id in factory mode 20180321*/
 extern int kdVIOPowerOn( int On);
-/*weiriqin@camera.driver on 20190516, debug flashlight use mt6370 pmic first time*/
 #ifdef CONFIG_MTK_FLASHLIGHT_MT6370
 static int part_id = -1;
 int strobe_getPartId(int sensorDev, int strobeId)
@@ -600,7 +590,6 @@ int strobe_getPartId(int sensorDev, int strobeId)
     }
     //kdVIOPowerOn(1);
     if (sensorDev == 1 && strobeId == 1) {
-	/*wujun@Camera.RM, 2019/10/12  not use these flashlight driver ic*/
 	#if 0
         if (lm3642_readReg(0x00) == 0){
             part_id = 0;
@@ -608,7 +597,6 @@ int strobe_getPartId(int sensorDev, int strobeId)
         else if (mp3331_readReg(0x00) == 0x18){
             part_id = 2;
         }
-        /*Yijun.Tan@Camera.Driver, 2017/12/06  add new flashlight driver ic aw3642*/
         else if (aw3642_readReg(0x00) == 0x36){
             part_id = 1;
         }
@@ -632,7 +620,6 @@ int strobe_getPartId(int sensorDev, int strobeId)
 }
 #endif
 
-/*Feng.Hu@Camera.Driver 20171215 add to control flashlight via proc file*/
 static int flashlight_state = 0;
 static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t count,
                                                                      loff_t *data)
@@ -677,7 +664,6 @@ static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t
 		fl_dev_arg.channel = fdev->dev_id.channel;
 		if (fdev->ops) {
 			#ifdef VENDOR_EDIT
-			/* Shounan.Yang@Camera.Driver add for Dual channel flashlight 20190624 */
 			fdev->ops->flashlight_set_driver(1);
 			pr_info("regBuf[0] == '5' set driver:1");
 			#endif
@@ -705,7 +691,6 @@ static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t
 		flashlight_state = regBuf[0] - '0';
 
 		fl_dev_arg.channel = fdev->dev_id.channel;
-		//Feiping.Li@Cam.Drv, 20191101, add for 19165 single torch
 		pr_info("channel %d", fdev->dev_id.channel);
 		#ifdef CONFIG_MTK_FLASHLIGHT_MT6360
 		pr_debug("enable flash 0");
@@ -730,7 +715,6 @@ static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t
 		}
 		#endif
 		#ifdef VENDOR_EDIT
-		/* Shounan.Yang@Camera.Driver add for Dual channel flashlight 20190624 */
 		if (fdev->ops) {
 			fdev->ops->flashlight_set_driver(0);
 			pr_info("set driver 0");
@@ -743,7 +727,6 @@ static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t
 		fl_dev_arg.channel = fdev->dev_id.channel;
 		if (fdev->ops) {
 			#ifdef VENDOR_EDIT
-			/* Shounan.Yang@Camera.Driver add for Dual channel flashlight 20190624 */
 			fdev->ops->flashlight_set_driver(1);
 			pr_info("regBuf[0] == '1'set driver 1");
 			#endif
@@ -756,7 +739,6 @@ static ssize_t FL_HW_WRITE( struct file *file, const char __user *buffer, size_t
 			//kdVIOPowerOn(0);
 			return -EFAULT;
 		}
-		//Feiping.Li@Cam.Drv, 20191101, add for 19165 single torch
 		#ifdef CONFIG_MTK_FLASHLIGHT_MT6360
 		pr_debug("enable flash 1");
 		fl_dev_arg.arg = 2;
@@ -979,16 +961,13 @@ static long _flashlight_ioctl(
 		return -EFAULT;
 	}
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver add for two flash IC 20180304*/
 	part = strobe_getPartId(1,1);
 	#endif
 
 	/* find flashlight device */
 	mutex_lock(&fl_mutex);
 	#ifdef VENDOR_EDIT
-        /*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
         #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-	/*Yijun.Tan@Camera.Driver add for two flash IC 20180304*/
 	fdev = flashlight_find_dev_by_index(
 			flashlight_get_type_index(fl_arg.type_id),
 			flashlight_get_ct_index(fl_arg.ct_id),
@@ -999,7 +978,6 @@ static long _flashlight_ioctl(
 			flashlight_get_type_index(fl_arg.type_id),
 			flashlight_get_ct_index(fl_arg.ct_id));
 	#endif
-        /*weiriqin@camera.driver on 20190516, debug flashlight use mt6370 pmic first time*/
         #ifdef CONFIG_MTK_FLASHLIGHT_MT6370
         fdev = flashlight_find_dev_by_index(
                        flashlight_get_type_index(fl_arg.type_id),
@@ -1017,7 +995,6 @@ static long _flashlight_ioctl(
 	type = fdev->dev_id.type;
 	ct = fdev->dev_id.ct;
 	#ifndef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver add for two flash IC 20180304*/
 	part = fdev->dev_id.part;
 	#endif
 
@@ -1150,10 +1127,8 @@ static long _flashlight_ioctl(
 		pr_debug("FLASH_IOC_SET_ONOFF(%d,%d,%d): %d\n",
 				type, ct, part, fl_arg.arg);
 		mutex_lock(&fl_mutex);
-                /*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
         #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 		#ifdef VENDOR_EDIT
-		/*Yijun.Tan@Camera.Driver 20180322 add for resove flash cann't be closed sometimes after poweroff */
 		gpio_set_value(pin_gpio_strobe,fl_arg.arg);
 		pr_err("FLASH_IOC_SET_ONOFF after set gpio to %d",fl_arg.arg);
 		#endif
@@ -1218,9 +1193,7 @@ static int flashlight_open(struct inode *inode, struct file *file)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 	/* Regulator enable */
-	/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 	FlashRegulatorCtrl(1);
 	#endif
@@ -1267,9 +1240,7 @@ static int flashlight_release(struct inode *inode, struct file *file)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 	/* Regulator disable */
-        /*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 	FlashRegulatorCtrl(2);
 	#endif
@@ -1943,9 +1914,7 @@ static struct cdev *flashlight_cdev;
 #ifndef ODM_HQ_EDIT
 /*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 #ifdef VENDOR_EDIT
-/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 /******************************************************************************
  * Flashlight operations
  *****************************************************************************/
@@ -2002,7 +1971,6 @@ static int fl_uninit(void)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 	/*Yijun.Tan@Camera add for resolve flash can not be close when power off 20180427*/
 	FlashRegulatorCtrl(1);
@@ -2031,7 +1999,6 @@ static int fl_uninit(void)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*weiriqin@camera.driver on 20190516, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
 	/*Yijun.Tan@Camera add for resolve flash can not be close when power off 20180427*/
 	FlashRegulatorCtrl(2);
@@ -2126,7 +2093,6 @@ static int flashlight_probe(struct platform_device *dev)
 	}
 	*/
 	#ifdef VENDOR_EDIT
-	/*zhengjiang.zhu@Camera.driver, 2017/06/28  add for flashlight */
 	flash_proc_init();
 	#endif /*VENDOR_EDIT*/
 	/* init flashlight */
@@ -2134,9 +2100,7 @@ static int flashlight_probe(struct platform_device *dev)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-	/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 	/* Regulator get */
 	FlashRegulatorCtrl(0);
 	#endif
@@ -2199,9 +2163,7 @@ static int flashlight_remove(struct platform_device *dev)
 	#ifndef ODM_HQ_EDIT
 	/*Houbing.Peng@ODM_HQ Cam.Drv 20191127 add to fix multi reset of iovdd regulator*/
 	#ifdef VENDOR_EDIT
-	/*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
 	#ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-	/*Yijun.Tan@Camera.Driver 20180204 add for resolve flash cts verify fail*/
 	/* Regulator put */
 	FlashRegulatorCtrl(3);
 	#endif
@@ -2251,9 +2213,7 @@ static int __init flashlight_init(void)
 {
 	int ret;
 	#ifdef VENDOR_EDIT
-    /*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
     #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-	/*Yijun.Tan@Camera.Driver 20180322 add for resove flash cann't be closed sometimes after poweroff */
 	struct device_node *node = NULL;
     #endif
 	#endif
@@ -2276,7 +2236,6 @@ static int __init flashlight_init(void)
 
 #ifdef CONFIG_MTK_FLASHLIGHT_PT
 #ifndef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/05/25, Add for pmic invalid at low battery voltage */
 	register_low_battery_notify(
 			&pt_low_vol_callback, LOW_BATTERY_PRIO_FLASHLIGHT);
 	register_battery_percent_notify(
@@ -2287,9 +2246,7 @@ static int __init flashlight_init(void)
 #endif
 
 	#ifdef VENDOR_EDIT
-        /*weiriqin@camera.driver on 20190616, debug flashlight use mt6370 pmic first time*/
         #ifndef CONFIG_MTK_FLASHLIGHT_MT6370
-	/*Yijun.Tan@Camera.Driver 20180322 add for resove flash cann't be closed sometimes after poweroff */
 	node = of_find_matching_node(node, flashlight_of_match);
 	pin_gpio_strobe = of_get_named_gpio(node, "gpio_strob", 0);
 	pr_debug("pin_gpio_strobe = %d \n",pin_gpio_strobe);

@@ -25,7 +25,7 @@ subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/typec/tcpc/inc
 subdir-ccflags-y += -I$(srctree)/drivers/power/supply/mediatek/misc/
 subdir-ccflags-y += -I$(srctree)/drivers/power/supply/mediatek/battery/
 
-#ifdef ODM_HQ_EDIT /* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
+#ifdef ODM_HQ_EDIT
 ifeq ($(CONFIG_OPPO_HQ_CHARGER),y)
 obj-y += charger_class.o mtk_switch_charging.o mtk_pdc_intf.o\
 	 mtk_chg_type_det.o mtk_pe40_intf.o mtk_linear_charging.o\

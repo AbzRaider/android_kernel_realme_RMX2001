@@ -176,7 +176,6 @@ struct disp_iommu_device *disp_get_iommu_dev(void);
 #define DISP_IOCTL_OVL_DISABLE_CASCADE	_IOW(DISP_IOCTL_MAGIC, 91, int)
 
 #ifdef VENDOR_EDIT
-/* Xinqin.Yang@Cam.Tuning.Display, 2018/11/17, add for multi-lcms */
 typedef struct {
     char name[128];
 } LCM_MODULE_INFO;
@@ -184,7 +183,6 @@ typedef struct {
 #define DISP_IOCTL_GET_LCM_MODULE_INFO      _IOR(DISP_IOCTL_MAGIC, 236, LCM_MODULE_INFO)
 #endif /* VENDOR_EDIT */
 //#ifdef ODM_HQ_EDIT
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/12 modified for TM JDI pq */
 #define DISP_IOCTL_GET_LCM_MODULE_INFO      _IOR(DISP_IOCTL_MAGIC, 236, LCM_MODULE_INFO)
 //#endif /* ODM_HQ_EDIT */
 

@@ -97,7 +97,6 @@ enum audio_system_gpio_type {
 	GPIO_AUD_CLK_MOSI_HIGH,
 	GPIO_AUD_CLK_MOSI_LOW,
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,, add for smartPa. */
 	GPIO_I2S0_MODE0,
 	GPIO_I2S0_MODE1,
 	GPIO_I2S1_MODE0,
@@ -157,7 +156,6 @@ static struct audio_gpio_attr aud_gpios[GPIO_NUM] = {
 		NULL
 	},
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,, Add for smartPa. */
 	[GPIO_I2S0_MODE0] = {"audi2s0-mode0", false, NULL},
 	[GPIO_I2S0_MODE1] = {"audi2s0-mode1", false, NULL},
 	[GPIO_I2S1_MODE0] = {"audi2s1-mode0", false, NULL},
@@ -247,7 +245,6 @@ static int AudDrv_GPIO_Select(enum audio_system_gpio_type _type)
 #endif
 }
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,, Add for smartPa */
 int auddrv_gpio_i2s0_select(int b_enable)
 {
 	int retval = 0;

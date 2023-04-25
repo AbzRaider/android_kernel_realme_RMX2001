@@ -34,7 +34,6 @@ enum ALSPS_NOTIFY_TYPE {
 };
 
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/12/24, Add for als data filter */
 #define ALS_FIR_LEN 5
 struct als_data_filter
 {

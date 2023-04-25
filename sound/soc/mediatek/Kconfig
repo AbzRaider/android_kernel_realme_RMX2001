@@ -264,7 +264,6 @@ config SND_SOC_MTK_AUDIO_DSP
 	  If unsure select "N".
 
 #ifdef VENDOR_EDIT
-#Yongzhi.Zhang@PSW.MM.AudioDriver.feature.1209435, 2017/08/01, add for KTV
 config OPPO_KTV_DEV
     bool "KTV feature"
 	default n
@@ -273,7 +272,6 @@ config OPPO_KTV_DEV
 #endif /*VENDOR_EDIT*/
 
 #ifdef ODM_HQ_EDIT
-#fanxiongnan@ODM.HQ.Multimedia.Audio 2019/10/09 added for aw87339 bringup
 config SND_SOC_AW87339
 	tristate "SoC Audio for awinic AW87339 Smart K PA"
 	depends on I2C
@@ -282,7 +280,6 @@ config SND_SOC_AW87339
 #endif /* ODM_HQ_EDIT */
 
 #ifdef ODM_HQ_EDIT
-#fanxiongnan@ODM.HQ.Multimedia.Audio 2019/11/06 added for SIA8109 speaker pa
 config SND_SOC_SIA8109
 	tristate "SoC Audio for awinic SIA8109 Smart PA"
 	depends on I2C

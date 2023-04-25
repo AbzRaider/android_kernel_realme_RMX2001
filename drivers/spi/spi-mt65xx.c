@@ -734,7 +734,6 @@ static irqreturn_t mtk_spi_interrupt(int irq, void *dev_id)
 		mdata->state = MTK_SPI_IDLE;
 		
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/09/20 add for master->cur_msg = NULL crash, workaround ALPS04114936 */
 	if (NULL == master->cur_msg) {
 		master->cur_msg_prepared = false;
 #if 1   /*KERNEL_VERSION(4, 9, 0) <= LINUX_VERSION_CODE*/

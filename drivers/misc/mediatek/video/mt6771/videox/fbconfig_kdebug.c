@@ -34,7 +34,6 @@
 
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/16,
 * add for lcd serial number
 */
 #include <soc/oppo/oppo_project.h>
@@ -162,7 +161,6 @@ int fbconfig_get_esd_check(enum DSI_INDEX dsi_id, uint32_t cmd,
 
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/16,
 * add for lcd serial
 */
 
@@ -230,7 +228,6 @@ int panel_serial_number_read(char cmd, uint64_t *buf, int num)
 				 + (panel_serial_info.second	<< 16);
 
 				/*
-				* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/11/13,
 				* add for lcd serial del unused params;
 				*/
 				//+ (panel_serial_info.reserved[0] << 8)+ (panel_serial_info.reserved[1]);
@@ -256,7 +253,6 @@ int panel_serial_number_read(char cmd, uint64_t *buf, int num)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/01/26,
 * add lcm id info read
 */
 int lcm_id_info_read(char cmd, uint32_t *buf, int num)

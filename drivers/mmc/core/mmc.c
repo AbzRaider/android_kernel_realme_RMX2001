@@ -376,7 +376,6 @@ static void mmc_manage_gp_partitions(struct mmc_card *card, u8 *ext_csd)
 #define MMC_MIN_PART_SWITCH_TIME	300
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/9/7 add for devinfo*/
 struct mmc_card *card_devinfo = NULL;;
 #endif
 
@@ -391,7 +390,6 @@ static int mmc_decode_ext_csd(struct mmc_card *card, u8 *ext_csd)
 	bool broken_hpi = false;
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/9/7 add for devinfo*/
 	card_devinfo = card;
 #endif
 

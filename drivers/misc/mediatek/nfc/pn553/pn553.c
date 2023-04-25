@@ -117,7 +117,6 @@ static unsigned char I2CDMAReadBuf[MAX_BUFFER_SIZE];
 static void pn553_enable_irq(struct pn553_dev *pn553_dev)
 {
 	unsigned long flags;
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("%s\n", __func__);
 
 	spin_lock_irqsave(&pn553_dev->irq_enabled_lock, flags);
@@ -132,7 +131,6 @@ static void pn553_enable_irq(struct pn553_dev *pn553_dev)
 static void pn553_disable_irq(struct pn553_dev *pn553_dev)
 {
 	unsigned long flags;
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("%s\n", __func__);
 
 
@@ -152,7 +150,6 @@ static void pn553_disable_irq(struct pn553_dev *pn553_dev)
 static irqreturn_t pn553_dev_irq_handler(int irq, void *dev)
 {
 	struct pn553_dev *pn553_dev = dev;
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("pn553_dev_irq_handler()\n");
 
 	pn553_disable_irq(pn553_dev);
@@ -173,7 +170,6 @@ static int pn553_platform_pinctrl_select(struct pinctrl *p, struct pinctrl_state
 		if (ret) {
 			printk("pn553 pinctrl select state:%s failed\n", s->name);
 		} else {
-			/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 			//printk("pn553 pinctrl select state %s ok\n", s->name);
 		}
 	} else {
@@ -194,23 +190,18 @@ static ssize_t pn553_dev_read(struct file *filp, char __user *buf,
 
 	if (count > MAX_BUFFER_SIZE)
 		count = MAX_BUFFER_SIZE;
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("pn553 %s : reading %zu bytes.\n", __func__, count);
 	mutex_lock(&pn553_dev->read_mutex);
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("pn553 pn553_dev->irq_gpio ==%d\n",gpio_get_value(pn553_dev->irq_gpio));
 	if (!gpio_get_value(pn553_dev->irq_gpio)) {
 		pn553_enable_irq(pn553_dev);
 		//set_current_state(TASK_INTERRUPTIBLE);
-		/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 		//printk("pn553 read1  pn553_dev->irq_enabled=%d\n", pn553_dev->irq_enabled);
 		//printk("pn553 pn553_dev->irq_gpio ==%d\n",gpio_get_value(pn553_dev->irq_gpio));
 		ret = wait_event_interruptible(pn553_dev->read_wq, !pn553_dev->irq_enabled);
-		/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 		//printk("pn553 read2  pn553_dev->irq_enabled=%d\n", pn553_dev->irq_enabled);
 		//pn553_flag = 0;
 		pn553_disable_irq(pn553_dev);
-		/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 		//printk("pn553 %s :wait_event_interruptible  ret == %d.\n", __func__, ret);
 		if (ret)
 		{
@@ -239,7 +230,6 @@ static ssize_t pn553_dev_read(struct file *filp, char __user *buf,
 	}
 
 	mutex_unlock(&pn553_dev->read_mutex);
-/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 #if 0
 	printk("pn553 IFD->PC:");
 	for(i = 0; i < count; i++) {
@@ -274,7 +264,6 @@ static ssize_t pn553_dev_write(struct file *filp, const char __user *buf,
 		return -EFAULT;
 	}
 	msleep(15);
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//printk("pn553 %s : writing %zu bytes.\n", __func__, count);
 
 	ret = i2c_master_send(pn553_dev->client, I2CDMAWriteBuf, count);
@@ -306,7 +295,6 @@ static long pn553_dev_unlocked_ioctl(struct file *filp, unsigned int cmd,
 				      unsigned long arg)
 {
 	int ret;
-	/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 	//struct pn553_dev *pn553_dev = filp->private_data;
 
 	//printk("%s:cmd=%d, arg=%ld, pn553_dev=%p\n", __func__, cmd, arg, pn553_dev);
@@ -316,7 +304,6 @@ static long pn553_dev_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		case PN553_SET_PWR:
 			if (arg == 2) {
 				/* power on with firmware download (requires hw reset) */
-				/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 				//printk("pn553 %s power on with firmware\n", __func__);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_ven_h);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_dwn_h);
@@ -327,14 +314,12 @@ static long pn553_dev_unlocked_ioctl(struct file *filp, unsigned int cmd,
 				msleep(10);
 			} else if (arg == 1) {
 				/* power on */
-				/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 				//printk("pn553 %s power on\n", __func__);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_dwn_l);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_ven_h); 
 				msleep(10);
 			} else  if (arg == 0) {
 				/* power off */
-				/* zuoqiquan@ODM.BSP.Sensor  2020/02/07 ,RTC 2671978,close log for performance */
 				//printk("pn553 %s power off\n", __func__);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_dwn_l);
 				ret = pn553_platform_pinctrl_select(gpctrl, st_ven_l);

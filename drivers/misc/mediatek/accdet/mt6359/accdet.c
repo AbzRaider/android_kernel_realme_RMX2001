@@ -208,7 +208,6 @@ static bool dump_reg;
 static struct task_struct *thread;
 
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for tp headset mode*/
 extern void switch_headset_state(int headset_state);
 #endif  /* ODM_HQ_EDIT */
 
@@ -1050,7 +1049,6 @@ static void send_accdet_status_event(u32 cable_type, u32 status)
 		pr_info("%s HEADPHONE(3-pole) %s\n", __func__,
 			status ? "PlugIn" : "PlugOut");
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for tp headset mode*/
 		switch_headset_state(status);
 #endif  /* ODM_HQ_EDIT */
 		break;
@@ -1067,7 +1065,6 @@ static void send_accdet_status_event(u32 cable_type, u32 status)
 		pr_info("%s MICROPHONE(4-pole) %s\n", __func__,
 			status ? "PlugIn" : "PlugOut");
 #ifdef ODM_HQ_EDIT
-		/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for tp headset mode*/
 		switch_headset_state(status);
 #endif  /* ODM_HQ_EDIT */
 		break;
@@ -1078,7 +1075,6 @@ static void send_accdet_status_event(u32 cable_type, u32 status)
 		pr_info("%s LineOut %s\n", __func__,
 			status ? "PlugIn" : "PlugOut");
 #ifdef ODM_HQ_EDIT
-		/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for tp headset mode*/
 		switch_headset_state(status);
 #endif  /* ODM_HQ_EDIT */
 		break;

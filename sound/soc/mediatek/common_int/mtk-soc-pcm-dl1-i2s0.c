@@ -115,8 +115,6 @@ static int Audio_i2s0_SideGen_Set(struct snd_kcontrol *kcontrol,
 	AudDrv_GPIO_SMARTPA_Select(mi2s0_sidegen_control > 0 ? 1 : 0);
 
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,,
-	 * add for P40 audio debugging */
 	pr_info("%s(), sidegen = %d, hdoutput = %d, extcodec_echoref = %d, always_hd = %d\n",
 		 __func__,
 		 mi2s0_sidegen_control,
@@ -365,8 +363,6 @@ static int Audio_i2s0_hdoutput_Set(struct snd_kcontrol *kcontrol,
 				   struct snd_ctl_elem_value *ucontrol)
 {
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,,
-	 * add for P40 audio debugging */
 	pr_info("+%s() set %d\n", __func__, ucontrol->value.enumerated.item[0]);
 #else /* VENDOR_EDIT */
 	pr_debug("+%s()\n", __func__);
@@ -407,8 +403,6 @@ static int Audio_i2s0_ExtCodec_EchoRef_Set(struct snd_kcontrol *kcontrol,
 					   struct snd_ctl_elem_value *ucontrol)
 {
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,,
-	 * add for P40 audio debugging */
 	pr_info("%s() set %d\n", __func__, ucontrol->value.enumerated.item[0]);
 #else /* VENDOR_EDIT */
 	pr_debug("%s()\n", __func__);

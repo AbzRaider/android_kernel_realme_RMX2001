@@ -46,7 +46,6 @@ struct IMGSENSOR_HW_POWER_INFO {
 };
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190912 MTK patch for mipi switch */
 struct IMGSENSOR_HW_POWER_SEQ {
 	char *name;
 	struct IMGSENSOR_HW_POWER_INFO pwr_info[IMGSENSOR_HW_POWER_INFO_MAX];

@@ -5,7 +5,6 @@
 ** Description: Source file for backlight drvier.
 ** Version: 1.0
 ** Date : 2017/05/06
-** Author: Rongchun.Zhang@EXP.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** zhangrongchun 2017/05/06 1.0 build this module
@@ -37,7 +36,6 @@
 
 #ifdef VENDOR_EDIT
 /*
- * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
  * add for backlight IC KTD3136
  */
 #include <soc/oppo/oppo_project.h>
@@ -57,7 +55,6 @@
 
 #ifdef VENDOR_EDIT
 /*
- * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
  * add for backlight IC KTD3136
  */
 #define KTD3136_EXPONENTIAL 1
@@ -98,7 +95,6 @@ static const struct of_device_id lcm_of_match[] = {
 static int bl_probe(struct i2c_client *client, const struct i2c_device_id *id);
 static int bl_remove(struct i2c_client *client);
 
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2017/12/29, Add for lcm ic esd recovery backlight */
 extern unsigned int esd_recovery_backlight_level;
 
 static struct i2c_driver bl_i2c_driver = {
@@ -388,7 +384,6 @@ static int backlight_mp3188_buf[] = {
 
 #ifdef VENDOR_EDIT
 /*
- * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
  * add for backlight IC KTD3136
  */
 static int backlight_ktd3136_buf[] = {
@@ -509,7 +504,6 @@ int lm3697_setbacklight(unsigned int level)
 		level = 2047;
 
 	/*
-	* Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	* add for backlight IC KTD3136
 	*/
 	if (is_lm3697 == 2) {   /*KTD3136*/

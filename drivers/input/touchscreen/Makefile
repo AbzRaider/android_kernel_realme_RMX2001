@@ -105,7 +105,6 @@ obj-$(CONFIG_TOUCHSCREEN_ZET6223)	+= zet6223.o
 obj-$(CONFIG_TOUCHSCREEN_ZFORCE)	+= zforce_ts.o
 obj-$(CONFIG_TOUCHSCREEN_COLIBRI_VF50)	+= colibri-vf50-ts.o
 obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
-#Benshan.Cheng@ODM_HQ.MM.Tp, 2019/10/21, add tp driver
 ifeq ($(ODM_HQ_EDIT),yes)
 obj-$(CONFIG_TOUCHPANEL_OPPO) += oppo_touchscreen/
 obj-$(CONFIG_TOUCHPANEL_OPPO) += touch.o

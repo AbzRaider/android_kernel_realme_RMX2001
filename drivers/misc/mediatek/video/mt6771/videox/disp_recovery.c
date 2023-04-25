@@ -76,19 +76,15 @@
 #include "mtk_ovl.h"
 
 #ifdef VENDOR_EDIT
-/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/09/24,add mm critical log */
 #include <soc/oppo/mmkey_log.h>
 /*
-* liping-m@PSW.MM.Display.LCD.Stability, 2018/07/21,
 * add power seq api for ulps
 */
 #include <soc/oppo/oppo_project.h>
-/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 #include <linux/oppo_mm_kevent_fb.h>
 #endif /*VENDOR_EDIT*/
 /* For abnormal check */
 #ifdef VENDOR_EDIT
-/*Cong.Dai@PSW.BSP.TP, 2017/11/18, add for stop lcd esd check until firmware update*/
 static atomic_t esd_check_fw_updated = ATOMIC_INIT(0);
 #endif /*VENDOR_EDIT*/
 static struct task_struct *primary_display_check_task;
@@ -131,16 +127,13 @@ static unsigned int extd_esd_check_enable;
 
 #ifdef VENDOR_EDIT
 /*
-* Yangzhenxuan@PSW.BSP.TP.FUNCTION, 2019/02/26,
 * add to trigger tp irq reset for esd recovery
 */
 void __attribute__((weak)) lcd_trigger_tp_irq_reset(void) {return;}
 #endif
 
 #ifdef VENDOR_EDIT
-/*Yongpeng.Yi@PSW.MM.Display.LCD.Stability 2017/12/29, Add for lcm ic esd recovery backlight */
 unsigned int esd_recovery_backlight_level = 2;
-/*Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/04, add for hx83112a lcd esd read reg*/
 static atomic_t enable_lcm_recovery = ATOMIC_INIT(0);
 #endif /* VENDOR_EDIT */
 unsigned int get_esd_check_mode(void)
@@ -308,7 +301,6 @@ int do_esd_check_eint(void)
 		ret = 1; /* esd check fail */
 
 	#ifdef VENDOR_EDIT
-	/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/09/24,add mm critical log */
 	if (ret) {
 		mm_keylog_write("Dispaly Panel do_esd_check_eint fail\n", "ESD\n", TYPE_ESD_EXCEPTION);
 	}
@@ -369,7 +361,6 @@ int do_esd_check_read(void)
 		/* do dsi reset */
 		dpmgr_path_build_cmdq(phandle, qhandle, CMDQ_DSI_RESET, 0);
 		#ifdef VENDOR_EDIT
-		/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/12/13,add mm critical log */
 		mm_keylog_write("Dispaly Panel do_esd_check_read fail\n", "ESD\n", TYPE_ESD_EXCEPTION);
 		#endif /* VENDOR_EDIT */
 		goto destroy_cmdq;
@@ -495,7 +486,6 @@ void display_esd_check_enable_bytouchpanel(bool enable)
 	}
 }
 EXPORT_SYMBOL(display_esd_check_enable_bytouchpanel);
-/*Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/04, add for hx83112a lcd esd read reg*/
 int display_esd_recovery_lcm(void)
 {
 	if (atomic_read(&enable_lcm_recovery)) {
@@ -514,7 +504,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 	int esd_try_cnt = 5;
 	int recovery_done = 0;
 	#ifdef VENDOR_EDIT
-	/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 	unsigned char payload[100] = "";
 	#endif
 
@@ -522,7 +511,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 	sched_setscheduler(current, SCHED_RR, &param);
 
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2019/01/26, add for esd test */
 	if (is_project(18531) || is_project(18561) || is_project(18161) ) {
 		esd_try_cnt = 9;
 	}
@@ -531,7 +519,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 	while (1) {
 #ifndef VENDOR_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/25,
 		* add for esd recovery
 		*/
 		msleep(2000); /* 2s */
@@ -539,7 +526,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 		msleep(5000);
 		#endif /*VENDOR_EDIT*/
 #ifndef VENDOR_EDIT
-		/*Cong.Dai@PSW.BSP.TP, 2017/11/18, add for stop lcd esd check until firmware update*/
 		ret = wait_event_interruptible(_check_task_wq, atomic_read(&_check_task_wakeup));
 #else
 		ret = wait_event_interruptible(_check_task_wq, atomic_read(&_check_task_wakeup) && atomic_read(&esd_check_fw_updated));
@@ -564,7 +550,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 			if (!ret) /* 0:success */
 				break;
 			#ifdef VENDOR_EDIT
-			/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/04, add for hx83112a lcd esd read reg*/
 			if (is_project(18311) || is_project(18011)
 			|| is_project(18531) || is_project(18561)
 			|| is_project(18161)) {
@@ -581,12 +566,10 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 				i);
 			primary_display_esd_recovery();
 			#ifdef VENDOR_EDIT
-			/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 			scnprintf(payload, sizeof(payload), "EventID@@%d$$panel_name@@%s$$ReportLevel@@%d",
 				OPPO_MM_DIRVER_FB_EVENT_ID_ESD,primary_get_lcm()->drv->name,OPPO_MM_DIRVER_FB_EVENT_REPORTLEVEL_HIGH);
 			upload_mm_kevent_fb_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_DISPLAY,payload);
 			/*
-			* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/12,
 			* add for esd recovery
 			*/
 			msleep(2000);
@@ -599,13 +582,11 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 				esd_try_cnt);
 			primary_display_esd_check_enable(0);
 			#ifdef VENDOR_EDIT
-			/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/04, add for hx83112a lcd esd read reg*/
 			atomic_set(&enable_lcm_recovery, 0);
 			#endif /*VENDOR_EDIT*/
 		} else if (recovery_done == 1) {
 			DISPCHECK("[ESD]esd recovery success\n");
 			#ifdef VENDOR_EDIT
-			/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/04, add for hx83112a lcd esd read reg*/
 			atomic_set(&enable_lcm_recovery, 0);
 			#endif /*VENDOR_EDIT*/
 			recovery_done = 0;
@@ -622,7 +603,6 @@ static int primary_display_check_recovery_worker_kthread(void *data)
 }
 
 #ifdef VENDOR_EDIT
-/* zhongwenjie@PSW.BSP.TP.Function, 2018/07/05, Add for tp fw download after esd recovery */
 extern void lcd_queue_load_tp_fw(void);
 extern bool flag_lcd_off;
 #endif /*VENDOR_EDIT*/
@@ -687,7 +667,6 @@ int primary_display_esd_recovery(void)
 	disp_lcm_suspend(primary_get_lcm());
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/05,
 	* add power seq api for ulps
 	*/
 	disp_lcm_poweroff_after_ulps(primary_get_lcm());
@@ -707,7 +686,6 @@ int primary_display_esd_recovery(void)
 	DISPDBG("[ESD]lcm recover[begin]\n");
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/05,
 	* add power seq api for ulps
 	*/
 	msleep(80);
@@ -766,7 +744,6 @@ int primary_display_esd_recovery(void)
 done:
 	#ifdef VENDOR_EDIT
 	/*
-	* Yangzhenxuan@PSW.BSP.TP.FUNCTION, 2019/02/26,
 	* add to trigger tp irq reset for esd recovery
 	*/
 	lcd_trigger_tp_irq_reset();
@@ -774,15 +751,12 @@ done:
 	primary_display_manual_unlock();
 	#ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/07/21,
 	* add for 17197 esd recovery
 	*/
 	if (is_project(18311) || is_project(18011) || is_project(18611)) {
-		/* zhongwenjie@PSW.BSP.TP.Function, 2018/07/05, Add for tp fw download after esd recovery */
 		lcd_queue_load_tp_fw();
 	}
 
-		/* zhongwenjie@PSW.BSP.TP.Function, 2018/07/05, Add for tp fw download after esd recovery */
 	if ((!strcmp(primary_get_lcm()->drv->name,"oppo18561_dsjm_jdi_himax83112a_1080p_dsi_vdo"))
 	|| (!strcmp(primary_get_lcm()->drv->name,"oppo18561_tianma_himax83112a_1080p_dsi_vdo"))) {
 		lcd_queue_load_tp_fw();
@@ -1317,7 +1291,6 @@ static int external_display_check_recovery_worker_kthread(void *data)
 	sched_setscheduler(current, SCHED_RR, &param);
 
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2019/01/26, add for esd test */
 	if (is_project(18531) || is_project(18561) || is_project(18161) ) {
 		esd_try_cnt = 9;
 	}
@@ -1326,7 +1299,6 @@ static int external_display_check_recovery_worker_kthread(void *data)
 	while (1) {
 		#ifndef VENDOR_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/12/13,
 		* modify for esd check 5s
 		*/
 		msleep(2000);/*2s*/

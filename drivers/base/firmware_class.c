@@ -196,7 +196,6 @@ static int __fw_state_check(struct fw_state *fw_st, enum fw_status status)
 #define FW_OPT_NO_WARN	(1U << 3)
 #define FW_OPT_NOCACHE	(1U << 4)
 #ifdef VENDOR_EDIT
-//Tong.Han@Bsp.Group.Tp,2017-12-16,Add interface to get proper fw
 #define FW_OPT_COMPARE (1U << 5)
 #endif/*VENDOR_EDIT*/
 
@@ -374,7 +373,6 @@ static const char * const fw_path[] = {
 	"/data/misc/firmware/active/",
 	fw_path_para,
 	#ifdef ODM_HQ_EDIT
-	//fanxiongnan@ODM.HQ_Multimedia.Audio 2019/10/09 added for aw87339 bringup
 	"/vendor/firmware",
 	#endif /* ODM_HQ_EDIT */
 	"/lib/firmware/updates/" UTS_RELEASE,
@@ -393,7 +391,6 @@ module_param_string(path, fw_path_para, sizeof(fw_path_para), 0644);
 MODULE_PARM_DESC(path, "customized firmware image search path with a higher priority than default path");
 
 #ifdef VENDOR_EDIT
-//Wanghao@Bsp.Group.Tp,2018-02-13, Add to avoid direct pass encrypt tp firmware to driver
 static int fw_get_filesystem_firmware(struct device *device,
 				       struct firmware_buf *buf, unsigned int opt_flags)
 #endif
@@ -406,7 +403,6 @@ static int fw_get_filesystem_firmware(struct device *device,
 	size_t msize = INT_MAX;
 
         #ifdef VENDOR_EDIT
-        //Wanghao@Bsp.Group.Tp,2018-02-13, Add to avoid direct pass encrypt tp firmware to driver
         if(opt_flags & FW_OPT_COMPARE) {
                 pr_err("%s opt_flags get FW_OPT_COMPARE!\n", __func__);
                 return rc;
@@ -1046,7 +1042,6 @@ static int _request_firmware_load(struct firmware_priv *fw_priv,
 	struct device *f_dev = &fw_priv->dev;
 	struct firmware_buf *buf = fw_priv->buf;
     #ifdef VENDOR_EDIT
-	//Tong.Han@Bsp.Group.Tp,2017-12-16,Add interface to get proper fw
 	char *envp[2]={"FwUp=compare", NULL};
 	#endif/*VENDOR_EDIT*/
 	/* fall back on userspace loading */
@@ -1070,7 +1065,6 @@ static int _request_firmware_load(struct firmware_priv *fw_priv,
 		dev_set_uevent_suppress(f_dev, false);
 		dev_dbg(f_dev, "firmware: requesting %s\n", buf->fw_id);
         #ifdef VENDOR_EDIT
-		//Tong.Han@Bsp.Group.Tp,2017-12-16,Add interface to get proper fw
 		if (opt_flags & FW_OPT_COMPARE) {
 			kobject_uevent_env(&fw_priv->dev.kobj, KOBJ_CHANGE,envp);
 		} else {
@@ -1248,7 +1242,6 @@ _request_firmware(const struct firmware **firmware_p, const char *name,
 		goto out;
 
         #ifdef VENDOR_EDIT
-        //Wanghao@Bsp.Group.Tp,2018-02-13, Add to avoid direct pass encrypt tp firmware to driver
 		ret = fw_get_filesystem_firmware(device, fw->priv, opt_flags);
 		#else
 	    ret = fw_get_filesystem_firmware(device, fw->priv);
@@ -1337,7 +1330,6 @@ int request_firmware_direct(const struct firmware **firmware_p,
 EXPORT_SYMBOL_GPL(request_firmware_direct);
 
 #ifdef VENDOR_EDIT
-//Tong.Han@Bsp.Group.Tp,2017-12-16,Add interface to get proper fw
 int request_firmware_select(const struct firmware **firmware_p, const char *name,
 		 struct device *device)
 {

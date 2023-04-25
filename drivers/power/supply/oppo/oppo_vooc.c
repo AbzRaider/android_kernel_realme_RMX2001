@@ -5,11 +5,9 @@
 *              Manage all charger IC and define abstarct function flow.
 * Version    : 1.0
 * Date       : 2015-06-22
-* Author     : fanhui@PhoneSW.BSP
 *            : Fanhong.Kong@ProDrv.CHG
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                       <desc>
-* Revision 1.0       2015-06-22        fanhui@PhoneSW.BSP            Created for new architecture
 * Revision 1.0       2015-06-22        Fanhong.Kong@ProDrv.CHG       Created for new architecture
 * Revision 2.0       2018-04-14        Fanhong.Kong@ProDrv.CHG       Upgrade for SVOOC
 ***********************************************************************************/
@@ -595,7 +593,6 @@ static void oppo_vooc_fastchg_func(struct work_struct *work)
 				&& chip->fast_chg_type == CHARGER_SUBTYPE_FASTCHG_VOOC)
 				&& oppo_chg_get_cool_down_status() >= 1)) {
 				#ifdef ODM_HQ_EDIT
-				/* zhangchao@ODM.HQ.Charger 2019/12/26 modified limit 3A */
 				ret_info = 0x03;
 				#else
 				ret_info = oppo_chg_get_cool_down_status();

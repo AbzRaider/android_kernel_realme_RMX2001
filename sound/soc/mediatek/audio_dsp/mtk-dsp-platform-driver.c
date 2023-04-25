@@ -647,8 +647,6 @@ static void mtk_dsp_dl_handler(struct mtk_base_dsp *dsp,
 			       struct ipi_msg_t *ipi_msg, int id)
 {
 #ifdef VENDOR_EDIT
-	/* Yongzhi.Zhang@PSW.MM.AudioDriver.Platform.2088625, 2019/06/21,
-	 * add for dl data transfering after pcm_close */
 	if (dsp->dsp_mem[id].substream == NULL)
 		goto DSP_IRQ_HANDLER_ERR;
 #endif /* VENDOR_EDIT */

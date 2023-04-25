@@ -17,7 +17,6 @@
 #include <lcm_drv.h>
 
 #ifdef VENDOR_EDIT
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/09/17, Add for porting lcd driver */
 extern struct LCM_DRIVER oppo17321_boe_td4310_1080p_dsi_vdo_lcm_drv;
 extern struct LCM_DRIVER oppo17321_dsjm_td4310_1080p_dsi_vdo_lcm_drv;
 extern struct LCM_DRIVER oppo17321_tianma_td4310_1080p_dsi_vdo_lcm_drv;
@@ -41,7 +40,6 @@ extern struct LCM_DRIVER oppo_tianma_nt36672_1080p_dsi_vdo_lcm_drv;
 extern struct LCM_DRIVER oppo_truly_nt36672_auo_1080p_dsi_vdo_lcm_drv;
 #endif /*VENDOR_EDIT*/
 
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/09/3, Add for porting 18561 lcd driver */
 #ifdef VENDOR_EDIT
 extern struct LCM_DRIVER oppo18561_djn_jdi_himax83112b_1080p_dsi_cmd_lcm_drv;
 extern struct LCM_DRIVER oppo18561_dpt_jdi_td4330_1080p_dsi_cmd_lcm_drv;
@@ -50,7 +48,6 @@ extern struct LCM_DRIVER oppo18561_dsjm_jdi_td4330_1080p_dsi_cmd_lcm_drv;
 extern struct LCM_DRIVER oppo18561_tianma_himax83112a_1080p_dsi_vdo_lcm_drv;
 extern struct LCM_DRIVER oppo18561_tianma_td4330_1080p_dsi_cmd_lcm_drv;
 #endif /*VENDOR_EDIT*/
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/08/30, Add for porting 18531 lcd driver */
 #ifdef VENDOR_EDIT
 extern struct LCM_DRIVER oppo18531_dpt_jdi_himax83112a_2_1080p_dsi_vdo_lcm_drv;
 extern struct LCM_DRIVER oppo18531_dsjm_jdi_himax83112b_1080p_dsi_cmd_lcm_drv;

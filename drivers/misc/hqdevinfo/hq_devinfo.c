@@ -29,7 +29,6 @@ static int hq_devinfo_probe(struct platform_device *pdev);
 static int hq_devinfo_remove(struct platform_device *pdev);
 
 #ifndef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 struct sensor_devinfo sensorinfo[] = {
 	{"icm4x6xx_acc","ICM"},
 	{"bmi160_acc","BOSCH"},
@@ -185,12 +184,10 @@ static void hq_parse_sensor_devinfo(int type, char ic_name[], char vendor[]){
 }
 
 #ifndef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 void hq_register_sensor_info(int type, char ic_name[]){
 	int i;
 	if(type >= 0 && type <3) {
 		for (i = 0; i < sizeof(sensorinfo)/sizeof(struct sensor_devinfo); i++) {
-			/* Jianmin.Niu@ODM.HQ.BSP.Sensors.Config 2019/2/1 Update string compare */
 			if(!strncmp(ic_name, sensorinfo[i].ic_name, strlen(ic_name))) {
 				hq_parse_sensor_devinfo(type, sensorinfo[i].ic_name, sensorinfo[i].vendor_name);
 				break;
@@ -201,7 +198,6 @@ void hq_register_sensor_info(int type, char ic_name[]){
 }
 #endif
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 void hq_register_sensor_info(int type, char ic_name[]){
 	return;
 }

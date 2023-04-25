@@ -52,7 +52,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20170815 add for multi project using one build*/
 #include <soc/oppo/oppo_project.h>
 #endif
 
@@ -243,7 +242,6 @@ static void write_cmos_sensor(kal_uint32 addr, kal_uint32 para)
 }
 
 #ifdef VENDOR_EDIT
-/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 static kal_uint8 gGc5035_SN[CAMERA_MODULE_SN_LENGTH];
 static void read_eeprom_SN(void)
 {
@@ -256,7 +254,6 @@ static void read_eeprom_SN(void)
 	}
 }
 
-/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 #define   WRITE_DATA_MAX_LENGTH     (16)
 static kal_int32 table_write_eeprom_30Bytes(kal_uint16 addr, kal_uint8 *para, kal_uint32 len)
 {
@@ -280,7 +277,6 @@ static kal_uint16 read_cmos_eeprom_8(kal_uint16 addr)
 	return get_byte;
 }
 
-/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 static kal_int32 write_Module_data(PACDK_SENSOR_ENGMODE_STEREO_STRUCT  pStereodata)
 {
 	kal_int32  ret = IMGSENSOR_RETURN_SUCCESS;
@@ -1829,7 +1825,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			if (*sensor_id == imgsensor_info.sensor_id) {
 				LOG_INF("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id, *sensor_id);
 				#ifdef VENDOR_EDIT
-				/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 				read_eeprom_SN();
 				if (is_project(OPPO_18561)) {
 					LOG_INF("18561: 5035 custom1 setmirrorflip\n");
@@ -2442,7 +2437,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	LOG_INF("feature_id = %d\n", feature_id);
 	switch (feature_id) {
 	#ifdef VENDOR_EDIT
-	/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 	case SENSOR_FEATURE_GET_MODULE_SN:
 		LOG_INF("gc5035 GET_MODULE_SN:%d %d\n", *feature_para_len, *feature_data_32);
 		if (*feature_data_32 < CAMERA_MODULE_SN_LENGTH/4) {
@@ -2452,7 +2446,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 						| (gGc5035_SN[4*(*feature_data_32)] & 0xFF);
 		}
 		break;
-	/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 	case SENSOR_FEATURE_SET_SENSOR_OTP:
 	{
 		kal_int32 ret = IMGSENSOR_RETURN_SUCCESS;

@@ -150,8 +150,6 @@ char *tfaContBitName(uint16_t num, unsigned short rev)
 			name = tfa_bf2name(Tfa1BitNames, num);/* try generic table */
 		break;
 	default:
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/07,
-		 * add log for checking w/r reg */
 		pr_info("unknown REVID:0x%0x\n", rev);
 		tableLength = sizeof(Tfa1BitNames)/sizeof(tfaBfName_t); /* end of list */
 		name = (char *)unknown;
@@ -192,8 +190,6 @@ char *tfaContBfName(uint16_t num, unsigned short rev)
 			name = tfa_bf2name(Tfa1DatasheetNames, num);/* try generic table */
 		break;
 	default:
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/07,
-		 * add log for checking w/r reg */
 		pr_info("unknown REVID:0x%0x\n", rev);
 		tableLength = sizeof(Tfa1DatasheetNames)/sizeof(tfaBfName_t); /* end of list */
 		name = (char *)unknown;
@@ -239,8 +235,6 @@ uint16_t tfaContBfEnum(const char *name, unsigned short rev)
 			bfnum = tfa_name2bf(Tfa1BitNames, name);/* try 2nd generic table */
 		break;
 	default:
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/07,
-		 * add log for checking w/r reg */
 		pr_info("unknown REVID:0x%0x\n", rev);
 		bfnum=0xffff;
 		break;

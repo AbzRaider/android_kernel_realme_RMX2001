@@ -26,7 +26,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 #include <linux/oppo_mm_kevent_fb.h>
 #endif /*VENDOR_EDIT*/
 
@@ -110,7 +109,6 @@ static int _do_wait_fence(struct sync_fence **src_fence, int session_id,
 	int ret;
 	struct disp_session_sync_info *session_info;
 	#ifdef VENDOR_EDIT
-	/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 	unsigned char payload[100] = "";
 	#endif
 
@@ -137,7 +135,6 @@ static int _do_wait_fence(struct sync_fence **src_fence, int session_id,
 		GEDLOG("== display fence wait timeout for 1000ms. ret%d,layer%d,fd%d,idx%d ==>\n",
 				ret, timeline, fence_fd, buf_idx);
 		#ifdef VENDOR_EDIT
-		/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 		scnprintf(payload, sizeof(payload), "EventID@@%d$$FENCE@@fence timeout 1000ms ret %d layer %d fd %d idx %d$$ReportLevel@@%d",
 			OPPO_MM_DIRVER_FB_EVENT_ID_MTK_FENCE, ret, timeline, fence_fd, buf_idx,OPPO_MM_DIRVER_FB_EVENT_REPORTLEVEL_HIGH);
 		upload_mm_kevent_fb_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_DISPLAY,payload);
@@ -148,7 +145,6 @@ static int _do_wait_fence(struct sync_fence **src_fence, int session_id,
 		GEDLOG("== display fence wait status error. ret%d,layer%d,fd%d,idx%d ==>\n",
 				ret, timeline, fence_fd, buf_idx);
 		#ifdef VENDOR_EDIT
-		/* Ling.Guo@PSW.MM.Display.LCD.Machine, 2018/12/03,add for mm kevent fb. */
 		scnprintf(payload, sizeof(payload), "EventID@@%d$$FENCE@@fence wait error ret %d layer %d fd %d idx %d$$ReportLevel@@%d",
 			OPPO_MM_DIRVER_FB_EVENT_ID_MTK_FENCE, ret, timeline, fence_fd, buf_idx,OPPO_MM_DIRVER_FB_EVENT_REPORTLEVEL_HIGH);
 		upload_mm_kevent_fb_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_DISPLAY,payload);

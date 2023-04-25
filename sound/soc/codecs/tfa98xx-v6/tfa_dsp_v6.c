@@ -21,7 +21,6 @@
 #include "tfa_internal.h"
 
 #ifdef VENDOR_EDIT
-/*Yongpei.Yao@PSW.MM.AudioDriver.Codec, 2019/07/01, support 1216 box*/
 #include <linux/proc_fs.h>
 #include <soc/oppo/oppo_project.h>
 #endif
@@ -72,8 +71,6 @@ void tfa9894_ops(struct tfa_device_ops *ops);
 #define TFA_MTPEX_POS           TFA98XX_KEY2_PROTECTED_MTP0_MTPEX_POS /**/
 
 #ifdef VENDOR_EDIT
-/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12,
-  Add for speaker resistance*/
 bool g_speaker_resistance_fail = false;
 #endif /* VENDOR_EDIT */
 
@@ -1461,7 +1458,6 @@ enum Tfa98xx_Error dsp_msg(struct tfa_device *tfa, int length24, const char *buf
 		length = 4 * length24 / 3;
 		intbuf = kmem_cache_alloc(tfa->cachep, GFP_KERNEL);
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/06/14, Add for coverity*/
 		if (!intbuf) {
 			pr_err("%s: kmem alloc fail! \n", __func__);
 			return Tfa98xx_Error_Fail;
@@ -1482,7 +1478,6 @@ enum Tfa98xx_Error dsp_msg(struct tfa_device *tfa, int length24, const char *buf
 		/* Creating the multi-msg */
 		error = tfa_tib_dsp_msgmulti(tfa, length, buf);
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/06/14, Modify for coverity*/
 		if (error == Tfa98xx_Error_Fail) {
 			if (intbuf) {
 				kmem_cache_free(tfa->cachep, intbuf);
@@ -1516,7 +1511,6 @@ enum Tfa98xx_Error dsp_msg(struct tfa_device *tfa, int length24, const char *buf
 			/* (b) add the current DSP message to a new multi-message */
 			error = tfa_tib_dsp_msgmulti(tfa, length, buf);
 			#ifdef VENDOR_EDIT
-			/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/06/14, Modify for coverity*/
 			if (error == Tfa98xx_Error_Fail) {
 				if (intbuf) {
 					kmem_cache_free(tfa->cachep, intbuf);
@@ -1590,7 +1584,6 @@ enum Tfa98xx_Error dsp_msg_read(struct tfa_device *tfa, int length24, unsigned c
 		length = 4 * length24 / 3;
 		bytes = kmem_cache_alloc(tfa->cachep, GFP_KERNEL);
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/06/14, Add for coverity*/
 		if (!bytes) {
 			pr_err("%s: kmem alloc for bytes fail \n", __func__);
 			return Tfa98xx_Error_Fail;
@@ -2627,7 +2620,6 @@ enum Tfa98xx_Error tfaRunSpeakerBoost_v6(struct tfa_device *tfa, int force, int 
 	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
 	int value;
 	#ifdef VENDOR_EDIT
-	/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 	int calibrate_done = 0;
 	#endif /* VENDOR_EDIT */
 
@@ -2657,7 +2649,6 @@ enum Tfa98xx_Error tfaRunSpeakerBoost_v6(struct tfa_device *tfa, int force, int 
 			tfa->sync_iv_delay = 1;
 
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 		tfa_dev_set_state(tfa, TFA_STATE_OPERATING);
 		tfaRunSpeakerCalibration_result_v6(tfa, &calibrate_done);
 		#endif /* VENDOR_EDIT */
@@ -2741,7 +2732,6 @@ enum Tfa98xx_Error tfaRunSpeakerCalibration_v6(struct tfa_device *tfa)
 }
 
 #ifdef VENDOR_EDIT
-/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 enum Tfa98xx_Error tfaRunSpeakerCalibration_result_v6(struct tfa_device *tfa, int *result)
 {
 	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
@@ -3166,8 +3156,6 @@ enum Tfa98xx_Error tfa_dev_start(struct tfa_device *tfa, int next_profile, int v
 		active_profile = tfa_dev_get_swprof(tfa);
 
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Modify for
-		force Profile switching everytime when open speaker path*/
 		err = tfaContWriteProfile_v6(tfa, next_profile, vstep);
 		if (err!=Tfa98xx_Error_Ok) {
 			goto error_exit;
@@ -3813,7 +3801,6 @@ enum Tfa98xx_Error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state stat
 		} while (loop--);
 
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 		err = tfa98xx_set_mtp_v6(tfa, 1, TFA98XX_KEY2_PROTECTED_MTP0_MTPOTC_MSK);
 		if (err != tfa_error_ok) {
 			return err;

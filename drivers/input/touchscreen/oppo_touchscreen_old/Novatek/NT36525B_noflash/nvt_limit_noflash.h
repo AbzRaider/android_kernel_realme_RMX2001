@@ -6,7 +6,6 @@
  *             nova nt36525b test limit data
  * Version:1.0:
  * Date created:2017-09-15
- * Author: Cong.Dai@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

@@ -54,14 +54,11 @@
 //static kal_uint32 Dgain_ratio = 1;
 
 #ifdef VENDOR_EDIT
-/*Shounan.Yang@Camera.Driver  add for 18011  board 20190620*/
 #define DEVICE_VERSION_GC02M0    "gc02m0"
 #define IMGSENSOR_MODULE_ID_SHINE  0x09
 extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 static uint8_t deviceInfo_register_value;
-/* Feiping.Li@Camera.Drv, 20190624, add for speed up sensor init*/
 #define USE_BURST_MODE
-/*weiriqin@Camera.Drv, 20190710, add for pull-up avdd when main sensor is powered */
 //static int is_using_gc02m0 = 0;
 #endif
 
@@ -158,7 +155,6 @@ static imgsensor_info_struct imgsensor_info = {
              .mipi_pixel_rate = 72000000,
     },
          #ifdef VENDOR_EDIT
-         /*Feiping.Li@Camera.Driver, 20190524, add for dual cam*/
         .custom1 = {
              .pclk = 90000000,                //record different mode's pclk
              .linelength = 2360,                //record different mode's linelength
@@ -206,7 +202,6 @@ static imgsensor_info_struct imgsensor_info = {
 
 static imgsensor_struct imgsensor = {
          #ifdef VENDOR_EDIT
-         /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
          .mirror = IMAGE_HV_MIRROR,                //mirrorflip information
          #else
          .mirror = IMAGE_NORMAL,
@@ -615,7 +610,6 @@ static void ihdr_write_shutter_gain(kal_uint16 le, kal_uint16 se, kal_uint16 gai
 }
 
 #ifdef VENDOR_EDIT
-/*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
 static void set_mirror_flip(kal_uint8 image_mirror)
 {
 	LOG_INF("image_mirror = %d\n", image_mirror);
@@ -1179,7 +1173,6 @@ static void slim_video_setting(void)
 	/*SYS*/
 }
 
-//Feiping.Li@Camera.Driver, 20190524, add for 19301 dual cam
 static void custom1_setting(void)
 {
 	LOG_INF("E!\n");
@@ -1230,7 +1223,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
     kal_uint8 retry = 2;
 
     #if 0//#ifndef VENDOR_EDIT
-    /* Feiping.Li@Camera.Drv, 20190603, add for 19301 two mono sensor install in any place*/
     int I2C_BUS = -1;
     I2C_BUS = i2c_adapter_id(pgi2c_cfg_legacy->pinst->pi2c_client->adapter);
     LOG_INF("gc02mo_mipi_mono_Sensor I2C_BUS = %d\n", I2C_BUS);
@@ -1248,7 +1240,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
             	*sensor_id = return_sensor_id();
             	if (*sensor_id == imgsensor_info.sensor_id) {
 			#ifdef VENDOR_EDIT
-			/*shounan.yang@Camera.Drv, 2019.6.18 add for register device info*/
 			imgsensor_info.module_id = IMGSENSOR_MODULE_ID_SHINE;
 			if (deviceInfo_register_value == 0x00) {
 				register_imgsensor_deviceinfo("Cam_r3", DEVICE_VERSION_GC02M0, imgsensor_info.module_id);
@@ -1257,7 +1248,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			#endif
                 	LOG_INF("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id, *sensor_id);
 			//#ifdef VENDOR_EDIT
-			/*weiriqin@Camera.Drv, 20190820, add for pull-up avdd when main sensor is powered*/
 			//if(is_using_gc02m0 == 0)
 			//	set_gc02m0_flag(IMGSENSOR_SENSOR_IDX_MAIN3);  //successfully find gc02m0
 			//is_using_gc02m0 = 1;
@@ -1420,7 +1410,6 @@ static kal_uint32 preview(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
     spin_unlock(&imgsensor_drv_lock);
     preview_setting();
     #ifdef VENDOR_EDIT
-    /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
     set_mirror_flip(imgsensor.mirror);
     #endif
     return ERROR_NONE;
@@ -1467,7 +1456,6 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
     spin_unlock(&imgsensor_drv_lock);
     capture_setting(imgsensor.current_fps);
     #ifdef VENDOR_EDIT
-    /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
     set_mirror_flip(imgsensor.mirror);
     #endif
     return ERROR_NONE;
@@ -1490,7 +1478,6 @@ static kal_uint32 normal_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
     spin_unlock(&imgsensor_drv_lock);
     normal_video_setting(imgsensor.current_fps);
     #ifdef VENDOR_EDIT
-    /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
     set_mirror_flip(imgsensor.mirror);
     #endif
     return ERROR_NONE;
@@ -1515,7 +1502,6 @@ static kal_uint32 hs_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
     spin_unlock(&imgsensor_drv_lock);
     hs_video_setting();
     #ifdef VENDOR_EDIT
-    /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
     set_mirror_flip(imgsensor.mirror);
     #endif
     return ERROR_NONE;
@@ -1539,7 +1525,6 @@ static kal_uint32 slim_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
     spin_unlock(&imgsensor_drv_lock);
     slim_video_setting();
     #ifdef VENDOR_EDIT
-    /*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
     set_mirror_flip(imgsensor.mirror);
     #endif
     return ERROR_NONE;
@@ -1560,7 +1545,6 @@ static kal_uint32 custom1(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 	spin_unlock(&imgsensor_drv_lock);
 	custom1_setting();
 	#ifdef VENDOR_EDIT
-	/*Feiping@Camera.Drv, 20190603, add for set correct mirror/flip */
 	set_mirror_flip(imgsensor.mirror);
 	#endif
 	return ERROR_NONE;
@@ -1975,7 +1959,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
             *feature_return_para_32 = imgsensor.pclk;
             *feature_para_len=4;
             break;
-            /*Longyuan.Yang@camera.driver add for video crash */
         case SENSOR_FEATURE_GET_PIXEL_CLOCK_FREQ_BY_SCENARIO:
             switch (*feature_data) {
                 case MSDK_SCENARIO_ID_CAMERA_CAPTURE_JPEG:

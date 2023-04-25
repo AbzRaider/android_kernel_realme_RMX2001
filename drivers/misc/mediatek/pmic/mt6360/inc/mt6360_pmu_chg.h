@@ -148,7 +148,6 @@ struct mt6360_chg_platform_data {
 #define MT6360_MASK_TYPEC_OTP_EN	BIT(0)
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.BSP.System  2019/09/06 close otp for usb*/
 #define MT6360_MASK_TYPEC_OTP_EN	BIT(0)
 #endif
 

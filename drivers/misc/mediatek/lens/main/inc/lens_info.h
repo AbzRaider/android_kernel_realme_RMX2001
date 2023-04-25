@@ -67,7 +67,6 @@
 #define AFDRV_WV511AAF "WV511AAF"
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camra 20190827 for FP5516 Bringup */
 #define AFDRV_FP5516AF "FP5516AF"
 #define AFDRV_BU64253AF "BU64253AF"
 #endif

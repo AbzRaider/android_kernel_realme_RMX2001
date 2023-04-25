@@ -26,7 +26,6 @@
 #endif
 
 #ifndef VENDOR_EDIT
-//Lijian@ODM.Camera.Drv 20190827 for snesor bringup
 #define VENDOR_EDIT
 #endif
 
@@ -39,7 +38,6 @@
 /* #define BOOL signed int */
 #ifndef _MEDIA_TYPES_H
 #ifdef VENDOR_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for snesor bringup */
 typedef unsigned char MUINT8;
 typedef unsigned short MUINT16;
 typedef unsigned int MUINT32;
@@ -163,7 +161,6 @@ typedef enum ACDK_CAMERA_OPERATION_MODE_ENUM {
 
 #define SENSOR_FEATURE_START                     3000
 #ifdef VENDOR_EDIT
-/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 #define IMGSENSOR_MODULE_SN_LENGTH       (16)
 #endif
 
@@ -307,10 +304,8 @@ typedef enum ACDK_SENSOR_FEATURE_ENUM {
     #ifdef VENDOR_EDIT
 	/*zhaozhengtao 2016/02/19,modify for different module*/
 	SENSOR_FEATURE_CHECK_MODULE_ID,
-	/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 	SENSOR_FEATURE_GET_MODULE_SN,
 	SENSOR_FEATURE_SET_SENSOR_OTP,
-	/*Henry.Chang@Camera.Driver modify for ModuleInfo 2019/05/30*/
 	SENSOR_FEATURE_GET_MODULE_INFO,
 	#endif
 	SENSOR_FEATURE_MAX
@@ -443,7 +438,6 @@ typedef enum SENSOR_DPCM_TYPE_ENUM {
 
 
 #ifdef VENDOR_EDIT
-/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 #define OPPO_STEREO_CALI_DATA_LENGTH     (1561)
 typedef struct {
   MUINT32 uSensorId;

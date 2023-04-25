@@ -57,7 +57,6 @@ enum fusion_handle {
 	pdr,
 	ungyro_temperature,
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 	ffd,
 	free_fall,
 	pickup_motion,
@@ -166,7 +165,6 @@ int uncali_gyro_flush_report(void);
 int uncali_mag_data_report(int *data, int status, int64_t nt);
 int uncali_mag_flush_report(void);
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 extern int ffd_data_report(int x, int y, int64_t nt);
 extern int ffd_flush_report(void);
 

@@ -22,7 +22,6 @@
 #include <mt-plat/mtk_boot_common.h>
 
 #ifdef VENDOR_EDIT
-//zhouhengguo@psw.bsp.driver, 2019/11/24, 18161 using pmic hw reset, other using hw gpio
 #include <soc/oppo/oppo_project.h>
 #endif
 
@@ -61,7 +60,6 @@ void long_press_reboot_function_setting(void)
 {
 #ifdef CONFIG_MTK_PMIC_NEW_ARCH /*for pmic not ready*/
 #ifdef VENDOR_EDIT
-//zhouhengguo@psw.bsp.driver, 2019/11/24, 18161 using pmic hw reset, other using hw gpio
 	if (OPPO_18161 == get_project()) {
 #endif /*VENDOR_EDIT*/
 	if (kpd_enable_lprst && get_boot_mode() == NORMAL_BOOT) {
@@ -111,7 +109,6 @@ void long_press_reboot_function_setting(void)
 #endif
 	}
 #ifdef VENDOR_EDIT
-//zhouhengguo@psw.bsp.driver, 2019/11/24, 18161 using pmic hw reset, other using hw gpio
 	}
 #endif /*VENDOR_EDIT*/
 #endif
@@ -127,7 +124,6 @@ bool __attribute__ ((weak)) ConditionEnterSuspend(void)
 void kpd_wakeup_src_setting(int enable)
 {
 #ifndef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Remove for keypad volume up and volume down */
 	int is_fm_radio_playing = 0;
 
 	/* If FM is playing, keep keypad as wakeup source */

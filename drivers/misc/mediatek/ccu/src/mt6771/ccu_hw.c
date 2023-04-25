@@ -655,7 +655,6 @@ int ccu_force_powerdown(void)
 			return ret;
 
 		#ifdef VENDOR_EDIT
-		/* Added by shileishu@Camera 20190106 for switching speed ALPS04222037 */
 		mdelay(60);
 		#endif
 		LOG_WARN("CCU force shutdown success\n");

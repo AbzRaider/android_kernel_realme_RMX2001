@@ -2,7 +2,7 @@ source "drivers/power/avs/Kconfig"
 source "drivers/power/reset/Kconfig"
 source "drivers/power/supply/Kconfig"
 
-#ifdef ODM_HQ_EDIT /* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
+#ifdef ODM_HQ_EDIT
 #source "drivers/power/oppo/Kconfig"
 config OPPO_HQ_CHARGER
 	bool "OPPO_CHARGER"

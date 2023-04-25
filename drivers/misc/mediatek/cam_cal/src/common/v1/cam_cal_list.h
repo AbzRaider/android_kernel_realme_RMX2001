@@ -20,7 +20,6 @@ typedef unsigned int (*cam_cal_cmd_func) (struct i2c_client *client,
 	unsigned int addr, unsigned char *data, unsigned int size);
 
 #ifdef ODM_HQ_EDIT
-/* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
 struct stCAM_CAL_FUNC_STRUCT {
         unsigned int sensorID;
         cam_cal_cmd_func readCamCalData;
@@ -37,7 +36,6 @@ struct stCAM_CAL_LIST_STRUCT {
 unsigned int cam_cal_get_sensor_list
 		(struct stCAM_CAL_LIST_STRUCT **ppCamcalList);
 #ifdef ODM_HQ_EDIT
-/* fengbin@ODM.Camera.Drv 20190910 for 3p9 crosstalk data*/
 unsigned int cam_cal_get_func_list(struct stCAM_CAL_FUNC_STRUCT **ppCamcalFuncList);
 #endif
 

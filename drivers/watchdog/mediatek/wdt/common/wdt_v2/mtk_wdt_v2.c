@@ -47,7 +47,6 @@
 #include <linux/sched/clock.h>
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for reboot kernel panic mode */
 #include <mt-plat/mtk_rtc.h>
 extern int is_kernel_panic;
 #endif
@@ -485,7 +484,6 @@ void wdt_arch_reset(char mode)
 	pr_debug("%s: mode=0x%x\n", __func__, mode);
 	
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for reboot kernel panic mode */
 	if (is_kernel_panic) {
 		oppo_rtc_mark_reboot_kernel();
 	}

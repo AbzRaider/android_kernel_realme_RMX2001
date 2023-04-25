@@ -16,8 +16,6 @@
 #define DOWNLOADTIME_BUF_SIZE 256
 #define OPPOCAMERA_BUF_SIZE 25600
 
-/*MingQiang.Guo@PSW.BSP.bootloader.bootflow, 2018/02/12,
-add for Download tool network authorization and UnlockSynbol*/
 #define DIGEST_ID_IN_PHONE_SIZE 64
 #define DIGEST_ID_IN_PHONE_CHECKSUM_DATA_SIZE 2
 #define UNLOCK_SYNBOL_SIZE 2048
@@ -39,11 +37,6 @@ typedef struct
 	unsigned int		rpmb_enable;
 	unsigned int 		rpmb_key_provisioned;
 	unsigned char		OppoCamera[OPPOCAMERA_BUF_SIZE];
-	/*MingQiang.Guo@PSW.BSP.bootloader.bootflow, 2018/02/12,
-	add for Download tool network authorization and UnlockSynbol
-	unsigned char		Reserve[358];
-	unsigned char		DigestIdInPhone[DIGEST_ID_IN_PHONE_SIZE + DIGEST_ID_IN_PHONE_CHECKSUM_DATA_SIZE];
-	unsigned char		UnlockSynbol[UNLOCK_SYNBOL_SIZE + UNLOCK_SYNBOL_CHECKSUM_SIZE];*/
 }TOppoCustConfigInf;
 
 #endif

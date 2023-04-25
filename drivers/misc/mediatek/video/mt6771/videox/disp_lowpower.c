@@ -69,7 +69,6 @@
 
 #ifdef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
  */
 #include "ddp_ovl.h"
@@ -175,7 +174,6 @@ static struct disp_idlemgr_context *__get_idlemgr_context(void)
 
 #ifdef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
  */
 unsigned long long enter_idle_time;
@@ -187,7 +185,6 @@ static int primary_display_idlemgr_init(void)
 	wake_up_process(idlemgr_pgc->primary_display_idlemgr_task);
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
 * Add for MATE mode switch RGB display
 */
 	if (get_boot_mode() == META_BOOT) {
@@ -200,7 +197,6 @@ static int primary_display_idlemgr_init(void)
 
 #ifdef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
  */
 static int _primary_path_idle_for_meta_mode(void *data)
@@ -1404,7 +1400,6 @@ int primary_display_lowpower_init(void)
 	/* init idlemgr */
 #ifndef VENDOR_EDIT
     /*
-    * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
     * Add for MATE mode switch RGB display
     */
 	if (disp_helper_get_option(DISP_OPT_IDLE_MGR) && get_boot_mode() == NORMAL_BOOT)

@@ -21,7 +21,6 @@
 #include <linux/timer.h>
 #include <linux/workqueue.h>
 #ifdef VENDOR_EDIT
-/*Yongpeng.Yi@PSW.MultiMedia.Display.Machine, 2017/12/8,modify for multibits backlight.*/
 #include <soc/oppo/oppo_project.h>
 #endif
 
@@ -30,7 +29,6 @@ struct device;
  * LED Core
  */
 #ifndef VENDOR_EDIT
-/*Yongpeng.Yi@PSW.MultiMedia.Display.Machine, 2017/12/8,modify for multibits backlight.*/
 
 enum led_brightness {
 	LED_OFF		= 0,

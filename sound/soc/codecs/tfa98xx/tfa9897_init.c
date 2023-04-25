@@ -108,7 +108,6 @@ static enum Tfa98xx_Error tfa9897_tfa_dsp_write_tables(Tfa98xx_handle_t dev_idx,
 
 	/* Not used for max1! */
 #ifndef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/06 modify for build err when codebase update */
 	sample_rate=sample_rate;
 #endif /* VENDOR_EDIT */
 

@@ -2390,7 +2390,6 @@ void task_dirty_inc(struct task_struct *tsk);
 
 /* readahead.c */
 #ifndef VENDOR_EDIT
-//Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/13, transplant checklist for increasing the default max readahead to speed-up reading
 #define VM_MAX_READAHEAD	128	/* kbytes */
 #else
 #define VM_MAX_READAHEAD	512	/* kbytes */
@@ -2802,17 +2801,12 @@ struct reclaim_param {
 	/* flag that relcaim inactive pages only */
 	bool inactive_lru;
 
-	/* robin.ren@PSW.BSP.Kernel.Performance, 2019-03-13,
-	 * the target reclaimed process
-	 */
 	struct task_struct *reclaimed_task;
 };
 
 extern struct reclaim_param reclaim_task_anon(struct task_struct *task,
 		int nr_to_reclaim);
 
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
- * Extract the reclaim core code from task_mmu.c for /proc/process_reclaim*/
 extern ssize_t reclaim_task_write(struct task_struct* task,
 		char *buffer);
 

@@ -71,7 +71,6 @@
 #include "dbg.h"
 
 #ifdef VENDOR_EDIT
-//yh@BSP.Storage.Emmc, 2017/10/30 add for work around hynix emmc WP issue
 #include <linux/reboot.h>
 #endif
 
@@ -1771,7 +1770,6 @@ skip_cmd_resp_polling:
 							__func__, host->id,
 							cmd->opcode, *rsp);
 #ifdef VENDOR_EDIT
-//yh@BSP.Storage.Emmc, 2017/10/30 add for work around hynix emmc WP issue
 					if((host->hw->host_function == MSDC_EMMC) &&
 					   ( get_boot_mode() == RECOVERY_BOOT || get_boot_mode() == OPPO_SAU_BOOT ))
 					{

@@ -11,7 +11,6 @@
  *            The first version was written by Martin Devera, <devik@cdi.cz>
  *
  *			   See Credits.txt
- *Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
  *Add for limit speed function
  */
 

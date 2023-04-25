@@ -186,7 +186,6 @@ struct sock_common {
 	possible_net_t		skc_net;
 
 	//#ifdef VENDOR_EDIT
-	//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 	//Add code for appo sla function
 	u32 skc_oppo_mark;
 	//#endif /* VENDOR_EDIT */
@@ -358,7 +357,6 @@ struct sock {
 #define sk_flags		__sk_common.skc_flags
 #define sk_rxhash		__sk_common.skc_rxhash
 //#ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 //Add code for appo sla function
 #define oppo_sla_mark   __sk_common.skc_oppo_mark
 //#endif /* VENDOR_EDIT */
@@ -1842,7 +1840,6 @@ static inline void sk_dst_confirm(struct sock *sk)
 static inline void sock_confirm_neigh(struct sk_buff *skb, struct neighbour *n)
 {
 	#ifndef VENDOR_EDIT
-	//Wei.Wang@PSW.CN.WiFi.Network.internet.1357567, 2018/04/27,
 	//Remove for [1357567],some AP doesn't send arp when it needs to send data to DUT
 	//We remove this code to send arp more frequently to notify our mac to AP
 	if (skb_get_dst_pending_confirm(skb)) {

@@ -67,8 +67,6 @@
 #define AFE_MASK_ALL (0xffffffff)
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.feature.1209435, 2017/08/01,
- * add for KTV */
 #ifdef CONFIG_OPPO_KTV_DEV
 #define KTV_DATA_UNIT_SIZE 3840
 

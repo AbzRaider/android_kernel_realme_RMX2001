@@ -1,6 +1,5 @@
 /*
  * This target marks packets to be enqueued to an imq device
- *Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
  *Add for limit speed function
  */
 #include <linux/module.h>

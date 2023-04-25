@@ -20,7 +20,6 @@
 #include <accel.h>
 #include <hwmsensor.h>
 #ifdef VENDOR_EDIT
-/*Fei.Mo@PSW.BSP.Sensor, 2017/12/17, Add for get sensor_devinfo*/
 #include "../../oppo_sensor_devinfo/sensor_devinfo.h"
 #endif
 
@@ -359,7 +358,6 @@ static ssize_t test_cali_store(struct device_driver *ddri, const char *buf,
 }
 
 #ifdef VENDOR_EDIT
-//zhihong.lu@BSP.sensor,2018/1/31,add selftest node to set STC debounce
 static int selftest_result = 0;
 static ssize_t show_factory_step_debounce(struct device_driver *ddri, char *buf)
 {
@@ -382,7 +380,6 @@ static DRIVER_ATTR_RW(chip_orientation);
 static DRIVER_ATTR_WO(test_cali);
 
 #ifdef VENDOR_EDIT
-//zhihong.lu@BSP.sensor,2018/1/31,add selftest node to set STC debounce
 
 static DRIVER_ATTR(factory_step_debounce, S_IWUSR | S_IRUGO, show_factory_step_debounce, NULL);
 #endif /* VENDOR_EDIT */
@@ -394,7 +391,6 @@ static struct driver_attribute *accelhub_attr_list[] = {
 	&driver_attr_chip_orientation,
 	&driver_attr_test_cali,
 	#ifdef VENDOR_EDIT
-//zhihong.lu@BSP.sensor,2018/1/31,add selftest node to set STC debounce
 	&driver_attr_factory_step_debounce,
 	#endif /* VENDOR_EDIT */
 };
@@ -482,7 +478,6 @@ static void scp_init_work_done(struct work_struct *work)
 }
 
 #ifdef VENDOR_EDIT
-/*Fei.Mo@PSW.BSP.Sensor, 2017/12/17, Add for gsensor calibration*/
 #define LIBHWM_GRAVITY_EARTH 9806
 #define LIBHWM_ACC_NVRAM_SENSITIVITY 65536
 #define SENSOR_CALIBRATION_RATIO 1000
@@ -547,7 +542,6 @@ static int gsensor_recv_data(struct data_unit_t *event, void *reserved)
 {
 	int err = 0;
 	#ifndef VENDOR_EDIT
-	/*Fei.Mo@PSW.BSP.Sensor, 2017/12/17, Add for gsensor calibration*/
 	int offset[3] = {0};
 	#endif
 #ifdef ACCELERATION_AVERAGE_FILTER
@@ -566,7 +560,6 @@ static int gsensor_recv_data(struct data_unit_t *event, void *reserved)
 	data.reserved[0] = event->reserve[0];
 
 	#ifndef VENDOR_EDIT
-	/*Fei.Mo@PSW.BSP.Sensor, 2017/12/17, Add for gsensor calibration*/
 	get_sensor_parameter(ID_ACCELEROMETER,offset);
 	//GSE_PR_ERR("before x %d y %d z %d\n",data.x,data.y,data.z);
 	data.x += offset[0] * LIBHWM_GRAVITY_EARTH / LIBHWM_ACC_NVRAM_SENSITIVITY;
@@ -736,7 +729,6 @@ static int gsensor_factory_set_cali(int32_t data[3])
 	int32_t tx_buff[6] = {0};
 	int ret;
 #ifdef ODM_HQ_EDIT
-	/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/15,fix gsensor calibration data lost after reboot */
 	struct acc_data cali_data;
 	cali_data.x = data[0];
 	cali_data.y = data[1];
@@ -923,7 +915,6 @@ static int gsensor_set_cali(uint8_t *data, uint8_t count)
 	obj->dynamic_cali[1] = buf[1];
 	obj->dynamic_cali[2] = buf[2];
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/15,fix gsensor calibration data lost after reboot */
 	printk("gsensor_set_cali %d %d %d %d %d %d \n",buf[0],buf[1],buf[2],buf[3],buf[4],buf[5]);
 
 	obj->static_cali[0] = buf[3];

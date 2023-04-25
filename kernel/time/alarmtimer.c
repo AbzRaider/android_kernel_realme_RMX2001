@@ -38,7 +38,6 @@
 #include <soc/oppo/oppo_project.h>
 
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 #include <linux/fb.h>
 #endif /* VENDOR_EDIT */
 
@@ -177,7 +176,6 @@ static void alarmtimer_enqueue(struct alarm_base *base, struct alarm *alarm)
 	if (__ratelimit(&ratelimit)) {
 		ratelimit.begin = jiffies;
 #if defined(VENDOR_EDIT)
-/*xing.xiong@BSP.Kernel.Debug, 2019/1/12, Modify for limiting kernel log*/
 	if (get_eng_version() != 0) {
 		pr_notice("%s, %lld\n", __func__, alarm->node.expires);
 	}
@@ -208,12 +206,10 @@ static void alarmtimer_dequeue(struct alarm_base *base, struct alarm *alarm)
 
 
 #ifdef VENDOR_EDIT
-//Jingchun.Wang@Kernel.Driver, 2017/04/28,
 //add for count alarm times
 static atomic_t alarm_atomic = ATOMIC_INIT(0);
 static atomic_t alarm_sleep_busy_atomic = ATOMIC_INIT(0);
 #ifdef ODM_HQ_EDIT
-//zuoqiquan@ODM.HQ.BSP 2020/01/17 Add for print wakeup source
 u64 alarm_count = 0;
 u64 wakeup_source_count_rtc = 0;
 #else
@@ -247,7 +243,6 @@ static enum hrtimer_restart alarmtimer_fired(struct hrtimer *timer)
 		restart = alarm->function(alarm, base->gettime());
 	}
 	#ifdef VENDOR_EDIT
-	//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 	if (alarm->type == ALARM_BOOTTIME) {
 		alarm_count++;
 		if(atomic_read(&alarm_atomic) || atomic_read(&alarm_sleep_busy_atomic)) {
@@ -312,7 +307,6 @@ static int alarmtimer_suspend(struct device *dev)
 	spin_unlock_irqrestore(&freezer_delta_lock, flags);
 
 	#ifdef VENDOR_EDIT
-	//Jingchun.Wang@Kernel.Driver, 2017/04/28,
 	//add for count alarm times
 	atomic_set(&alarm_atomic, 1);
 	#endif /*VENDOR_EDIT*/
@@ -346,7 +340,6 @@ static int alarmtimer_suspend(struct device *dev)
 	if (ktime_to_ns(min) < 2 * NSEC_PER_SEC) {
 		__pm_wakeup_event(ws, 2 * MSEC_PER_SEC);
 		#ifdef VENDOR_EDIT
-		//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 		atomic_set(&alarm_atomic, 0);
 		atomic_set(&alarm_sleep_busy_atomic, 1);
 		#endif /* VENDOR_EDIT */
@@ -385,7 +378,6 @@ static int alarmtimer_resume(struct device *dev)
 		rtc_timer_cancel(rtc, &rtctimer);
 		
 		#ifdef VENDOR_EDIT
-		//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 		atomic_set(&alarm_atomic, 0);
 		#endif /* VENDOR_EDIT */
 		
@@ -921,7 +913,6 @@ const struct k_clock alarm_clock = {
 #endif /* CONFIG_POSIX_TIMERS */
 
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 static int alarm_fb_notify_callback(struct notifier_block *nb, unsigned long val, void *data)
 {
 	struct fb_event *evdata = data;
@@ -1002,7 +993,6 @@ static int __init alarmtimer_init(void)
 		goto out_drv;
 	}
 	#ifdef VENDOR_EDIT
-	//Yunqing.Zeng@BSP.Power.Basic 2017/12/12 add for count alarm times
 	error = fb_register_client(&alarm_fb_notify_block);
 	if (error) {
 		pr_info("%s error: register notifier failed!\n", __func__);

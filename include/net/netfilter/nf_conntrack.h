@@ -83,7 +83,6 @@ struct nf_conn {
 	u8 __nfct_init_offset[0];
 
 	//#ifdef VENDOR_EDIT
-	//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 	//Add code for appo sla function
 	u32 oppo_game_skb_len;
 	u32 oppo_game_detect_status;
@@ -100,7 +99,6 @@ struct nf_conn {
 	//#endif /* VENDOR_EDIT */
 
 	#ifdef VENDOR_EDIT
-	//Yuan.Huang@PSW.CN.WiFi.Network.internet.1461349, 2018/06/18,
 	//Add for WeChat lucky money recognition
 	u32 oppo_app_uid;
 	#endif /* VENDOR_EDIT */

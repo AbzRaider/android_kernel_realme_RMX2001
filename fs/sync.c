@@ -18,7 +18,6 @@
 #include <linux/backing-dev.h>
 #include "internal.h"
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 #include <soc/oppo/oppo_healthinfo.h>
 #endif /*VENDOR_EDIT*/
@@ -217,7 +216,6 @@ int vfs_fsync(struct file *file, int datasync)
 EXPORT_SYMBOL(vfs_fsync);
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/08/06
 // Add for record  fsync  time
 extern void ohm_schedstats_record(int sched_type, int fg, u64 delta_ms);
 #endif /*VENDOR_EDIT*/
@@ -227,7 +225,6 @@ static int do_fsync(unsigned int fd, int datasync)
 	struct fd f = fdget(fd);
 	int ret = -EBADF;
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/08/06
 // Add for record  fsync  time
     unsigned long oppo_fsync_time = jiffies;
 #endif /*VENDOR_EDIT*/
@@ -238,7 +235,6 @@ static int do_fsync(unsigned int fd, int datasync)
 		inc_syscfs(current);
 	}
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-// wenbin.liu@PSW.BSP.MM, 2018/08/06
 // Add for record  fsync  time
     ohm_schedstats_record(OHM_SCHED_FSYNC, current_is_fg(), jiffies_to_msecs(jiffies - oppo_fsync_time));
 #endif /*VENDOR_EDIT*/

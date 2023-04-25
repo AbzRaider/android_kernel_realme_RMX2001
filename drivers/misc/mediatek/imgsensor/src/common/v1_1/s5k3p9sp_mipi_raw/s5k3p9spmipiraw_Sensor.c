@@ -49,12 +49,10 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/*LongYuan.Yang@Camera.Driver  add for 18561  board 20190104*/
 #include<soc/oppo/oppo_project.h>
 #endif
 
 #ifdef VENDOR_EDIT
-/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 #define DEVICE_VERSION_S5k3P9SP     "s5k3p9sp"
 extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 extern kal_uint8 check_eeprom_awb_golden(kal_uint16 sensor_id, kal_uint8 i2c_addr);
@@ -69,14 +67,12 @@ static kal_uint32 streaming_control(kal_bool enable);
 extern int iBurstWriteReg_multi(u8 *pData, u32 bytes, u16 i2cId, u16 transfer_length, u16 timing);
 
 static DEFINE_SPINLOCK(imgsensor_drv_lock);
-/*LongYuan.Yang@Camera.Driver  add for 18561  board 20190104*/
 static kal_bool g_is_project_18561 = KAL_FALSE;
 
 static struct imgsensor_info_struct imgsensor_info = {
 
 		.sensor_id = S5K3P9SP_SENSOR_ID,
 		#ifdef VENDOR_EDIT
-		/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 		.module_id = 0x04,	//0x01 Sunny,0x05 QTEK
 		#endif
 		.checksum_value = 0xb1f1b3cc,
@@ -134,13 +130,14 @@ static struct imgsensor_info_struct imgsensor_info = {
 		.hs_video = {
 			.pclk = 560000000,
 			.linelength = 5088,
-			.framelength = 3668,
+			.framelength = 917,
 			.startx = 0,
 			.starty = 0,
-			.grabwindow_width = 2320,
-			.grabwindow_height = 1744,
+			.grabwindow_width = 1280,
+			.grabwindow_height = 720,
 			.mipi_data_lp2hs_settle_dc = 85,
-			.max_framerate = 300,  /*1200 */
+			.mipi_pixel_rate = 384000000,
+			.max_framerate = 1200,
 		},
 		.slim_video = {
 			.pclk = 560000000,
@@ -218,9 +215,9 @@ static SENSOR_WINSIZE_INFO_STRUCT imgsensor_winsize_info[6] =
 	#else
 	{ 4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /*capture*/
 	#endif
-	{  4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /*video*/
-	{  4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /*hs_video,don't use*/
-	{  4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /* slim video*/
+	{ 4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /*video*/
+	{ 4640, 3488,   400,  664, 3840, 2160, 1280,   720, 0000, 0000, 1280,   720,      0,    0, 1280,  720}, /*hs_video*/
+	{ 4640, 3488,	  0,	0, 4640, 3488, 2320,  1744, 0000, 0000, 2320,  1744,	  0,	0, 2320, 1744}, /* slim video*/
 	{ 4640,  3488,    0,	0, 4640, 3488, 4640,  3488, 0000, 0000, 4640,  3488,      0,	0, 4640, 3488}, // custom4 remosic
 }; /*cpy from preview*/
 
@@ -240,7 +237,6 @@ MUINT32  sn_inf_sub_S5K3P9SP[13];
 /****hope add end****/
 
 #ifdef VENDOR_EDIT
-/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;
@@ -252,7 +248,6 @@ static kal_uint16 read_module_id(void)
 	return get_byte;
 
 }
-/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 static kal_uint8 gS5k3p9sp_SN[CAMERA_MODULE_SN_LENGTH];
 #else
 static void read_eeprom_SN(void)
@@ -3940,6 +3935,77 @@ static kal_uint16 addr_data_pair_normal_video[] = {
 	0x0D02, 0x0001,
 };
 
+static kal_uint16 addr_data_pair_hs_video[] = {
+	0x6028, 0x4000,
+	0x6214, 0x7970,
+	0x6218, 0x7150,
+	0x6028, 0x2000,
+	0x602A, 0x0ED6,
+	0x6F12, 0x0000,
+	0x602A, 0x1CF0,
+	0x6F12, 0x0200,
+	0x602A, 0x0E58,
+	0x6F12, 0x0023,
+	0x602A, 0x1694,
+	0x6F12, 0x170F,
+	0x602A, 0x16AA,
+	0x6F12, 0x009D,
+	0x6F12, 0x000F,
+	0x602A, 0x1098,
+	0x6F12, 0x0012,
+	0x602A, 0x2690,
+	0x6F12, 0x0100,
+	0x6F12, 0x0000,
+	0x602A, 0x16A8,
+	0x6F12, 0x38C0,
+	0x602A, 0x108C,
+	0x6F12, 0x0002,
+	0x602A, 0x10CC,
+	0x6F12, 0x0001,
+	0x602A, 0x10D0,
+	0x6F12, 0x000F,
+	0x602A, 0x0F50,
+	0x6F12, 0x0200,
+	0x602A, 0x1758,
+	0x6F12, 0x0000,
+	0x6028, 0x4000,
+	0x0344, 0x0410,
+	0x0346, 0x0408,
+	0x0348, 0x0E1F,
+	0x034A, 0x09A7,
+	0x034C, 0x0500,
+	0x034E, 0x02D0,
+	0x0350, 0x0004,
+	0x0900, 0x0122,
+	0x0380, 0x0002,
+	0x0382, 0x0002,
+	0x0384, 0x0002,
+	0x0386, 0x0002,
+	0x0404, 0x1000,
+	0x0402, 0x1010,
+	0x0400, 0x1010,
+	0x0114, 0x0300,
+	0x0110, 0x1002,
+	0x0136, 0x1800,
+	0x0300, 0x0007,
+	0x0302, 0x0001,
+	0x0304, 0x0006,
+	0x0306, 0x00F5,
+	0x0308, 0x0008,
+	0x030A, 0x0001,
+	0x030C, 0x0000,
+	0x030E, 0x0004,
+	0x0310, 0x00A0,
+	0x0312, 0x0001,
+	0x0340, 0x0395,
+	0x0342, 0x13E0,
+	0x0202, 0x0100,
+	0x0200, 0x0100,
+	0x021E, 0x0000,
+	0x0D00, 0x0000,
+	0x0D02, 0x0001,
+};
+
 
 static kal_uint16 addr_data_pair_custom4[] = {
 	0x6028, 0x4000,
@@ -4188,7 +4254,6 @@ static void capture_setting(kal_uint16 currefps)
 
 static void normal_video_setting(void)
 {
-	/*LongYuan.Yang@Camera.Driver  add for 18561  WIFI interference 20190104*/
 	if(g_is_project_18561 == KAL_TRUE){
 		table_write_cmos_sensor(addr_data_pair_normal_video_for_18561,
 			sizeof(addr_data_pair_normal_video_for_18561) / sizeof(kal_uint16));
@@ -4200,7 +4265,8 @@ static void normal_video_setting(void)
 
 static void hs_video_setting(void)
 {
-	LOG_INF("E\n");
+	table_write_cmos_sensor(addr_data_pair_hs_video,
+	   sizeof(addr_data_pair_hs_video) / sizeof(kal_uint16));
 }
 
 static void slim_video_setting(void)
@@ -4254,9 +4320,7 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			LOG_INF("read out sensor id 0x%x \n", *sensor_id);
 			if (*sensor_id == imgsensor_info.sensor_id) {
 				#ifdef VENDOR_EDIT
-				/*Caohua.Lin@Camera.Driver add for 18011/18311  board 20180723*/
 				imgsensor_info.module_id = read_module_id();
-				/*Henry.Chang@Camera.Driver add for ModuleSN  20181216*/
 				//read_eeprom_SN();
 				//LOG_INF("s5k3p9sp_module_id=%d\n",imgsensor_info.module_id);
 				if (deviceInfo_register_value == 0x00) {
@@ -4542,7 +4606,6 @@ static kal_uint32 normal_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 	spin_lock(&imgsensor_drv_lock);
 	imgsensor.sensor_mode = IMGSENSOR_MODE_VIDEO;
 	imgsensor.pclk = imgsensor_info.normal_video.pclk;
-	/*LongYuan.Yang@Camera.Driver  add for 18561  WIFI interference 20190104*/
 	if(g_is_project_18561 == KAL_TRUE){
 		imgsensor.line_length = 7152;
 		imgsensor.frame_length = 2608;
@@ -4664,7 +4727,6 @@ static kal_uint32 get_info(enum MSDK_SCENARIO_ID_ENUM scenario_id,
 	sensor_info->SensorDrivingCurrent = imgsensor_info.isp_driving_current;
 
 	#if 0 //#ifdef VENDOR_EDIT  //compiler not found 20190812
-	/*Riqin.Wei@camera.driver, 2019/08/06/, modify for improve 19531 mclk waveform*/
 	if(is_project(OPPO_19531)){
 	    sensor_info->SensorDrivingCurrent = ISP_DRIVING_4MA;
 	} else {
@@ -5030,7 +5092,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	LOG_INF("feature_id = %d\n", feature_id);
 	switch (feature_id) {
 	#ifdef VENDOR_EDIT
-        /*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 	case SENSOR_FEATURE_GET_MODULE_SN:
 		LOG_INF("s5k3p9 GET_MODULE_SN:%d %d\n", *feature_para_len, *feature_data_32);
 		if (*feature_data_32 < CAMERA_MODULE_SN_LENGTH/4) {
@@ -5040,7 +5101,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 						| (gS5k3p9sp_SN[4*(*feature_data_32)] & 0xFF);
 		}
 		break;
-	/*Caohua.Lin@Camera.Driver , 20190222, add for ITS--sensor_fusion*/
 	case SENOSR_FEATURE_GET_OFFSET_TO_START_OF_EXPOSURE:
 		*(MUINT32 *)(uintptr_t)(*(feature_data + 1)) = 0;
 		break;
@@ -5287,7 +5347,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 					rate = imgsensor_info.cap.mipi_pixel_rate;
 					break;
 			case MSDK_SCENARIO_ID_VIDEO_PREVIEW:
-			/*LongYuan.Yang@Camera.Driver  add for 18561  WIFI interference 20190104*/
 					if(g_is_project_18561 == KAL_TRUE){
 						rate = 268800000;
 					}else{
@@ -5314,7 +5373,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 		}
 		break;
 	#ifdef VENDOR_EDIT
-	/*Caohua.Lin@Camera.Driver 20180707 add for s5k3p9sp crosstalk*/
 	case SENSOR_FEATURE_GET_4CELL_DATA:
 		{
 			int type = (kal_uint16)(*feature_data);

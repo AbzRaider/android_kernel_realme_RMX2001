@@ -49,7 +49,6 @@ extern void rtc_mark_recovery(void);
 extern void rtc_mark_kpoc(void);
 extern void rtc_mark_fast(void);
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for /panic mode/silence mode/meta mode/SAU mode */
 extern void oppo_rtc_mark_reboot_kernel(void);
 extern void oppo_rtc_mark_silence(void);
 extern void oppo_rtc_mark_meta(void);
@@ -59,7 +58,6 @@ extern void oppo_rtc_mark_safe(void);
 extern void oppo_rtc_mark_sensor_cause_panic(void);
 extern int oppo_get_rtc_sensor_cause_panic_value(void);
 extern void oppo_clear_rtc_sensor_cause_panic(void);
-//xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest
 extern void oppo_rtc_mark_agingtest(void);
 #endif /* VENDOR_EDIT */
 extern u16 rtc_rdwr_uart_bits(u16 *val);
@@ -92,7 +90,6 @@ extern bool crystal_exist_status(void);
 #define rtc_mark_kpoc()                 ({ 0; })
 #define rtc_mark_fast()		        ({ 0; })
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for /panic mode/silence mode/meta mode/SAU mode */
 #define oppo_rtc_mark_reboot_kernel() do {} while (0)
 #define oppo_rtc_mark_silence()       do {} while (0)
 #define oppo_rtc_mark_meta()          do {} while (0)
@@ -102,7 +99,6 @@ extern bool crystal_exist_status(void);
 #define oppo_rtc_mark_sensor_cause_panic()			do {} while (0)
 #define oppo_get_rtc_sensor_cause_panic_value()		do {} while (0)
 #define oppo_clear_rtc_sensor_cause_panic()			do {} while (0)
-/* xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest */
 #define oppo_rtc_mark_agingtest()    do {} while (0)
 #endif /* VENDOR_EDIT */
 #define rtc_read_pwron_alarm(alm)	({ 0; })

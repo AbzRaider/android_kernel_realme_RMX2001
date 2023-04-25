@@ -72,7 +72,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-//xiaohua.tian@Prd6.BaseDrv.Sensor,2016/10/31, Add for eMMC and DDR device information
 #include <soc/oppo/device_info.h>
 #endif /* VENDOR_EDIT */
 
@@ -1410,7 +1409,6 @@ static int card_busy_detect(struct mmc_card *card, unsigned int timeout_ms,
 				mmc_hostname(card->host),
 				req->rq_disk->disk_name, __func__);
 #ifdef VENDOR_EDIT
-            //yh@bsp, 2015-10-21 Add for special card compatible
             card->host->card_stuck_in_programing_status = true;
 #endif /* VENDOR_EDIT */
 			return -ETIMEDOUT;
@@ -4369,7 +4367,6 @@ static int mmc_blk_probe(struct mmc_card *card)
 	char cap_str[10];
 
     #ifdef VENDOR_EDIT
-    //xiaohua.tian@Prd6.BaseDrv.Sensor,2016/10/31, Add for eMMC and DDR device information
     char * manufacturerid;
     static char temp_version[30] = {0};
     #endif /* VENDOR_EDIT */
@@ -4378,13 +4375,11 @@ static int mmc_blk_probe(struct mmc_card *card)
 	 * Check that the card supports the command class(es) we need.
 	 */
 #ifndef VENDOR_EDIT
-	//yh@bsp, 2015/08/03, remove for can not initialize specific sdcard(CSD info mismatch card real capability)
 	if (!(card->csd.cmdclass & CCC_BLOCK_READ))
 		return -ENODEV;
 #endif
 
 #ifdef VENDOR_EDIT
-    //xiaohua.tian@Prd6.BaseDrv.Sensor,2016/10/31, Add for eMMC and DDR device information
     switch (card->cid.manfid) {
     case  0x11:
         manufacturerid = "TOSHIBA";

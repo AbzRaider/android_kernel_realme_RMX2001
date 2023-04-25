@@ -114,7 +114,6 @@ static struct LCM_UTIL_FUNCS *lcm_util = NULL;
 #define FALSE 0
 #endif
 
-/* LiPing-m@PSW.MM.Display.LCD.Machine 2017/12/29, Add for lcm ic esd recovery backlight */
 extern unsigned int esd_recovery_backlight_level;
 
 

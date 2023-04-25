@@ -25,7 +25,6 @@
 #include <sec_hal.h>
 #endif
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for reboot kernel panic mode */
 extern int is_kernel_panic;
 #endif
 static int wd_cpu_hot_plug_on_notify(int cpu);
@@ -693,7 +692,6 @@ void arch_reset(char mode, const char *cmd)
 		rtc_mark_kpoc();
 	}
 	#ifdef VENDOR_EDIT
-	/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for reboot kernel panic mode */
 	else if (cmd && !strcmp(cmd, "silence")) {
 		oppo_rtc_mark_silence();
 		reboot = 1;
@@ -705,7 +703,6 @@ void arch_reset(char mode, const char *cmd)
 		oppo_rtc_mark_factory();
 	} else if (cmd && !strcmp(cmd, "safe")) {
 		oppo_rtc_mark_safe();
-	//xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest
 	} else if (cmd && !strcmp(cmd, "sblmemtest")) {
 		oppo_rtc_mark_agingtest();
 	#endif
@@ -714,7 +711,6 @@ void arch_reset(char mode, const char *cmd)
 	}
 
 	#ifdef VENDOR_EDIT
-	/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for reboot kernel panic mode */
 	if(is_kernel_panic) {
 		oppo_rtc_mark_reboot_kernel();
 	}

@@ -5,10 +5,8 @@
  ** Description: header file of aw87339 speaker pa
  ** Version :1.0
  ** Date : 2019/10/09
- ** Author: fanxiongnan@ODM.HQ.Multimedia.Audio
  ** ---------------- Revision History: --------------------------
  ** <version>    <date>          < author >              <desc>
- **  1.0           2019/10/09   fanxiongnan@ODM.HQ   header file of aw87339 speaker pa
  ********************************************/
 
 #ifndef __AW87339_H__

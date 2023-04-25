@@ -343,7 +343,6 @@ extern int WV511AAF_Release(struct inode *a_pstInode, struct file *a_pstFile);
 extern int WV511AAF_GetFileName(unsigned char *pFileName);
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camra 20190827 for FP5516 Bringup */
 #define FP5516AF_SetI2Cclient FP5516AF_SetI2Cclient_Main
 #define FP5516AF_Ioctl FP5516AF_Ioctl_Main
 #define FP5516AF_Release FP5516AF_Release_Main

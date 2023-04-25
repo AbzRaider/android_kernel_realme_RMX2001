@@ -240,7 +240,6 @@ struct display_primary_path_context {
 	unsigned long framebuffer_va;
 	unsigned long framebuffer_pa;
 #ifdef VENDOR_EDIT
-	/* jie.cheng@swdp.shanghai,2017/06/02,add frame cnt variable to summarize all frame updates on MTK platform */
 	unsigned long frame_cnt;
 #endif
 	struct mutex lock;
@@ -271,7 +270,6 @@ struct display_primary_path_context {
 	cmdqBackupSlotHandle night_light_params;
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 	* add for fingerprint notify frigger
 	*/
 	cmdqBackupSlotHandle fpd_fence;
@@ -284,7 +282,6 @@ struct display_primary_path_context {
 #endif
 	enum mtkfb_power_mode pm;
 	#ifdef VENDOR_EDIT
-	/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/10/09, add for AOD feature */
 	enum mtkfb_power_mode prev_pm;
 	#endif /*VENDOR_EDIT*/
 	enum lcm_power_state lcm_ps;
@@ -416,7 +413,6 @@ int primary_display_pause(PRIMARY_DISPLAY_CALLBACK callback,
 int primary_display_switch_dst_mode(int mode);
 int primary_display_get_lcm_index(void);
 #ifdef VENDOR_EDIT
-/* Xinqin.Yang@Cam.Tuning.Display, 2018/11/17, add for multi-lcms */
 int _ioctl_get_lcm_module_info(unsigned long arg);
 #endif /* VENDOR_EDIT */
 int primary_display_force_set_fps(unsigned int keep, unsigned int skip);
@@ -447,13 +443,11 @@ void _primary_path_switch_dst_unlock(void);
 
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 void ffl_set_init(void);
 void ffl_set_enable(unsigned int enable);
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/06/12,
 * add for get dimming layer hbm state
 */
 int primary_display_set_lcm_hbm(bool en);
@@ -526,7 +520,6 @@ int primary_display_wdma_recovery(void);
 void primary_display_set_recovery_module(enum DISP_MODULE_ENUM module);
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 * add for fingerprint notify frigger
 */
 void fpd_notify_check_trig(void);

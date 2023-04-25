@@ -162,27 +162,21 @@ enum rtc_spare_enum {
 	RTC_LP_DET,
 	RTC_FG_INIT,
 #ifdef VENDOR_EDIT
-	/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for /panic mode/silence mode/meta mode/SAU mode */
 	RTC_REBOOT_KERNEL, // 15
 	RTC_SILENCE_BOOT,//16
 	RTC_META_BOOT,//17
 	RTC_SAU_BOOT,//18
 	#endif /* VENDOR_EDIT */
 	#ifdef VENDOR_EDIT
-	/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/02, Add for charger memory electricity */
 	//RTC_OPPO_BATTERY,//19
 	#endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/02/12 modify for factory mode */
 	RTC_FACTORY_BOOT,
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor i2c err workaround */
 	//RTC_SENSOR_CAUSE_PANIC,
 #endif /* VENDOR_EDIT */
-/*xiongxing@BSP.Kernel.Driver, 2019/02/27, Add for safemode*/
 	RTC_SAFE_BOOT,
-/* xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest */
 	RTC_AGINGTEST_BOOT,
 	RTC_SPAR_NUM
 };
@@ -210,26 +204,20 @@ u16 rtc_spare_reg[RTC_SPAR_NUM][3] = {
 	{RTC_SPAR0, 0x1, 7},
 	{RTC_AL_HOU, 0xff, 8},
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for /panic mode/silence mode/meta mode/SAU mode */
 	{RTC_SPAR0, 0x1, 8},
 	{RTC_SPAR0, 0x1, 9},
 	{RTC_SPAR0, 0x1, 10},
 	{RTC_SPAR0, 0x1, 11},
 #endif /* VENDOR_EDIT */
 	#ifdef VENDOR_EDIT
-	/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/02, Add for charger memory electricity */
-/* zhaojunhai@ODM.HQ.BSP.CHG 2020/02/05 modify for [Nemo]2680425 */
 	//{RTC_AL_DOW, 0xff, 8},//battery electricity
 	#endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/02/12 modify for factory mode */
 	{RTC_SPAR0, 0x1, 12},
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/02/12 modify for sensor i2c err workaround */
 	//{RTC_SPAR0, 0x1, 13},
 	{RTC_SPAR0, 0x1, 15},
-	/*xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest*/
 	{RTC_SPAR0, 0x01, 14}
 #endif /* VENDOR_EDIT */
 };
@@ -739,7 +727,6 @@ void rtc_mark_fast(void)
 }
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24,, Add for /panic mode/silence mode/meta mode/SAU mode */
 void oppo_rtc_mark_reboot_kernel(void)
 {
 	unsigned long flags;
@@ -781,7 +768,6 @@ void oppo_rtc_mark_sau(void)
 	spin_unlock_irqrestore(&rtc_misc->lock, flags);
 }
 
-//xiaofan.yang@PSW.TECH.AgingTest, 2019/09/09,Add for factory agingtest
 void oppo_rtc_mark_agingtest(void)
 {
 	unsigned long flags;
@@ -802,7 +788,6 @@ void oppo_rtc_mark_factory(void)
 	spin_unlock_irqrestore(&rtc_misc->lock, flags);
 }
 
-/*xiongxing@BSP.Kernel.Driver, 2019/02/27, Add for safemode*/
 void oppo_rtc_mark_safe(void)
 {
 	unsigned long flags;
@@ -813,9 +798,13 @@ void oppo_rtc_mark_safe(void)
 	spin_unlock_irqrestore(&rtc_misc->lock, flags);
 }
 
+<<<<<<< HEAD
 /* zhaojunhai@ODM.HQ.BSP.CHG 2020/02/05 modify for [Nemo]2680425 */
 #if 0
 /* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor i2c workaround*/
+=======
+#if 0
+>>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 void oppo_rtc_mark_sensor_cause_panic(void)
 {
 	unsigned long flags;

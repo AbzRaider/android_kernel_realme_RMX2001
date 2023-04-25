@@ -58,13 +58,11 @@ static int i2c_read(u8 a_u2Addr, u8 *a_puBuff)
 	int i4RetValue = 0;
 	char puReadCmd[1] = { (char)(a_u2Addr) };
 	#ifdef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20171221 add as need set i2c addr to i2cclient*/
 	g_pstAF_I2Cclient->addr = AF_I2C_SLAVE_ADDR;
 	g_pstAF_I2Cclient->addr = g_pstAF_I2Cclient->addr >> 1;
 	#endif
 	i4RetValue = i2c_master_send(g_pstAF_I2Cclient, puReadCmd, 1);
 	#ifndef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20171221 modify as actually return 1,not 2*/
 	if (i4RetValue != 2) {
 		LOG_INF(" I2C write failed!!\n");
 		return -1;
@@ -148,11 +146,9 @@ static int initdrv(void)
 	int i4RetValue = 0;
 
 	#ifndef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20180103 modify as the actual oscillating period is 11ms*/
 	char puSendCmd2[2] = { 0x01, 0x39 };
 	char puSendCmd3[2] = { 0x05, 0x07 };
 	#else
-	/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 	char puSendCmd0[2] = { 0x00, 0x01 };
 	char puSendCmd1[2] = { 0x00, 0x00 };
 	char puSendCmd2[2] = { 0x01, 0x19 };
@@ -160,12 +156,10 @@ static int initdrv(void)
 	#endif
 
 	#ifdef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20171221 add as need set i2c addr to i2cclient*/
 	g_pstAF_I2Cclient->addr = AF_I2C_SLAVE_ADDR;
 	g_pstAF_I2Cclient->addr = g_pstAF_I2Cclient->addr >> 1;
 	#endif
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 	i4RetValue = i2c_master_send(g_pstAF_I2Cclient, puSendCmd0, 2);
 
 	if (i4RetValue < 0) {
@@ -186,14 +180,12 @@ static int initdrv(void)
 		return -1;
 	}
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 	mdelay(1);
 	#endif
 
 	i4RetValue = i2c_master_send(g_pstAF_I2Cclient, puSendCmd3, 2);
 
 	#ifdef VENDOR_EDIT
-	/*Feng.Hu@Camera.Driver 20180123 modify as the return value is bigger than 0*/
 	if (i4RetValue < 0) {
 		LOG_INF("I2C send failed!!\n");
 		return -1;
@@ -209,7 +201,6 @@ static inline int moveAF(unsigned long a_u4Position)
 {
 	int ret = 0;
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 	unsigned short InitPos;
 	static int is_first = 1;
 	#endif
@@ -221,7 +212,6 @@ static inline int moveAF(unsigned long a_u4Position)
 
 	if (*g_pAF_Opened == 1) {
 		#ifndef VENDOR_EDIT
-		/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 		unsigned short InitPos;
 		#endif
 		ret = s4DW9718SAF_ReadReg(&InitPos);
@@ -256,7 +246,6 @@ static inline int moveAF(unsigned long a_u4Position)
 	spin_unlock(g_pAF_SpinLock);
 
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@Camera.Driver 20180307 modify for resolve issue AF not work after electrostatic test */
 	//LOG_INF("move [curr] %ld [target] %ld is_first = %d \n", g_u4CurrPosition, g_u4TargetPosition,is_first);
 	if (is_first == 1) {
 		ret = s4DW9718SAF_ReadReg(&InitPos);
@@ -348,7 +337,6 @@ int DW9718SAF_Release(struct inode *a_pstInode, struct file *a_pstFile)
 					af_step = 25;
 
 				#ifdef VENDOR_EDIT
-				/*Feng.Hu@Camera.Driver 20180124 add for quick exit if i2c error*/
 				if (s4AF_WriteReg(g_u4CurrPosition - af_step) != 0) {
 					break;
 				}

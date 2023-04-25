@@ -28,7 +28,6 @@
 #include "ccci_fsm.h"
 
 #ifdef ODM_HQ_EDIT
-//panxiaolong_hq@vanyol.com, 2018/12/11, Add for SWTP - RF cable detection
 #include <linux/proc_fs.h>
 static unsigned int swtp_status_value = SWTP_EINT_PIN_PLUG_OUT;
 #endif  /*ODM_HQ_EDIT*/
@@ -96,7 +95,6 @@ static int swtp_switch_mode(struct swtp_t *swtp)
 	spin_unlock_irqrestore(&swtp->spinlock, flags);
 
 #ifdef ODM_HQ_EDIT
-	//panxiaolong_hq@vanyol.com, 2019/12/11, Add for SWTP - RF cable detection
 	swtp_status_value = swtp->curr_mode;
 #endif /*ODM_HQ_EDIT*/
 	return ret;
@@ -197,7 +195,6 @@ int swtp_md_tx_power_req_hdlr(int md_id, int data)
 }
 
 #ifdef ODM_HQ_EDIT
-//panxiaolong_hq@vanyol.com, 2019/12/11, Add for SWTP - RF cable detection
 static int swtp_gpio_show(struct seq_file *m, void *v)
 {
 	seq_printf(m, "%d\n", swtp_status_value);
@@ -283,7 +280,6 @@ int swtp_init(int md_id)
 		swtp_md_tx_power_req_hdlr);
 	
 #ifdef ODM_HQ_EDIT
-	//panxiaolong_hq@vanyol.com, 2019/12/11, Add for SWTP - RF cable detection
 	swtp_gpio_create_proc();
 #endif  /*ODM_HQ_EDIT*/	
 	return ret;

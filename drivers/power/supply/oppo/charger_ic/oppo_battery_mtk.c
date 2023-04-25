@@ -53,7 +53,6 @@
 #endif
 #include <linux/suspend.h>
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 #include <linux/scatterlist.h>
 #else
 #include <asm/scatterlist.h>

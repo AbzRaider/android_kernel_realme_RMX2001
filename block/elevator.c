@@ -205,7 +205,6 @@ int elevator_init(struct request_queue *q, char *name)
 
 	INIT_LIST_HEAD(&q->queue_head);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	INIT_LIST_HEAD(&q->fg_head);
 #endif /*VENDOR_EDIT*/
 	q->last_merge = NULL;
@@ -420,7 +419,6 @@ void elv_dispatch_sort(struct request_queue *q, struct request *rq)
 
 	list_add(&rq->queuelist, entry);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	queue_throtl_add_request(q, rq, false);
 #endif
 }
@@ -444,7 +442,6 @@ void elv_dispatch_add_tail(struct request_queue *q, struct request *rq)
 	q->boundary_rq = rq;
 	list_add_tail(&rq->queuelist, &q->queue_head);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	queue_throtl_add_request(q, rq, false);
 #endif
 }
@@ -674,7 +671,6 @@ void __elv_add_request(struct request_queue *q, struct request *rq, int where)
 		rq->rq_flags |= RQF_SOFTBARRIER;
 		list_add(&rq->queuelist, &q->queue_head);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 		queue_throtl_add_request(q, rq, true);
 #endif /*VENDOR_EDIT*/
 		break;
@@ -684,7 +680,6 @@ void __elv_add_request(struct request_queue *q, struct request *rq, int where)
 		elv_drain_elevator(q);
 		list_add_tail(&rq->queuelist, &q->queue_head);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 		queue_throtl_add_request(q, rq, false);
 #endif
 		/*

@@ -285,7 +285,6 @@ void mmc_remove_host_debugfs(struct mmc_host *host)
 }
 
 #ifdef VENDOR_EDIT
-//Chunyi.Mei@PSW.BSP.Storage.EMMC,2018/9/12,2016/10/31,add for emmc life&size display
 #define SECTOR_COUNT_BUF_LEN 16
 
 static int mmc_sector_count_open(struct inode *inode, struct file *filp)
@@ -478,7 +477,6 @@ void mmc_add_card_debugfs(struct mmc_card *card)
 		goto err;
 
 #ifdef VENDOR_EDIT
-//Chunyi.Mei@PSW.BSP.Storage.EMMC,2018/9/12,add for emmc life&size display
 	if (mmc_card_mmc(card))
 		if (!debugfs_create_file("sector_count", S_IRUSR, root, card,
 						&mmc_dbg_sector_count_fops))

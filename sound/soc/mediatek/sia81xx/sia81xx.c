@@ -206,7 +206,6 @@ static int sia81xx_suspend(
 	struct sia81xx_dev_s *sia81xx);
 static unsigned int get_chip_type(const char *name);
 
-//fanxiongnan@ODM.HQ.MM.Audio.BSP 2020/01/16 added to fix pop issue
 static sia81xx_dev_t *temp_sia81xx_dev = NULL;
 
 int sia81xx_power_on(void)
@@ -1445,7 +1444,6 @@ static int sia81xx_audio_scene_set(
 {
 	struct snd_soc_codec *codec = snd_soc_kcontrol_codec(kcontrol);
 	sia81xx_dev_t *sia81xx = snd_soc_codec_get_drvdata(codec);
-	//fanxiongnan@ODM.HQ.MM.Audio.BSP 2020/01/16 added to fix pop issue
 	temp_sia81xx_dev = sia81xx;
 
 	pr_debug("[debug][%s] %s: ucontrol = %ld, rst = %d \r\n", 

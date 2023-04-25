@@ -642,8 +642,10 @@ int ip6_fragment(struct net *net, struct sock *sk, struct sk_buff *skb,
 		pr_info_ratelimited("[mtk_net] %s ignore to avoid double fragment\n",
 				    __func__);
 		err = output(net, sk, skb);
-		if (err)
-			goto fail;
+        //#ifdef ODM_WT_EDIT
+		//if (err)
+		//	goto fail;
+        //#endif /* ODM_WT_EDIT */
 		return err;
 	}
 
@@ -1252,8 +1254,10 @@ static int ip6_setup_cork(struct sock *sk, struct inet_cork_full *cork,
 		if (np->frag_size)
 			mtu = np->frag_size;
 	}
-	if (mtu < IPV6_MIN_MTU)
+     //#ifdef ODM_WT_EDIT
+	if (!(rt->dst.flags & DST_XFRM_TUNNEL) && mtu < IPV6_MIN_MTU)
 		return -EINVAL;
+     //#endif /* ODM_WT_EDIT */
 	cork->base.fragsize = mtu;
 	if (dst_allfrag(rt->dst.path))
 		cork->base.flags |= IPCORK_ALLFRAG;

@@ -181,7 +181,6 @@ struct mmc_request {
 	struct mmc_cmdq_req *cmdq_req;
 #endif
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
-//yh@PSW.BSP.Storage.Emmc, 2018-09-30, Add for monitor cmdq driver wait time
 	ktime_t cmdq_request_time_start;
 #endif
 

@@ -77,7 +77,6 @@ static long mag_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 				return -EINVAL;
 			}
 			#ifdef VENDOR_EDIT
-			/*Fei.Mo@PSW.BSP.Sensor, 2017/12/18, Add for mag ata test*/
 			msleep(500);
 			#endif /*VENDOR_EDIT*/
 		} else {

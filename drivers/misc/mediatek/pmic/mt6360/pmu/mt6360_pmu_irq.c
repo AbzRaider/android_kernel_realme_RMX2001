@@ -24,7 +24,6 @@
 #include "../inc/mt6360_pmu.h"
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 extern bool mt6360_get_vbus_status(void);
 extern int mt6360_chg_enable(bool en);
 extern int mt6360_chg_enable_wdt(bool enable);
@@ -46,7 +45,6 @@ static irqreturn_t mt6360_pmu_irq_handler(int irq, void *data)
 	u8 irq_masks[MT6360_PMU_IRQ_REGNUM] = {0};
 	int i, j, ret;
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	bool vbus_status = false;
 #endif
 
@@ -74,7 +72,6 @@ static irqreturn_t mt6360_pmu_irq_handler(int irq, void *data)
 					mt_dbg(mpi->dev,
 					       "handle_irq [%d,%d]\n", i, j);
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 				else {
 					if (i == 7) {
 						vbus_status = mt6360_get_vbus_status();

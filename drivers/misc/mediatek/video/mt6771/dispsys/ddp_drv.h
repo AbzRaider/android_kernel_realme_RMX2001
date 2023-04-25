@@ -170,7 +170,6 @@ struct device *disp_get_device(void);
 #define DISP_IOCTL_OVL_DISABLE_CASCADE	_IOW(DISP_IOCTL_MAGIC, 91, int)
 
 #ifdef VENDOR_EDIT
-/* Xinqin.Yang@Cam.Tuning.Display, 2018/11/17, add for multi-lcms */
 typedef struct {
     char name[128];
 } LCM_MODULE_INFO;

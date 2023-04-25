@@ -138,7 +138,6 @@ void _ddic_test_read(void)
 }
 
 #ifdef ODM_HQ_EDIT
-//panxiaolong@ODM.Multimedia.LCD  2020/01/15 add for read nova reg for mipi error
 void _ddic_mipi_error_read(void)
 {
 	struct dsi_cmd_desc cmd_tab;

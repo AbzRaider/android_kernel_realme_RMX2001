@@ -19,7 +19,6 @@
 #define PD_VBUS_IR_DROP_THRESHOLD 1200
 
 #ifdef ODM_HQ_EDIT
-/* wangtao@BSP.CHG.Basic, 2019/11/28, sjc Add for PD */
 #include <tcpm.h>
 extern int pd_notify;
 #endif
@@ -138,7 +137,6 @@ static bool mtk_is_pdc_ready(struct charger_manager *info)
 	return false;
 }
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM.HQ.BSP.CHG 2019/11/29 add for pd charging*/
 bool mtk_pdc_check_charger(struct charger_manager *info)
 {
 	info->pd_type = pd_notify;
@@ -380,7 +378,6 @@ int mtk_pdc_setup(struct charger_manager *info, int idx)
 	return ret;
 }
 #ifdef ODM_HQ_EDIT
-/* wangtao@BSP.CHG.Basic, 2019/11/28, sjc Add for PD */
 
 #define VBUS_5V	5000
 #define IBUS_2A	2000

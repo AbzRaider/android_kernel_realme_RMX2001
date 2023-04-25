@@ -50,7 +50,6 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/* LiPing-M@PSW.MultiMedia.Display.LCD.Feature.DD17&DD16, 2017/12/07, Add for sau and silence close backlight */
 #include <mt-plat/mtk_boot_common.h>
 extern unsigned long silence_mode;
 #endif /*VENDOR_EDIT*/
@@ -763,7 +762,6 @@ int mt_mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 
     #ifdef VENDOR_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/09/10,
 	* add for cmcc test reduce brightness
 	*/
 	#ifdef OPPO_CTTEST_FLAG
@@ -774,7 +772,6 @@ int mt_mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 	#endif /*VENDOR_EDIT*/
 
 	#ifdef VENDOR_EDIT
-	/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Feature.DD17&DD16, 2018/09/10, Add for sau and silence close backlight */
 	if (silence_mode) {
 		printk("%s silence_mode is %ld, set backlight to 0\n",__func__, silence_mode);
 		level = 0;
@@ -846,7 +843,6 @@ int mt_mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 			bl_brightness_hal = level;
 		#ifndef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/02/19,
 		* remove for log print
 		*/
 		LEDS_DEBUG("brightness_set_cust:backlight control by LCM\n");

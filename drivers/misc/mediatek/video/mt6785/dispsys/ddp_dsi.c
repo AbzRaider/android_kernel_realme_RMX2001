@@ -47,7 +47,6 @@
 #include "primary_display.h"
 
 #ifdef ODM_HQ_EDIT
-/* liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting */
 #ifdef CONFIG_SET_LCD_BIAS_ODM_HQ
 #include "../../../lcd_bias/lcd_bias.h"
 #endif //CONFIG_SET_LCD_BIAS_ODM_HQ
@@ -4353,7 +4352,6 @@ unsigned int DSI_dcs_read_lcm_reg_v2_wrapper_DSIDUAL(UINT8 cmd, UINT8 *buffer,
 }
 
 #ifdef ODM_HQ_EDIT
-/* liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting */
 #ifdef CONFIG_SET_LCD_BIAS_ODM_HQ
 static void lcm_set_lcd_bias_en(unsigned int en, unsigned int seq, unsigned int value)
 {
@@ -4476,7 +4474,6 @@ int ddp_dsi_set_lcm_utils(enum DISP_MODULE_ENUM module,
 #endif
 #else
 #ifdef ODM_HQ_EDIT
-	/* liyan@ODM.Multimedia.LCD  2019/08/27 add for LCD bias setting */
 #ifdef CONFIG_SET_LCD_BIAS_ODM_HQ
 	utils->set_lcd_bias_en = lcm_set_lcd_bias_en;
 #endif //CONFIG_SET_LCD_BIAS_ODM_HQ

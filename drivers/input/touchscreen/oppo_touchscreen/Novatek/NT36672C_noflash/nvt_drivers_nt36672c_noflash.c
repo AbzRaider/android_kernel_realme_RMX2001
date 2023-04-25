@@ -5,7 +5,6 @@
  * Description: Source file for novatek nt36672c driver
  * Version   : 1.0
  * Date        : 2019/019/22
- * Author    : Wenping.ZHOU@PSW.BSP.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
@@ -5526,8 +5525,7 @@ static struct spi_driver tp_spi_driver = {
 static int32_t __init nvt_driver_init(void)
 {
     TPD_INFO("%s is called\n", __func__);
-
-    if (!tp_judge_ic_match(TPD_DEVICE))
+ if (!tp_judge_ic_match(TPD_DEVICE))
             return -1;
 	get_oem_verified_boot_state();
 

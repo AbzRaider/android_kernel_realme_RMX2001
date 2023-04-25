@@ -5011,7 +5011,6 @@ void smblib_usb_plugin_hard_reset_locked(struct smb_charger *chg)
 #endif
 	
 #ifdef VENDOR_EDIT
-/* Cong.Dai@BSP.TP.Init, 2018/04/08, Add for notify touchpanel status */
 	if (vbus_rising) {
 		switch_usb_state(1);
 	} else {
@@ -5199,7 +5198,6 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 #endif
 	
 #ifdef VENDOR_EDIT
-/* Cong.Dai@BSP.TP.Init, 2018/04/08, Add for notify touchpanel status */
 	if (vbus_rising) {
 		switch_usb_state(1);
 	} else {

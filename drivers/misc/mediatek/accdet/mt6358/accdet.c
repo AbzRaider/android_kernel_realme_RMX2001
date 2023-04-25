@@ -50,8 +50,6 @@
 
 /********************grobal variable definitions******************/
 #ifdef VENDOR_EDIT
-/* Bingyuan.Liu@BSP.TP.FUNCTION, 2019/10/25,
- * add to enable tp headset mode when plug in  */
 void __attribute__((weak)) switch_headset_state(int headset_state) {return;}
 #endif /* VENDOR_EDIT */
 
@@ -1240,8 +1238,6 @@ static void eint_work_callback(void)
 #endif
 
 #ifdef VENDOR_EDIT
-/* Bingyuan.Liu@BSP.TP.FUNCTION, 2019/10/25,
- * add to enable tp headset mode when plug in  */
 		switch_headset_state(1);
 #endif /* VENDOR_EDIT */
 	} else {
@@ -1258,8 +1254,6 @@ static void eint_work_callback(void)
 		disable_accdet();
 		headset_plug_out();
 #ifdef VENDOR_EDIT
-/* Bingyuan.Liu@BSP.TP.FUNCTION, 2019/10/25,
- * add to enable tp headset mode when plug in  */
 		switch_headset_state(0);
 #endif /* VENDOR_EDIT */
 	}

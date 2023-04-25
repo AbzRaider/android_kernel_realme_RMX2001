@@ -43,7 +43,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 	uint32_t enable = 0;
 	int threshold_data[2] = {0, 0};
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 	int als_cali = 0;
 #else
 	int32_t data_buf[6] = {0};
@@ -102,7 +101,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 		if (alsps_factory.fops != NULL &&
 		    alsps_factory.fops->als_enable_sensor != NULL) {
 			#ifdef ODM_HQ_EDIT
-			/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, modify als sample rate */
 			err = alsps_factory.fops->als_enable_sensor(enable,
 								    100);
 			#else
@@ -138,9 +136,7 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 		}
 		return 0;
 #ifndef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 #ifdef VENDOR_EDIT
-/*zhq@PSW.BSP.Sensor, 2018/10/28, Add for als ps cail*/
 	case ALSPS_IOCTL_ALS_GET_CALI:
 		if (alsps_factory.fops != NULL && alsps_factory.fops->als_get_cali != NULL) {
 			err = alsps_factory.fops->als_get_cali(data_buf);
@@ -195,7 +191,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 		}
 		return 0;
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 		case ALSPS_ALS_SET_CALI:
 			if (copy_from_user(&als_cali, ptr, sizeof(als_cali)))
 				return -EFAULT;
@@ -298,7 +293,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 	case ALSPS_IOCTL_SET_CALI:
         pr_err("ALSPS_IOCTL_SET_CALI start!\n");
 		#ifdef ODM_HQ_EDIT
-		/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 		if (copy_from_user(&data, ptr, sizeof(data)))
 			return -EFAULT;
 		if (alsps_factory.fops != NULL &&
@@ -335,7 +329,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 		    alsps_factory.fops->ps_get_cali != NULL) {
 			pr_err("ALSPS_IOCTL_GET_CALI start\n");
 			#ifdef ODM_HQ_EDIT
-			/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 			err = alsps_factory.fops->ps_get_cali(&data);
 			#else
 			err = alsps_factory.fops->ps_get_cali(data_buf);
@@ -384,7 +377,6 @@ static long alsps_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 		return 0;
 	default:
 #ifdef ODM_HQ_EDIT
-		/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/11,add log for ioctrl error */
 		pr_err("unknown IOCTL: 0x%08x 0x%08x\n", cmd,ALSPS_ALS_SET_CALI);
 		if (cmd == 0x40048420){
 			if (copy_from_user(&als_cali, ptr, sizeof(als_cali)))
@@ -457,7 +449,6 @@ static long alsps_factory_compat_ioctl(struct file *file,
 		break;
 	default:
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/11,add log for ioctrl error */
 		pr_err("unknown COMPAT_IOCTL: 0x%08x 0x%08x\n", cmd,COMPAT_ALSPS_IOCTL_ALS_SET_CALI);
 #else
 		pr_err("unknown IOCTL: 0x%08x\n", cmd);

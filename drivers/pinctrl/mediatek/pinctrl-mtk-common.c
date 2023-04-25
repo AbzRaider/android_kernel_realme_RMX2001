@@ -48,7 +48,6 @@ struct mtk_pinctrl *pctl_alt;
 #define GPIO_MODE_PREFIX "GPIO"
 
 #ifdef VENDOR_EDIT
-/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 #define LOG_BUF_SIZE    256
 extern	unsigned int g_eint_pmic_num;
 extern	char wakeup_source_buf[LOG_BUF_SIZE];
@@ -1278,7 +1277,6 @@ static int mtk_gpio_set_debounce(struct gpio_chip *chip, unsigned int offset,
 	clr_offset = (eint_num / 4) * 4 + pctl->devdata->eint_offsets.dbnc_clr;
 
 #ifdef ODM_HQ_EDIT
-//wangtao@bsp.NW.RF, 2018/12/19, Add for SWTP - RF cable detection
 	//if (!mtk_eint_can_en_debounce(pctl, eint_num))
 	//	return -EINVAL;
 
@@ -1655,7 +1653,6 @@ mtk_eint_debounce_process(struct mtk_pinctrl *pctl, int index)
 //#ifndef CONFIG_MTK_EIC
 
 //#ifdef VENDOR_EDIT
-/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 #define EINT_WIDTH  		32
 #define EINT_REG_NUMBER  	18
  u64 eint_wakesrc_x_count[EINT_REG_NUMBER][EINT_WIDTH] = {
@@ -1721,7 +1718,6 @@ void mt_eint_print_status(void)
 	unsigned int triggered_eint;
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 	struct irq_desc *desc = NULL;
 	int virq = 0;
 	#endif /* VENDOR_EDIT */
@@ -1743,7 +1739,6 @@ void mt_eint_print_status(void)
 			status &= ~BIT(offset);
 			
 			#ifdef VENDOR_EDIT
-			/* ChaoYing.Chen@BSP.Power.Basic.1056413, 2017/12/11, Add for print wakeup source */
 			virq = irq_find_mapping(pctl->domain, triggered_eint);
 			desc = irq_to_desc(virq);
 			memset(wakeup_source_buf, 0, sizeof(wakeup_source_buf));

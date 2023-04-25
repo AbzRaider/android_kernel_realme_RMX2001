@@ -372,7 +372,6 @@ static void usb_phy_tuning(struct mtk_phy_instance *instance)
 
 	if (!instance->phy_tuning.inited) {
 #ifdef ODM_HQ_EDIT
-/*wangtaotao@ODM.BSP.kernel, 2019/11/25, modify usb eye driver*/
 		instance->phy_tuning.u2_vrt_ref = 7;
 		instance->phy_tuning.u2_term_ref = 7;
 		instance->phy_tuning.u2_enhance = 2;

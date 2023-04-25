@@ -545,7 +545,6 @@
 #define SENSOR_DRVNAME_OV8856_MIPI_RAW_5MP      "ov8856_mipi_raw_5mp"
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for snesor bringup */
 #define S5KGW1_SENSOR_ID                        0x0971
 #define SENSOR_DRVNAME_S5KGW1_MIPI_RAW          "s5kgw1_mipi_raw"
 #define S5KGM1SP_SENSOR_ID                      0x08D1
@@ -560,6 +559,8 @@
 #define SENSOR_DRVNAME_GC02M0_MIPI_MONO         "gc02m0_mipi_mono"
 #define OV02A10_SENSOR_ID                       0x2509
 #define SENSOR_DRVNAME_OV02A10_MIPI_RAW         "ov02a10_mipi_raw"
+#define GC02K0_SENSOR_ID                        0x2385
+#define SENSOR_DRVNAME_GC02K0_MIPI_RAW          "gc02k0_mipi_raw"
 #endif
 
 /******************************************************************************

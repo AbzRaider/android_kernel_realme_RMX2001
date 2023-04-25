@@ -48,11 +48,9 @@ struct alsps_factory_fops {
 	int (*als_clear_cali)(void);
 	int (*als_set_cali)(int32_t offset);
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 int (*als_get_cali)(int32_t *offset);
 #else
 #ifdef VENDOR_EDIT
-/*zhq@PSW.BSP.Sensor, 2018/10/28, Add for als ps cail*/
 	int (*als_get_cali)(int32_t offset[6]);
 #endif /* VENDOR_EDIT */
 #endif/* ODM_HQ_EDIT */
@@ -62,12 +60,10 @@ int (*als_get_cali)(int32_t *offset);
 	int (*ps_enable_calibration)(void);
 	int (*ps_clear_cali)(void);
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/10/29,modify sensor code for huaqin */
 int (*ps_set_cali)(int32_t offset);
 int (*ps_get_cali)(int32_t *offset);
 #else
 #ifdef VENDOR_EDIT
-/*zhq@PSW.BSP.Sensor, 2018/10/28, Add for als ps cail*/
 	int (*ps_set_cali)(int32_t offset[6]);
 	int (*ps_get_cali)(int32_t offset[6]);
 #endif /* VENDOR_EDIT */

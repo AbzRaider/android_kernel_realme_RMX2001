@@ -862,7 +862,7 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 	/* mmap_sem is held in m_start */
 	walk_page_vma(vma, &smaps_walk);
 
-	#ifdef VENDOR_EDIT //yixue.ge@bsp.drv modify for android.bg get pss too slow
+	#ifdef VENDOR_EDIT
 	if (strcmp(current->comm, "android.bg") == 0) {
 		if ((unsigned long)(mss->pss >> (10 + PSS_SHIFT)) > 0) {
 			seq_printf(m,
@@ -1698,9 +1698,6 @@ const struct file_operations proc_pagemap_operations = {
 
 #ifdef CONFIG_PROCESS_RECLAIM
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-/* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
- * Each reclaim lasts up to 333ms, will stop immediately if overtime.
- */
 #define RECLAIM_TIMEOUT_JIFFIES (HZ/3)
 #define RECLAIM_PAGE_NUM 1024ul
 #endif
@@ -1722,8 +1719,6 @@ static int deactivate_pte_range(pmd_t *pmd, unsigned long addr,
 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
 	for (; addr < end; pte++, addr += PAGE_SIZE) {
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
-		 * reclaim process should cancel*/
 		if (rp->reclaimed_task &&
 				(ret = is_reclaim_addr_over(walk, addr))) {
 			ret = -ret;
@@ -1775,9 +1770,6 @@ static int deactivate_pte_range(pmd_t *pmd, unsigned long addr,
 
 	cond_resched();
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, if want to cancel,
-	 * if ret <0 means need jump out of the loop immediately
-	 */
 	if (ret < 0)
 		return ret;
 	if (!rp->nr_to_reclaim)
@@ -1815,8 +1807,6 @@ cont:
 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
 	for (; addr != end; pte++, addr += PAGE_SIZE) {
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
-		 * reclaim process should cancel*/
 		if (rp->reclaimed_task &&
 				(ret = is_reclaim_addr_over(walk, addr))) {
 			ret = -ret;
@@ -1832,8 +1822,6 @@ cont:
 			continue;
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-		 * we don't reclaim page in active lru list */
 		if (rp->inactive_lru && (PageActive(page) ||
 					PageUnevictable(page)))
 			continue;
@@ -1855,17 +1843,12 @@ cont:
 	}
 	pte_unmap_unlock(pte - 1, ptl);
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
-	 * reclaim process should cancel*/
 	reclaimed = reclaim_pages_from_list(&page_list, vma, walk);
 	rp->nr_reclaimed += reclaimed;
 	rp->nr_to_reclaim -= reclaimed;
 	if (rp->nr_to_reclaim < 0)
 		rp->nr_to_reclaim = 0;
 
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, if want to cancel,
-	 * if ret <0 means need jump out of the loop immediately
-	 */
 	if (ret < 0)
 		return ret;
 	if (!rp->nr_to_reclaim)
@@ -1885,8 +1868,6 @@ enum reclaim_type {
 	RECLAIM_ALL,
 	RECLAIM_RANGE,
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-	 * add three reclaim_type that only reclaim inactive pages */
 	RECLAIM_INACTIVE_FILE,
 	RECLAIM_INACTIVE_ANON,
 	RECLAIM_INACTIVE,
@@ -1894,8 +1875,6 @@ enum reclaim_type {
 };
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
- * Extract the reclaim core code for /proc/process_reclaim use*/
 ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
 {
 	struct mm_struct *mm;
@@ -1906,9 +1885,6 @@ ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
 	struct reclaim_param rp;
 	int err = 0;
 
-	/* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
-	 * Do not reclaim self
-	 */
 	if (task == current->group_leader)
 		return -EINVAL;
 
@@ -1919,9 +1895,6 @@ ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
 		type = RECLAIM_ANON;
 	else if (!strcmp(type_buf, "all"))
 		type = RECLAIM_ALL;
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-	 * Check the input reclaim option is inactive
-	 */
 	else if (!strcmp(type_buf, "inactive"))
 		type = RECLAIM_INACTIVE;
 	else if (!strcmp(type_buf, "inactive_file"))
@@ -1935,9 +1908,6 @@ ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
 	if (!mm)
 		return -EINVAL;
 
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-	 * Flag that relcaim inactive pages only in reclaim_pte_range
-	 */
 	if ((type == RECLAIM_INACTIVE) ||
 			(type == RECLAIM_INACTIVE_FILE) ||
 			(type == RECLAIM_INACTIVE_ANON))
@@ -1949,9 +1919,6 @@ ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
 	reclaim_walk.pmd_entry = reclaim_pte_range;
 	reclaim_walk.private = &rp;
 
-	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25,
-	 * record the reclaimed task
-	 */
 	current->flags |= PF_RECLAIM_SHRINK;
 	rp.reclaimed_task = task;
 	current->reclaim.stop_jiffies = jiffies + RECLAIM_TIMEOUT_JIFFIES;
@@ -1969,25 +1936,16 @@ cont:
 		if (is_vm_hugetlb_page(vma))
 			continue;
 
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-		 * Jump out of the reclaim flow immediately
-		 */
 		err = is_reclaim_addr_over(&reclaim_walk, vma->vm_start);
 		if (err) {
 			err = -err;
 			break;
 		}
 
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-		 * filter only reclaim anon pages
-		 */
 		if ((type == RECLAIM_ANON ||
 					type == RECLAIM_INACTIVE_ANON) && vma->vm_file)
 			continue;
 
-		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
-		 * filter only reclaim file-backed pages
-		 */
 		if ((type == RECLAIM_FILE ||
 					type == RECLAIM_INACTIVE_FILE) && !vma->vm_file)
 			continue;

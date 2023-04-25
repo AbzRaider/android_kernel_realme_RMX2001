@@ -37,7 +37,6 @@ enum mt6785_afe_gpio {
 	MT6785_AFE_GPIO_VOW_CLK_OFF,
 	MT6785_AFE_GPIO_VOW_CLK_ON,
 	#ifdef ODM_HQ_EDIT
-	/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/08/15 modified for speaker bringup */
 	MT6785_AFE_GPIO_EXTAMP_PULLHIGH,
 	MT6785_AFE_GPIO_EXTAMP_PULLLOW,
 	#endif /* ODM_HQ_EDIT */
@@ -78,7 +77,6 @@ static struct audio_gpio_attr aud_gpios[MT6785_AFE_GPIO_GPIO_NUM] = {
 	[MT6785_AFE_GPIO_DAT_MOSI_CH34_ON] = {"aud_dat_mosi_ch34_on",
 					      false, NULL},
 	#ifdef ODM_HQ_EDIT
-	/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/08/15 modified for speaker bringup */
 	[MT6785_AFE_GPIO_EXTAMP_PULLHIGH] = {"aud_gpio_extamp_pullhigh", false, NULL},
 	[MT6785_AFE_GPIO_EXTAMP_PULLLOW] = {"aud_gpio_extamp_pulllow", false, NULL},
 	#endif /* ODM_HQ_EDIT */
@@ -190,7 +188,6 @@ static int mt6785_afe_gpio_adda_ch34_ul(struct mtk_base_afe *afe, bool enable)
 }
 
 #ifdef ODM_HQ_EDIT
-/*fanxiongnan@ODM.HQ.Multimedia.Audio 2019/08/15 modified for speaker bringup */
 static DEFINE_MUTEX(extamp_gpio_request_mutex);
 
 int mt6785_afe_gpio_extamp_select(struct mtk_base_afe *afe, bool enable, int mode)

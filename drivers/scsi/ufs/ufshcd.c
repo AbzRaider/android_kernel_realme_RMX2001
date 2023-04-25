@@ -5274,7 +5274,6 @@ static void __ufshcd_transfer_req_compl(struct ufs_hba *hba,
 			clear_bit_unlock(index, &hba->lrb_in_use);
 
 #ifndef VENDOR_EDIT
-			//yh@BSP.Storage.UFS, 2019-02-19 add for ufs io latency info calculate
 			if (delta_us > 2000)
 			{
 				trace_printk("ufs_io_latency:%06lld us, io_type:%s, LBA:%lu, size:%d\n",
@@ -6313,6 +6312,7 @@ static int ufshcd_issue_tm_cmd(struct ufs_hba *hba, int lun_id, int task_id,
 	task_req_upiup->input_param2 = cpu_to_be32(task_id);
 
 	ufshcd_vops_res_ctrl(hba, UFS_RESCTL_CMD_SEND);
+	ufs_mtk_auto_hiber8_quirk_handler(hba, false);
 	ufshcd_vops_setup_task_mgmt(hba, free_slot, tm_function);
 
 	/* send command to the controller */
@@ -7668,7 +7668,6 @@ static void ufshcd_init_desc_sizes(struct ufs_hba *hba)
 
 
 #ifdef VENDOR_EDIT
-	//xiaofan.yang@PSW.TECH.Stability, 2019/03/15,Add for check storage endurance
 	err = ufshcd_read_desc_length(hba, QUERY_DESC_IDN_HEALTH, 0,
 	    &hba->desc_size.hlth_desc);
 	if (err)
@@ -7685,7 +7684,6 @@ static void ufshcd_def_desc_sizes(struct ufs_hba *hba)
 	hba->desc_size.unit_desc = QUERY_DESC_UNIT_DEF_SIZE;
 	hba->desc_size.geom_desc = QUERY_DESC_GEOMETRY_DEF_SIZE;
 #ifdef VENDOR_EDIT
-	//xiaofan.yang@PSW.TECH.Stability, 2019/03/15,Add for check storage endurance
 	hba->desc_size.hlth_desc = QUERY_DESC_HEALTH_MAX_SIZE;
 #endif
 }
@@ -9525,7 +9523,6 @@ out_error:
 }
 EXPORT_SYMBOL(ufshcd_alloc_host);
 #ifdef VENDOR_EDIT
-//xiaofan.yang@PSW.TECH.Stability, 2019/03/15,Add for check storage endurance
 #include <asm/unaligned.h>
 static ssize_t ufs_sysfs_read_desc_param(struct ufs_hba *hba,
 				  enum desc_idn desc_id,
@@ -9810,7 +9807,6 @@ int ufshcd_init(struct ufs_hba *hba, void __iomem *mmio_base, unsigned int irq)
 	async_schedule(ufshcd_async_scan, hba);
 	ufshcd_add_sysfs_nodes(hba);
 #ifdef VENDOR_EDIT
-    //xiaofan.yang@PSW.TECH.Stability, 2019/03/15,Add for check storage endurance
 	ufs_sysfs_add_nodes(hba->dev);
 #endif
 

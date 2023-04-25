@@ -31,7 +31,6 @@
 #include "flashlight-core.h"
 #include "flashlight-dt.h"
 #ifdef VENDOR_EDIT
-/*Henry.Chang@Camera.Driver add for 18161 torch duty 94ma 20190626*/
 #include<soc/oppo/oppo_project.h>
 #endif
 
@@ -41,7 +40,6 @@
 #endif
 #ifndef AW3642_DTNAME_I2C
 #ifdef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171121 ad for i2c probe*/
 #define AW3642_DTNAME_I2C "mediatek,strobe_main_2"
 #else
 #define AW3642_DTNAME_I2C "mediatek,flashlights_aw3642_i2c"
@@ -68,7 +66,6 @@
 /* define level */
 #define AW3642_LEVEL_NUM 18
 #ifndef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171227 modify for torch current start from 100ma*/
 #define AW3642_LEVEL_TORCH 4
 #else
 #define AW3642_LEVEL_TORCH 3
@@ -114,7 +111,6 @@ static const int aw3642_current[AW3642_LEVEL_NUM] = {
 };
 
 #ifndef VENDOR_EDIT
-/*Feng.Hu@Camera.Driver 20171227 modify for torch current start from 100ma*/
 static const unsigned char aw3642_flash_level[AW3642_LEVEL_NUM] = {
 	0x00, 0x10, 0x20, 0x30, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -254,7 +250,6 @@ static int aw3642_set_level(int level)
 		reg = 0x03;
 	}
 	#ifdef VENDOR_EDIT
-	/*Henry.Chang@Camera.Driver add for 18161 torch duty 94ma 20190626*/
 	if (is_project(OPPO_18161)) {
 		val = aw3642_flash_level_18161[level];
 	} else {
@@ -369,7 +364,6 @@ static int aw3642_ioctl(unsigned int cmd, unsigned long arg)
 		pr_err("FLASH_IOC_GET_DUTY_CURRENT(%d): %d\n",
 				channel, (int)fl_arg->arg);
 		#ifdef VENDOR_EDIT
-		/*Henry.Chang@Camera.Driver add for 18161 torch duty 94ma 20190626*/
 		if (is_project(OPPO_18161)) {
 			fl_arg->arg = aw3642_current_18161[fl_arg->arg];
 		} else {
@@ -416,7 +410,6 @@ static int aw3642_set_driver(int set)
 		if (!use_count)
 			ret = aw3642_init();
 		#ifdef VENDOR_EDIT
-		/*Feng.Hu@Camera.Driver modify as when init failed, don't increase users*/
 		if (ret >= 0) {
 			use_count++;
 		}

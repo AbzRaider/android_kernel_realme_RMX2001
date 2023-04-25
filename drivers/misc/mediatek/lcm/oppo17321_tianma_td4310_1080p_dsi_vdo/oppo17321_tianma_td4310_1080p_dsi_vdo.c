@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2017/05/06
-** Author: Rongchun.Zhang@EXP.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** zhangrongchun 2017/05/06 1.0 build this module
@@ -74,7 +73,6 @@ static struct LCM_UTIL_FUNCS *lcm_util = NULL;
 #define LCM_DSI_CMD_MODE 0
 #define FRAME_WIDTH (1080)
 /*
- * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/07/07,
  * add for 2160 height lcd
  */
 #define FRAME_HEIGHT (2160)
@@ -107,7 +105,6 @@ struct LCM_setting_table {
 };
 
 /*
- * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/06/23,
  * add for Lcd cabc default enable
  */
 static struct LCM_setting_table lcm_initialization_video_setting[] = {
@@ -250,7 +247,6 @@ static void lcm_get_params(struct LCM_PARAMS *params)
 	params->dsi.PS = LCM_PACKED_PS_24BIT_RGB888;
 
 	/*
-	 * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/07/07,
 	 * add for 2160 height lcd
 	 */
 	params->dsi.vertical_sync_active = 2;
@@ -292,7 +288,6 @@ static void lcm_get_params(struct LCM_PARAMS *params)
 	}
 
 	/*
-	 * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/06/28,
 	 * add for ESD check
 	 */
 	if (boot_mode == 0) {

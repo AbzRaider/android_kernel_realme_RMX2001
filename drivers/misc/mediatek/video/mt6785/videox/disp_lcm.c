@@ -27,10 +27,8 @@
 #endif
 
 #ifdef ODM_HQ_EDIT
-/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/12/20, add project choose*/
 #include <soc/oppo/oppo_project.h>
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 * add for lcd status flag
 */
 bool flag_lcd_off = false;
@@ -1033,7 +1031,6 @@ void load_lcm_resources_from_DT(struct LCM_DRIVER *lcm_drv)
 #endif /* MTK_LCM_DEVICE_TREE_SUPPORT */
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/9/7 add for devinfo*/
 char *hq_lcm_name=0;
 #endif
 
@@ -1056,7 +1053,6 @@ struct disp_lcm_handle *disp_lcm_probe(char *plcm_name,
 	DISPCHECK("plcm_name=%s is_lcm_inited %d\n", plcm_name, is_lcm_inited);
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM.BSP.System  2019/9/7 add for devinfo*/
 	hq_lcm_name = plcm_name;
 #endif
 
@@ -1438,7 +1434,6 @@ int disp_lcm_suspend(struct disp_lcm_handle *plcm)
 
 		#ifdef ODM_HQ_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 		* add for lcd status flag
 		*/
 		flag_lcd_off = true;
@@ -1470,7 +1465,6 @@ int disp_lcm_resume(struct disp_lcm_handle *plcm)
 
 		#ifdef ODM_HQ_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 		* add for lcd status flag
 		*/
 		flag_lcd_off = false;
@@ -1533,7 +1527,6 @@ int disp_lcm_adjust_fps(void *cmdq, struct disp_lcm_handle *plcm, int fps)
 }
 
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 extern unsigned int esd_recovery_backlight_level;
 static int backlight_remapping_into_tddic_reg(struct disp_lcm_handle *plcm, int level_brightness)
 {
@@ -1587,7 +1580,6 @@ int disp_lcm_set_backlight(struct disp_lcm_handle *plcm,
 	void *handle, int level)
 {
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 	int level_remap;
 #endif
 	struct LCM_DRIVER *lcm_drv = NULL;
@@ -1606,7 +1598,6 @@ int disp_lcm_set_backlight(struct disp_lcm_handle *plcm,
 	lcm_drv = plcm->drv;
 	if (lcm_drv->set_backlight_cmdq) {
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 		esd_recovery_backlight_level = level; /* restore backlight level for esd recovery */
 		level_remap = backlight_remapping_into_tddic_reg(plcm, level);
 		DISPCHECK("%s: level_remap, level = %d, %d\n", __func__, level_remap, level);
@@ -1757,7 +1748,6 @@ int disp_lcm_set_lcm_cmd(struct disp_lcm_handle *plcm, void *cmdq_handle,
 }
 
 #ifdef ODM_HQ_EDIT
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Machine, 2018/09/10, Add for Porting cabc interface */
 int disp_lcm_oppo_set_lcm_cabc_cmd(struct disp_lcm_handle *plcm, void *handle, unsigned int level)
 {
 	struct LCM_DRIVER *lcm_drv = NULL;

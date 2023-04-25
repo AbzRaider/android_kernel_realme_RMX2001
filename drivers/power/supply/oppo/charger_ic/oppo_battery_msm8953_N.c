@@ -284,7 +284,6 @@ module_param_named(
 #endif
 
 #ifdef VENDOR_EDIT
-/*Xing.Xiong@BSP.TP, 2017/11/17, Add for notify charger state to TP*/
 void __attribute__((weak)) switch_usb_state(int usb_state) {return;}
 #endif
 
@@ -590,7 +589,6 @@ static void smbchg_set_chargerid_switch_val(
 	
 	if(chip->pmic_spmi.not_support_1200ma && !value && !is_usb_present(chip)) {
 	/* BugID 879716 : Solve some situatuion ChargerID is not 0 mV when usb is not present */
-	// wenbin.liu@BSP.CHG.Basic, 2016/11/14
 		chip->chargerid_volt = 0;
 		chip->chargerid_volt_got = false;
 	}
@@ -1556,7 +1554,7 @@ static int smbchg_get_charge_enable(struct oppo_chg_chip *chip)
 }
 
 
-int qpnp_fg_set_charge_enble(bool enable)	// wenbin.liu@SW.Bsp.Driver, 2016/08/15  Add for qpnp_fg charge
+int qpnp_fg_set_charge_enble(bool enable)
 {	
 	if(!the_chip)
 		return -EINVAL;
@@ -2057,7 +2055,6 @@ static int smbchg_set_usb_current_max(struct oppo_chg_chip *chip,
 		}
 		if (current_ma == CURRENT_500_MA) {	
 #ifndef VENDOR_EDIT
-// wenbin.liu@BSP.CHG.Vooc/Basic/Gauge, 2017/04/27
 // Add for USB current
 			rc = smbchg_sec_masked_write(chip,
 					chip->pmic_spmi.usb_chgpth_base + CHGPTH_CFG,
@@ -6884,7 +6881,6 @@ static irqreturn_t src_detect_handler(int irq, void *_chip)
 	int rc;
 
 #ifdef VENDOR_EDIT
-/*Xing.Xiong@BSP.TP, 2017/11/17, Add for notify charger state to TP*/
 	switch_usb_state(usb_present);
 #endif /* VENDOR_EDIT */
 	if(chip->pmic_spmi.hvdcp_3_det_ignore_uv == false) {
@@ -7216,7 +7212,6 @@ static inline int get_bpd(const char *name)
 #define OTG_CMD_CTRL_RID_EN		0x08
 #define AICL_ADC_BIT			BIT(6)
 #ifdef VENDOR_EDIT
-// wenbin.liu@BSP.CHG.Vooc/Basic/Gauge, 2017/04/14
 // Add for otg id value
 #define OTG_CMD_CTRL_RID_DIS	0x00
 #endif /*VENDOR_EDIT*/
@@ -7669,7 +7664,6 @@ static int smbchg_hw_init(struct oppo_chg_chip *chip)
 		}
 	}
 #ifndef VENDOR_EDIT
-// wenbin.liu@BSP.CHG.Vooc/Basic/Gauge, 2017/04/14
 // Add for disable otg RID EN
 		/* configure OTG enable to register command control*/
 	rc = smbchg_sec_masked_write(chip, chip->pmic_spmi.otg_base + OTG_CFG,
@@ -8609,7 +8603,6 @@ static int smbchg_check_chg_version(struct oppo_chg_chip *chip)
 
 		chip->pmic_spmi.schg_version = QPNP_SCHG_LITE;
 #ifndef VENDOR_EDIT
-//Fuchun.Liao@Mobile.BSP.CHG 2016/06/23 modify for not support hvdcp
 		if (pmic_rev_id->pmic_subtype == PMI8937)
 			chip->pmic_spmi.hvdcp_not_supported = true;
 #else
@@ -8643,7 +8636,6 @@ static void rerun_hvdcp_det_if_necessary(struct oppo_chg_chip *chip)
 	int rc;
 
 #ifdef VENDOR_EDIT
-// wenbin.liu@BSP.CHG.Basic, 2016/12/06
 // Add for dead battery  charging if sometimes jump into kernel may lead APSD abnormal status
 	if(chip->pmic_spmi.hvdcp_not_supported)
 		return;
@@ -9027,7 +9019,6 @@ static int smbchg_probe(struct spmi_device *spmi)
 		return -EPROBE_DEFER;
 	}
 
-	// wenbin.liu@SW.Bsp.Driver, 2016/08/16  Add for check gauge probe finished
 	if(oppo_gauge_check_chip_is_null()) {
 		chg_err("gauge chip null, will do after bettery init.\n");
 		return -EPROBE_DEFER;

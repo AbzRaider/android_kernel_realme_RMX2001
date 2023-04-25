@@ -911,7 +911,6 @@ static void SCP_sensorHub_init_sensor_state(void)
 	mSensorState[SENSOR_TYPE_SAR].timestamp_filter = false;
 
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/6/29, Add for oppo algo*/
 	mSensorState[SENSOR_TYPE_FFD].sensorType = SENSOR_TYPE_FFD;
 	mSensorState[SENSOR_TYPE_FFD].rate = SENSOR_RATE_ONCHANGE;
 	mSensorState[SENSOR_TYPE_FFD].timestamp_filter = false;
@@ -1759,7 +1758,6 @@ int sensor_get_data_from_hub(uint8_t sensorType,
 		    = data_t->floor_counter_t.accumulated_floor_count;
 		break;
 #ifdef VENDOR_EDIT
-/*Fei.Mo@PSW.BSP.Sensor, 2017/12/13, Add for oppo sensor type to send some info to scp*/
 	case ID_OPPO_SENSOR:
 		data->data[0] = data_t->data[0];
 		break;
@@ -1773,7 +1771,6 @@ int sensor_get_data_from_hub(uint8_t sensorType,
 		break;
 
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/6/29, Add for oppo algo*/
 	case ID_FFD:
 		data->time_stamp = data_t->time_stamp;
 		data->ffd_data_t.value = data_t->ffd_data_t.value;
@@ -1889,7 +1886,6 @@ int sensor_set_cmd_to_hub(uint8_t sensorType,
 				custData) + sizeof(req.set_cust_req.getInfo);
 			break;
 #ifdef VENDOR_EDIT
-//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 		case CUST_ACTION_SELFTEST:
 			printk("::set CUST_ACTION_SELFTEST\n");
 			req.set_cust_req.showSelftest.action = CUST_ACTION_SELFTEST;
@@ -1928,7 +1924,6 @@ int sensor_set_cmd_to_hub(uint8_t sensorType,
 			    + sizeof(req.set_cust_req.setCali);
 			break;
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/11/22, Add for diff TP */
 		case CUST_ACTION_SET_SENSOR_CONF:
 			req.set_cust_req.setConf.action =
 				CUST_ACTION_SET_SENSOR_CONF;
@@ -1998,7 +1993,6 @@ int sensor_set_cmd_to_hub(uint8_t sensorType,
 		case CUST_ACTION_SET_CALI:
 			req.set_cust_req.setCali.action = CUST_ACTION_SET_CALI;
 #ifndef VENDOR_EDIT
-//zhq@PSE.BSP.Sensor, 2018-10-30, add for prox cali data from ap to scp
 			req.set_cust_req.setCali.int32_data[0] = *((int32_t *) data);
 			len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ, custData)
 			    + sizeof(req.set_cust_req.setCali);
@@ -2068,7 +2062,6 @@ int sensor_set_cmd_to_hub(uint8_t sensorType,
 				custData) + sizeof(req.set_cust_req.getInfo);
 			break;
 #ifdef VENDOR_EDIT
-	/*zhye@PSW.BSP.Sensor, 2017-12-28, add for read write als&prx register interface*/
 		case CUST_ACTION_RW_REGISTER:
 			printk("::set CUST_ACTION_RW_REGISTER\n");
 			req.set_cust_req.showSelftest.action = CUST_ACTION_RW_REGISTER;
@@ -2267,7 +2260,6 @@ int sensor_set_cmd_to_hub(uint8_t sensorType,
 				custData) + sizeof(req.set_cust_req.getInfo);
 			break;
 	#ifdef VENDOR_EDIT
-	//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 		case CUST_ACTION_SELFTEST:
 			printk("::set CUST_ACTION_SELFTEST\n");
 			req.set_cust_req.showSelftest.action = CUST_ACTION_SELFTEST;

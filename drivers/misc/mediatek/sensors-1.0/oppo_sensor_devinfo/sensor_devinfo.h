@@ -5,11 +5,9 @@
 ** Description: Source file for sensor device infomation registered in scp.
 ** Version: 1.0
 ** Date : 2017/12/12
-** Author: Fei.Mo@PSW.BSP.Sensor
 **
 ** --------------------------- Revision History: ---------------------
 * <version>	<date>		<author>              		<desc>
-* Revision 1.0      2017/12/12        Fei.Mo@PSW.BSP.Sensor   	Created,need to sync acp info
 *******************************************************************/
 #ifndef SENSOR_DEVINFO_H
 #define SENSOR_DEVINFO_H
@@ -24,7 +22,6 @@ enum {
     ALSPS_STK3331,
     ALSPS_STK2232,
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
     ALSPS_STK33562,
 #endif /*ODM_HQ_EDIT*/
 };
@@ -37,7 +34,6 @@ enum {
     GSENSOR_LIS2HH12,
     GSENSOR_LSM6DSM,
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
     GSENSOR_BMA253,
     GSENSOR_LIS2DOC,
     GSENSOR_ICM40607,
@@ -51,7 +47,6 @@ enum {
     MAG_MMC5603,
     MAG_MXG4300,
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
     MAG_AF6133E,
     MAG_AF6133,//add af6133
 #endif /*ODM_HQ_EDIT*/
@@ -63,7 +58,6 @@ enum {
     GYRO_BMI160,
     GYRO_LSM6DSM,
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM.BSP.Sensor  2019/11/1 sync oppo sensor code */
     GYRO_ICM40607,
 #endif /*ODM_HQ_EDIT*/
 };

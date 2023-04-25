@@ -37,7 +37,6 @@ int __init  board_mfg_mode_init(void)
                         ftm_mode = MSM_BOOT_MODE__SILENCE;
                 } else if (strncmp(substr, "ftmsau", 6) == 0) {
                         ftm_mode = MSM_BOOT_MODE__SAU;
-                //xiaofan.yang@PSW.TECH.AgingTest, 2019/01/07,Add for factory agingtest
                 } else if (strncmp(substr, "ftmaging", 8) == 0) {
                         ftm_mode = MSM_BOOT_MODE__AGING;
                 } else if (strncmp(substr, "ftmsafe", 7) == 0) {
@@ -135,7 +134,6 @@ static int __init start_reason_init(void)
 char boot_mode[MAX_CMD_LENGTH + 1];
 
 #ifdef VENDOR_EDIT
-/*Fuchun.Liao@Mobile.BSP.CHG 2016-01-14 add for charge*/
 bool qpnp_is_power_off_charging(void)
 {
         /*pr_err("%s boot_mode:%s\n", __func__, boot_mode);
@@ -148,7 +146,6 @@ bool qpnp_is_power_off_charging(void)
 }
 #endif
 #ifdef VENDOR_EDIT
-/*PengNan@SW.BSP add for detect charger when reboot 2016-04-22*/
 char charger_reboot[MAX_CMD_LENGTH + 1];
 bool qpnp_is_charger_reboot(void)
 {
@@ -208,14 +205,12 @@ static int __init boot_mode_init(void)
 */
 
 #ifdef VENDOR_EDIT
-/*LiYou@BSP.Kernel.Stability 2019/09/24 add for getting boot reason*/
 		pr_info("%s ftm_mode=%d\n", __func__, get_boot_mode());
 #endif /*VENDOR_EDIT
 		*/
 /* OPPO 2013-09-03 heiwei add for add interface start reason and boot_mode begin */
         start_reason_init();
 #ifdef VENDOR_EDIT
-/*PengNan@SW.BSP add for detect charger when reboot 2016-04-22*/
         oppo_charger_reboot();
 #endif /*VENDOR_EDIT*/
 

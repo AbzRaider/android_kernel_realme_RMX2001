@@ -88,13 +88,11 @@
 #endif
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #include <linux/hans.h>
 #endif
 
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 #include <linux/oppocfs/oppo_cfs_binder.h>
 #endif
 
@@ -427,7 +425,7 @@ struct binder_transaction_log_entry entry_t[MAX_ENG_TRANS_LOG_BUFF_LEN];
 struct binder_work {
 	struct list_head entry;
 
-	enum {
+	enum binder_work_type {
 		BINDER_WORK_TRANSACTION = 1,
 		BINDER_WORK_TRANSACTION_COMPLETE,
 		BINDER_WORK_RETURN_ERROR,
@@ -1661,27 +1659,6 @@ static struct binder_work *binder_dequeue_work_head_ilocked(
 	w = list_first_entry_or_null(list, struct binder_work, entry);
 	if (w)
 		list_del_init(&w->entry);
-	return w;
-}
-
-/**
- * binder_dequeue_work_head() - Dequeues the item at head of list
- * @proc:         binder_proc associated with list
- * @list:         list to dequeue head
- *
- * Removes the head of the list if there are items on the list
- *
- * Return: pointer dequeued binder_work, NULL if list was empty
- */
-static struct binder_work *binder_dequeue_work_head(
-					struct binder_proc *proc,
-					struct list_head *list)
-{
-	struct binder_work *w;
-
-	binder_inner_proc_lock(proc);
-	w = binder_dequeue_work_head_ilocked(list);
-	binder_inner_proc_unlock(proc);
 	return w;
 }
 
@@ -3671,7 +3648,6 @@ static bool binder_proc_transaction(struct binder_transaction *t,
 					    node->inherit_rt);
 		binder_enqueue_thread_work_ilocked(thread, &t->work);
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
         if (!oneway) {
             binder_thread_check_and_set_dynamic_ux(thread->task, t->from->task);
         }
@@ -3810,7 +3786,6 @@ static void binder_transaction(struct binder_proc *proc,
 	struct binder_context *context = proc->context;
 	int t_debug_id = atomic_inc_return(&binder_last_id);
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/07/10, notify user space when binder transaction starts
 	struct process_event_data pe_data;
 	struct process_event_binder pe_binder;
 #endif
@@ -3819,7 +3794,6 @@ static void binder_transaction(struct binder_proc *proc,
 	u32 secctx_sz = 0;
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	char buf_data[INTERFACETOKEN_BUFF_SIZE];
 	size_t buf_data_size;
 	char buf[INTERFACETOKEN_BUFF_SIZE] = {0};
@@ -3977,7 +3951,6 @@ static void binder_transaction(struct binder_proc *proc,
 		}
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 		if (!(tr->flags & TF_ONE_WAY) //report sync binder call
 			&& target_proc
 			&& (task_uid(target_proc->tsk).val > MIN_USERAPP_UID)
@@ -4221,7 +4194,6 @@ static void binder_transaction(struct binder_proc *proc,
 		goto err_bad_offset;
 	}
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	if ((tr->flags & TF_ONE_WAY) //report async binder call
 		&& target_proc
 		&& (task_uid(target_proc->tsk).val > MIN_USERAPP_UID)
@@ -4344,7 +4316,7 @@ static void binder_transaction(struct binder_proc *proc,
 			binder_size_t parent_offset;
 			struct binder_fd_array_object *fda =
 				to_binder_fd_array_object(hdr);
-			size_t num_valid = (buffer_offset - off_start_offset) *
+			size_t num_valid = (buffer_offset - off_start_offset) /
 						sizeof(binder_size_t);
 			struct binder_buffer_object *parent =
 				binder_validate_ptr(target_proc, t->buffer,
@@ -4418,7 +4390,7 @@ static void binder_transaction(struct binder_proc *proc,
 				t->buffer->user_data + sg_buf_offset;
 			sg_buf_offset += ALIGN(bp->length, sizeof(u64));
 
-			num_valid = (buffer_offset - off_start_offset) *
+			num_valid = (buffer_offset - off_start_offset) /
 					sizeof(binder_size_t);
 			ret = binder_fixup_parent(t, thread, bp,
 						  off_start_offset,
@@ -4449,7 +4421,6 @@ static void binder_transaction(struct binder_proc *proc,
 	tcomplete->type = BINDER_WORK_TRANSACTION_COMPLETE;
 	t->work.type = BINDER_WORK_TRANSACTION;
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/07/10, notify user space when binder transaction starts
 	if (target_proc->tsk != NULL) {
 		pe_binder.src = proc->tsk;
 		pe_binder.dst = target_proc->tsk;
@@ -4472,7 +4443,6 @@ static void binder_transaction(struct binder_proc *proc,
 #endif
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     binder_thread_check_and_remove_dynamic_ux(thread->task);
 #endif
 
@@ -5440,7 +5410,6 @@ retry:
 				task_tgid_nr_ns(sender,
 						task_active_pid_ns(current));
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
             binder_thread_check_and_set_dynamic_ux(thread->task, t_from->task);
 #endif
 		} else {
@@ -5559,13 +5528,17 @@ static void binder_release_work(struct binder_proc *proc,
 				struct list_head *list)
 {
 	struct binder_work *w;
+	enum binder_work_type wtype;
 
 	while (1) {
-		w = binder_dequeue_work_head(proc, list);
+		binder_inner_proc_lock(proc);
+		w = binder_dequeue_work_head_ilocked(list);
+		wtype = w ? w->type : 0;
+		binder_inner_proc_unlock(proc);
 		if (!w)
 			return;
 
-		switch (w->type) {
+		switch (wtype) {
 		case BINDER_WORK_TRANSACTION: {
 			struct binder_transaction *t;
 
@@ -5599,9 +5572,11 @@ static void binder_release_work(struct binder_proc *proc,
 			kfree(death);
 			binder_stats_deleted(BINDER_STAT_DEATH);
 		} break;
+		case BINDER_WORK_NODE:
+			break;
 		default:
 			pr_err("unexpected work type, %d, not freed\n",
-			       w->type);
+			       wtype);
 			break;
 		}
 	}
@@ -6942,7 +6917,6 @@ static int binder_state_show(struct seq_file *m, void *unused)
 }
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 static void hans_check_uid_proc_status(struct binder_proc *proc)
 {
 	struct rb_node *n = NULL;
@@ -7008,7 +6982,6 @@ void hans_check_frozen_transcation(uid_t uid)
 #endif
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//huangliang@Swdp.shanghai, 2018/08/14, chk pid whether going binder transaction
 static int is_proc_thread_in_transaction(struct binder_thread *thread)
 {
 	struct rb_node *n = NULL;

@@ -91,7 +91,6 @@ enum {
 enum power_supply_property {
 	/* Properties of type `int' */
 	#ifndef VENDOR_EDIT
-	/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/11/20, Add for charging */
 	POWER_SUPPLY_PROP_STATUS = 0,
 	#else /* VENDOR_EDIT */
 	POWER_SUPPLY_PROP_AUTHENTICATE,
@@ -108,7 +107,7 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_BATTERY_CC,
 	POWER_SUPPLY_PROP_BATTERY_RM,
 	POWER_SUPPLY_PROP_BATTERY_NOTIFY_CODE,
-	POWER_SUPPLY_PROP_ICHG_COOL_DOWN,        //zhangchao@ODM.HQ.Charger 2019/12/04 modified for limit charging current in vooc when calling 
+	POWER_SUPPLY_PROP_ICHG_COOL_DOWN,
 	POWER_SUPPLY_PROP_CHARGER_IC,
 	POWER_SUPPLY_PROP_STATUS,
 	#endif /* VENDOR_EDIT */
@@ -200,40 +199,32 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_adjust_power,
 #endif
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for adapter fwupdate */
 	POWER_SUPPLY_PROP_ADAPTER_FW_UPDATE,
 	#endif /* VENDOR_EDIT */
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for capacity node */
 	POWER_SUPPLY_PROP_INTERNAL_CAPACITY,
 	#endif /* VENDOR_EDIT */
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for chargeid voltage */
 	POWER_SUPPLY_PROP_CHARGERID_VOLT,
 	#endif /* VENDOR_EDIT */
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for voocchg_ing */
 	POWER_SUPPLY_PROP_VOOCCHG_ING,
 	#endif /* VENDOR_EDIT */
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for critical log */
 	POWER_SUPPLY_PROP_PRIMAL_PROPERTY,
 	#endif /* VENDOR_EDIT */
 
 	#ifdef CONFIG_OPPO_CALL_MODE_SUPPORT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for calling */
 	POWER_SUPPLY_PROP_CALL_MODE,
 	#endif /* VENDOR_EDIT */
 	#ifdef CONFIG_OPPO_SHIP_MODE_SUPPORT
-	/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/09, Add for ship mode */
 	POWER_SUPPLY_PROP_SHIP_MODE,
 	#endif /* VENDOR_EDIT */
 	#ifdef VENDOR_EDIT
-	//tongfeng.huang@PSW.BSP.CHG, 2018/02/05, Add for battery info collect
 	#ifdef CONFIG_OPPO_SHORT_C_BATT_CHECK
 	#ifdef CONFIG_OPPO_SHORT_USERSPACE
 	POWER_SUPPLY_PROP_SHORT_C_LIMIT_CHG,
@@ -263,7 +254,6 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_SMOOTH_SOC,
 #endif
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2019/06/15, sjc Add for typec */
 	POWER_SUPPLY_PROP_TYPEC_CC_ORIENTATION, /* 0: N/C, 1: CC1, 2: CC2 */
 	POWER_SUPPLY_PROP_USB_STATUS,
 	POWER_SUPPLY_PROP_USBTEMP_VOLT_L,
@@ -271,7 +261,6 @@ enum power_supply_property {
 #endif
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	POWER_SUPPLY_PROP_TYPEC_SBU_VOLTAGE,
 	POWER_SUPPLY_PROP_WATER_DETECT_FEATURE,
 #endif /*ODM_HQ_EDIT*/

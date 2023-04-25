@@ -12,6 +12,5 @@
 #
 
 ##ifdef ODM_HQ_EDIT
-## zuoqiquan@ODM.BSP.Sensor  2019/09/06 bring up nfc 
 obj-$(CONFIG_NFC_CHIP_PN553) += pn553/
 ##endif /*ODM_HQ_EDIT*/

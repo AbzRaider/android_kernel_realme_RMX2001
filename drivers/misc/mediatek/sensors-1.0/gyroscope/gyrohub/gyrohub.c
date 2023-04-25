@@ -21,7 +21,6 @@
 #include <SCP_sensorHub.h>
 #include "SCP_power_monitor.h"
 #ifdef VENDOR_EDIT
-/*Fei.Mo@PSW.BSP.Sensor, 2017/12/17, Add for get sensor_devinfo*/
 #include "../../oppo_sensor_devinfo/sensor_devinfo.h"
 #endif
 
@@ -642,7 +641,6 @@ static int gyrohub_factory_set_cali(int32_t data[3])
 	int32_t tx_buff[12] = {0};
 	int ret;
 #ifdef ODM_HQ_EDIT
-	/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/28,fix gyro calibration data lost after reboot */
 	struct gyro_data cali_data;
 	cali_data.x = data[0];
 	cali_data.y = data[1];
@@ -828,7 +826,6 @@ static int gyrohub_set_cali(uint8_t *data, uint8_t count)
 	obj->dynamic_cali[1] = buf[1];
 	obj->dynamic_cali[2] = buf[2];
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.Sensors.SCP.BSP, 2019/11/28,fix gyro calibration data lost after reboot */
 	printk("gyrohub_set_cali %d %d %d %d %d %d \n",buf[0],buf[1],buf[2],buf[3],buf[4],buf[5]);
 
 	obj->static_cali[0] = buf[3];

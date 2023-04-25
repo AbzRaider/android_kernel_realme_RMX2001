@@ -122,7 +122,6 @@ static const char *const Audio_IPOH_State[] = {"Off", "On"};
 static const char *const Audio_I2S1_Setting[] = {"Off", "On"};
 
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, Add for smartPa */
 static const char *audio_i2s0di_setting[] = {"Off", "On"};
 static bool is_audio_i2s0di_setting = false;
 #endif /* VENDOR_EDIT */
@@ -522,7 +521,6 @@ static int AudioDebug_Setting_Set(struct snd_kcontrol *kcontrol,
 }
 
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add for SmartPA */
 static void auddrv_i2s0di_gpio_set(void)
 {
 	auddrv_gpio_i2s0_select(true);
@@ -537,7 +535,6 @@ static void auddrv_i2s0di_gpio_reset(void)
 static void Auddrv_I2S1GpioSet(void)
 {
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add for SmartPA */
 	auddrv_gpio_i2s1_select(true);
 	auddrv_i2s0di_gpio_set();
 #else /* VENDOR_EDIT */
@@ -560,7 +557,6 @@ static void Auddrv_I2S1GpioSet(void)
 static void Auddrv_I2S1GpioReset(void)
 {
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add for SmartPA */
 	auddrv_gpio_i2s1_select(false);
 	auddrv_i2s0di_gpio_reset();
 #else /* VENDOR_EDIT */
@@ -587,7 +583,6 @@ static int AudioDebug_Setting_Get(struct snd_kcontrol *kcontrol,
 }
 
 #ifdef VENDOR_EDIT
-/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add for SmartPA */
 static int audio_i2s0_setting_set(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
 {
@@ -810,8 +805,6 @@ static const struct soc_enum Audio_Routing_Enum[] = {
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(Audio_IPOH_State), Audio_IPOH_State),
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(Audio_I2S1_Setting), Audio_I2S1_Setting),
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,
-	 * add for SmartPA. */
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(audio_i2s0di_setting), audio_i2s0di_setting),
 #endif /* VENDOR_EDIT */
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(spk_type_str), spk_type_str),
@@ -852,8 +845,6 @@ static const struct snd_kcontrol_new Audio_snd_routing_controls[] = {
 	SOC_ENUM_EXT("MTK_SPK_TYPE_GET",
 		     Audio_Routing_Enum[9], spk_type_get, NULL),
 #ifdef VENDOR_EDIT
-	/* hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26,
-	 * add for MT6750N smartPa. */
 	SOC_ENUM_EXT("Audio_I2S0_Setting", Audio_Routing_Enum[9],
 		       audio_i2s0_setting_get, audio_i2s0_setting_set),
 #endif /* VENDOR_EDIT */

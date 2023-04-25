@@ -19,7 +19,6 @@ struct alsps_context *alsps_context_obj /* = NULL*/;
 struct platform_device *pltfm_dev;
 int last_als_report_data = -1;
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, add als node for als_offset cali */
 int als_offset = 0;
 int dark_code = 0;
 #endif
@@ -41,13 +40,11 @@ int als_data_report_t(int value, int status, int64_t time_stamp)
 	event.time_stamp = time_stamp;
 	/* pr_debug(" +als_data_report! %d, %d\n", value, status); */
 #ifdef ODM_HQ_EDIT
-    /* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, add als node for als_offset cali */
 	dark_code = value;
 	if(value >= als_offset)
 		value = value - als_offset;
 	else
 		value = 0;
-	/* zhanghuan@ODM_HQ.BSP.Sensors.Config, 2019/03/22, reset als to zero when lux less than 4 */
 	if(value < 4)
 	{
 		//pr_debug("lux less than 4:%d\n", value); remove log zuoqiquan@191206
@@ -142,7 +139,6 @@ int rgbw_flush_report(void)
 }
 
 #ifdef VENDOR_EDIT
-/*zhq@PSW.BSP.Sensor, 2018/11/20, Add for prox report count*/
 extern uint32_t kernel_prox_report_count;
 #endif /*VENDOR_EDIT*/
 int ps_data_report_t(int value, int status, int64_t time_stamp)
@@ -156,7 +152,6 @@ int ps_data_report_t(int value, int status, int64_t time_stamp)
 	event.time_stamp = time_stamp;
 	event.word[0] = value + 1;
 #ifdef VENDOR_EDIT
-/*zhq@PSW.BSP.Sensor, 2018/11/20, Add for prox report count*/
 	event.word[1] = kernel_prox_report_count;
 
 	pr_notice("[ALS/PS] ps_data_report! value %d, count %d\n", value, event.word[1]);
@@ -820,7 +815,6 @@ static ssize_t ps_store_batch(struct device *dev, struct device_attribute *attr,
 		err = cxt->ps_ctl.batch(0, cxt->ps_delay_ns, 0);
 
 #ifndef VENDOR_EDIT
-//zhq@PSW.BSP.Sensor, 2018-11-26, remove PS report default status
 	ps_data_report(1, SENSOR_STATUS_ACCURACY_HIGH);
 #endif
 #else
@@ -901,7 +895,6 @@ static ssize_t ps_store_cali(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 #ifdef ODM_HQ_EDIT
-    /* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, add als node for als_offset cali */
 static ssize_t als_show_offset(struct device *dev, struct device_attribute *attr,
 			     char *buf)
 {
@@ -1060,7 +1053,6 @@ DEVICE_ATTR(alsflush, 0644, als_show_flush, als_store_flush);
 DEVICE_ATTR(alsdevnum, 0644, als_show_devnum, NULL);
 DEVICE_ATTR(alscali, 0644, NULL, als_store_cali);
 #ifdef ODM_HQ_EDIT
-    /* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, add als node for als_offset cali */
 DEVICE_ATTR(alsoffset, 0644, als_show_offset, als_store_offset);
 DEVICE_ATTR(alsdark, 0644, als_show_dark, NULL);
 #endif
@@ -1077,7 +1069,6 @@ static struct attribute *als_attributes[] = {
 	&dev_attr_alsdevnum.attr,
 	&dev_attr_alscali.attr,
 #ifdef ODM_HQ_EDIT
-    /* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/10/12, add als node for als_offset cali */
 	&dev_attr_alsoffset.attr,
 	&dev_attr_alsdark.attr,
 #endif

@@ -200,7 +200,6 @@ struct geofence_event_t {
 	uint32_t state;  /* geofence [source, result, operation_mode] */
 };
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 typedef struct {
 	uint32_t value;
 	uint16_t report_count;
@@ -297,7 +296,6 @@ struct data_unit_t {
 		struct in_pocket_event_t inpocket_event;
 		struct geofence_event_t geofence_data_t;
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 		ffd_event_t ffd_data_t;
 		free_fall_event_t free_fall_data_t;
 		pickup_motion_event_t pickup_motion_data_t;
@@ -417,12 +415,10 @@ enum CUST_ACTION {
 	CUST_ACTION_SET_FACTORY,
 	CUST_ACTION_GET_SENSOR_INFO,
 #ifdef VENDOR_EDIT
-//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 	CUST_ACTION_SELFTEST,
 	CUST_ACTION_RW_REGISTER,
 	CUST_ACTION_SCP_SYNC_UTC,
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/11/22, Add for diff TP */
 	CUST_ACTION_SET_SENSOR_CONF,
 #endif//ODM_HQ_EDIT
 #endif//VENDOR_EDIT
@@ -518,7 +514,6 @@ enum {
 };
 
 #ifdef VENDOR_EDIT
-//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 typedef struct {
 	enum CUST_ACTION    action;
 	union{
@@ -533,7 +528,6 @@ typedef struct {
 	};
 } SCP_SENSOR_HUB_SYNC_UTC;
 #ifdef ODM_HQ_EDIT
-/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/11/22, Add for diff TP */
 typedef struct {
 	enum CUST_ACTION action;
 	int32_t data;
@@ -561,11 +555,9 @@ struct SCP_SENSOR_HUB_SET_CUST_REQ {
 		struct SCP_SENSOR_HUB_SET_FACTORY setFactory;
 		struct scp_sensor_hub_get_sensor_info getInfo;
 	#ifdef VENDOR_EDIT
-	//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 		SCP_SENSOR_HUB_SHOW_SELFTEST showSelftest;
 		SCP_SENSOR_HUB_SYNC_UTC syncUTC;
 	#ifdef ODM_HQ_EDIT
-	/* zuoqiquan@ODM_HQ.BSP.Sensors.Config, 2019/11/22, Add for diff TP */
 		SCP_SENSOR_HUB_SET_SENSOR_CONF setConf;
 	#endif//ODM_HQ_EDIT
 	#endif//VENDOR_EDIT
@@ -582,7 +574,6 @@ struct SCP_SENSOR_HUB_SET_CUST_RSP {
 		struct SCP_SENSOR_HUB_GET_RAW_DATA getRawData;
 		struct scp_sensor_hub_get_sensor_info getInfo;
 	#ifdef VENDOR_EDIT
-	//ye.zhang@PSE.BSP.Sensor, 2017-12-20, add for sensor self test
 		SCP_SENSOR_HUB_SHOW_SELFTEST showSelftest;
 	#endif//VENDOR_EDIT
 	};

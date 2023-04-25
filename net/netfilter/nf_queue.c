@@ -28,7 +28,6 @@
  */
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 static const struct nf_queue_handler __rcu *queue_imq_handler __read_mostly;
 
@@ -132,7 +131,6 @@ unsigned int nf_queue_nf_hook_drop(struct net *net)
 EXPORT_SYMBOL_GPL(nf_queue_nf_hook_drop);
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 static int __nf_queue(struct sk_buff *skb, const struct nf_hook_state *state,
 				  const struct nf_hook_entries *entries,
@@ -151,7 +149,6 @@ static int __nf_queue(struct sk_buff *skb, const struct nf_hook_state *state,
 	struct net *net = state->net;
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	unsigned int queuetype = verdict & NF_VERDICT_MASK;
 	unsigned int queuenum  = verdict >> NF_VERDICT_QBITS;
@@ -160,7 +157,6 @@ static int __nf_queue(struct sk_buff *skb, const struct nf_hook_state *state,
 
 	/* QUEUE == DROP if no one is waiting, to be safe. */
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	if (queuetype == NF_IMQ_QUEUE) {
 		qh = rcu_dereference(queue_imq_handler);
@@ -222,7 +218,6 @@ int nf_queue(struct sk_buff *skb, struct nf_hook_state *state,
 	int ret;
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	ret = __nf_queue(skb, state, entries, index, verdict);
 #else /* VENDOR_EDIT */
@@ -232,7 +227,6 @@ int nf_queue(struct sk_buff *skb, struct nf_hook_state *state,
 	if (ret < 0) {
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	/* IMQ Bypass */
 	if (ret == -ECANCELED && skb->imq_flags == 0) {
@@ -326,7 +320,6 @@ next_hook:
 		local_bh_enable();
 		break;
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	case NF_QUEUE:
 #endif /* VENDOR_EDIT */

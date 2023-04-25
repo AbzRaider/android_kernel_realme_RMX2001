@@ -91,7 +91,6 @@ void __init_rwsem(struct rw_semaphore *sem, const char *name,
 	osq_lock_init(&sem->osq);
 #endif
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     sem->ux_dep_task = NULL;
 #endif
 }
@@ -279,7 +278,6 @@ __rwsem_down_read_failed_common(struct rw_semaphore *sem, int state)
 		__rwsem_mark_wake(sem, RWSEM_WAKE_ANY, &wake_q);
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         rwsem_dynamic_ux_enqueue(current, waiter.task, READ_ONCE(sem->owner), sem);
     }
@@ -553,7 +551,6 @@ __rwsem_down_write_failed_common(struct rw_semaphore *sem, int state)
 	if (list_empty(&sem->wait_list))
 		waiting = false;
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_VIP_THREAD)
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for vip thread
 	rwsem_list_add(tsk, &waiter.list, &sem->wait_list);
 #else
 	list_add_tail(&waiter.list, &sem->wait_list);
@@ -588,7 +585,6 @@ __rwsem_down_write_failed_common(struct rw_semaphore *sem, int state)
 		count = atomic_long_add_return(RWSEM_WAITING_BIAS, &sem->count);
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         rwsem_dynamic_ux_enqueue(waiter.task, current, READ_ONCE(sem->owner), sem);
     }
@@ -720,7 +716,6 @@ locked:
 		__rwsem_mark_wake(sem, RWSEM_WAKE_ANY, &wake_q);
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         rwsem_dynamic_ux_dequeue(sem, current);
     }

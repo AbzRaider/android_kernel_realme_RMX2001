@@ -26,18 +26,15 @@
 #endif
 
 #ifdef VENDOR_EDIT
-/* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/12/20, add project choose*/
 #include <soc/oppo/oppo_project.h>
 #endif /*VENDOR_EDIT*/
 
 #ifdef VENDOR_EDIT
-/* MingQiang.Guo@PSW.BSP.TP.Function, 2017/12/30, Add for TP gesture*/
 extern int tp_gesture_enable_flag(void);
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 * add for lcd status flag
 */
 bool flag_lcd_off = false;
@@ -1418,7 +1415,6 @@ int disp_lcm_suspend(struct disp_lcm_handle *plcm)
 		}
 
 		#ifndef VENDOR_EDIT
-		/* MingQiang.Guo@PSW.BSP.TP.Function, 2017/12/30, delete for TP gesture*/
 		if (lcm_drv->suspend_power)
 		#else/*VENDOR_EDIT*/
 		if (lcm_drv->suspend_power && (0 == tp_gesture_enable_flag()))
@@ -1427,7 +1423,6 @@ int disp_lcm_suspend(struct disp_lcm_handle *plcm)
 
 		#ifdef VENDOR_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 		* add for lcd status flag
 		*/
 		flag_lcd_off = true;
@@ -1472,7 +1467,6 @@ int disp_lcm_resume(struct disp_lcm_handle *plcm)
 
 		#ifdef VENDOR_EDIT
 		/*
-		* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2017/07/25,
 		* add for lcd status flag
 		*/
 		flag_lcd_off = false;
@@ -1486,7 +1480,6 @@ int disp_lcm_resume(struct disp_lcm_handle *plcm)
 
 
 #ifdef VENDOR_EDIT
-/* YongPeng.Yi@PSW.MM.Display.LCD.Stability, 2018/12/10, add for Lcd TM TD4330 init after mipi  */
 int disp_lcm_init_code(struct disp_lcm_handle *plcm)
 {
 	struct LCM_DRIVER *lcm_drv = NULL;
@@ -1523,7 +1516,6 @@ int disp_lcm_aod(struct disp_lcm_handle *plcm, int enter)
 
 		#ifdef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/15,
 		* add for aod
 		*/
 		if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -1541,7 +1533,6 @@ int disp_lcm_aod(struct disp_lcm_handle *plcm, int enter)
 
 		#ifdef VENDOR_EDIT
 		/*
-		* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/15,
 		* add for lcd status flag
 		*/
 		if (is_project(OPPO_19531) || is_project(OPPO_19391)) {
@@ -1738,7 +1729,6 @@ int disp_lcm_set_lcm_cmd(struct disp_lcm_handle *plcm, void *cmdq_handle,
 }
 
 #ifdef VENDOR_EDIT
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Machine, 2018/09/10, Add for Porting cabc interface */
 int disp_lcm_oppo_set_lcm_cabc_cmd(struct disp_lcm_handle *plcm, void *handle, unsigned int level)
 {
 	struct LCM_DRIVER *lcm_drv = NULL;
@@ -1760,7 +1750,6 @@ int disp_lcm_oppo_set_lcm_cabc_cmd(struct disp_lcm_handle *plcm, void *handle, u
 	return -1;
 }
 /*
-* liping-m@PSW.MM.Display.LCD.Stability, 2018/07/20,
 * add power seq api for ulps
 */
 int disp_lcm_poweron_before_ulps(struct disp_lcm_handle *plcm)
@@ -1805,7 +1794,6 @@ int disp_lcm_poweroff_after_ulps(struct disp_lcm_handle *plcm)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/16,
 * add for samsung lcd hbm node
 */
 int disp_lcm_set_hbm(struct disp_lcm_handle *plcm, void *handle, unsigned int hbm_level)
@@ -1828,7 +1816,6 @@ int disp_lcm_set_hbm(struct disp_lcm_handle *plcm, void *handle, unsigned int hb
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/09/26,
 * add for Aod feature
 */
 unsigned int aod_mode = 0;
@@ -1858,7 +1845,6 @@ int disp_lcm_aod_doze_resume(struct disp_lcm_handle *plcm)
 }
 
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/02/14,
 * modify for support aod state.
 */
 int disp_lcm_aod_from_display_on(struct disp_lcm_handle *plcm)

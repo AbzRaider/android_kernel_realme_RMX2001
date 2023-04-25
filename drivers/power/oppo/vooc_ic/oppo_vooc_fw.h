@@ -147,7 +147,6 @@ extern void reset_fastchg_after_usbout(struct oppo_vooc_chip *chip);
 void oppo_vooc_eint_register(struct oppo_vooc_chip *chip);
 void oppo_vooc_eint_unregister(struct oppo_vooc_chip *chip);
 
-// wenbin.liu@BSP.CHG.Vooc, 2016/10/20
 // Add for vooc batt 4.40
 void oppo_vooc_fw_type_dt(struct oppo_vooc_chip *chip);
 

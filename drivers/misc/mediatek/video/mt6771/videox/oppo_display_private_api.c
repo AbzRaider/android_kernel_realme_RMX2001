@@ -5,7 +5,6 @@
 ** Description : oppo display private api implement
 ** Version : 1.0
 ** Date : 2018/03/20
-** Author : Jie.Hu@PSW.MM.Display.Stability
 **
 ** ------------------------------- Revision History: -----------
 **  <author>        <data>        <version >        <desc>
@@ -20,8 +19,6 @@
 #include <linux/fb.h>
 #include <linux/time.h>
 #include <linux/timekeeping.h>
-/* Zhijun.ye@PSW.MM.Display.LCD.Stability, 2019/11/22,
- * add for enable dc by default on special version */
 #include <soc/oppo/oppo_project.h>
 
 /*
@@ -574,8 +571,6 @@ static int __init oppo_display_private_api_init(void)
 {
 	int retval;
 
-	/* Zhijun.ye@PSW.MM.Display.LCD.Stability, 2019/11/22,
-	 * add for enable dc by default on special version */
 	if (get_eng_version() == 1)
 		oppo_dc_enable = 1;
 

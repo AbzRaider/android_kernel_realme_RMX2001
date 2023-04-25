@@ -31,7 +31,6 @@ struct mmc_gpio {
 };
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM_HQ.BSP.Kernel.Driver 2019.08.22 add sdcard poweroff quick*/
 extern void msdc_sd_power_off_quick(void);
 #endif
 
@@ -41,19 +40,16 @@ static irqreturn_t mmc_gpio_cd_irqt(int irq, void *dev_id)
 	struct mmc_host *host = dev_id;
 
 #ifdef ODM_HQ_EDIT
-/*sunjingtao@ODM_HQ.BSP.Kernel.Driver 2019.08.22 add sdcard poweroff quick*/
 	msdc_sd_power_off_quick();
 #endif
 
 	host->trigger_card_event = true;
 	
 #ifdef VENDOR_EDIT
-        //Lycan.Wang@Prd.BasicDrv, 2014-07-10 Add for retry 5 times when new sdcard init error
         host->detect_change_retry = 5;
 #endif /* VENDOR_EDIT */
 
 #ifdef VENDOR_EDIT
-       //yh@bsp, 2015-10-21 Add for special card compatible
         host->card_stuck_in_programing_status = false;
 #endif /* VENDOR_EDIT */
 

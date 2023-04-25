@@ -778,7 +778,6 @@ unsigned int target_dds)
 		break;
 	}
 	#ifndef VENDOR_EDIT
-	//Deliang.Peng@PSW.MM.Display.GPU.Log.1124284, 2017/10/04,
 	// Delete for too many logs
 	FH_MSG("%s, [Pll_ID]:%d [current dds(CON1)]:0x%x, [target dds]:%d",
 	       __func__, pll_id,

@@ -54,7 +54,6 @@
 #include "../mtk_leds_drv.h"
 
 #ifdef VENDOR_EDIT
-//Zeke.Shi@RM.MM.Display.Lcd, 2020/01/10, add for sau mode.
 #include <mt-plat/mtk_boot_common.h>
 extern unsigned long silence_mode;
 #endif /*VENDOR_EDIT*/
@@ -762,7 +761,6 @@ int mt_mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 	static bool button_flag;
 
 #ifdef VENDOR_EDIT
-	//Zeke.Shi@RM.MM.Display.Lcd, 2020/01/10, add for sau mode.
 	if (silence_mode) {
 		printk("%s silence_mode is %ld, set backlight to 0\n",__func__, silence_mode);
 		level = 0;
@@ -833,7 +831,6 @@ int mt_mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 		if (strcmp(cust->name, "lcd-backlight") == 0)
 			bl_brightness_hal = level;
 		#ifndef ODM_HQ_EDIT
-		/* Liyan@ODM_HQ.MM.Display.LCD.Feature, 2020/01/20 , too much log */
 		LEDS_DEBUG("%s backlight control by LCM\n", __func__);
 		#endif
 		/* warning for this API revork */
@@ -897,13 +894,11 @@ void mt_mt65xx_led_set(struct led_classdev *led_cdev, enum led_brightness level)
 #ifdef CONFIG_MTK_AAL_SUPPORT
 #ifdef ODM_HQ_EDIT
 
-    //Zeke.Shi@RM.MM.Display.Lcd, 2020/01/10, add for sau mode.
     if (silence_mode) {
         printk("%s silence_mode is %ld, set backlight to 0\n",__func__, silence_mode);
         level = 0;
     }
 
-/* Liyan@ODM_HQ.MultiMedia.Display.LCD.Feature, 2019/10/26, modify for backlight. */
 	disp_aal_notify_backlight_changed(level);
 #else
 	disp_aal_notify_backlight_changed((((1 <<

@@ -732,9 +732,7 @@ static void imx398_apply_SPC(void)
 }
 
 #ifdef VENDOR_EDIT
-/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 static kal_uint8 gImx398_SN[CAMERA_MODULE_SN_LENGTH];
-/*Riqin.Wei@Camera.Driver, 2019/08/08, add for google ARCode Feature verify*/
 #define  CAMERA_MODULE_INFO_LENGTH  (8)
 static kal_uint8 gImx398_CamInfo[CAMERA_MODULE_INFO_LENGTH];
 static void read_eeprom_CamInfo(void)
@@ -768,7 +766,6 @@ static void read_eeprom_SN(void)
 	}
 }
 
-/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 #define   WRITE_DATA_MAX_LENGTH     (16)
 static kal_int32 table_write_eeprom_30Bytes(kal_uint16 addr, kal_uint8 *para, kal_uint32 len)
 {
@@ -812,7 +809,6 @@ static kal_uint16 imx398_i2c_protect(void)
 	return ret;
 }
 
-/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 static kal_int32 write_Module_data(PACDK_SENSOR_ENGMODE_STEREO_STRUCT  pStereodata)
 {
 	kal_int32  ret = IMGSENSOR_RETURN_SUCCESS;
@@ -974,7 +970,6 @@ static void set_shutter(kal_uint32 shutter)
 	unsigned long flags;
 	kal_uint16 realtime_fps = 0;
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@camera.driver,20180116,add for slow shutter */
 	int longexposure_times = 0;
 	static int long_exposure_status = 0;
 	#endif
@@ -1021,7 +1016,6 @@ static void set_shutter(kal_uint32 shutter)
 		write_cmos_sensor(0x0104, 0x00);
 	}
 	#ifdef VENDOR_EDIT
-	/*Yijun.Tan@camera.driver,20180116,add for slow shutter */
 	while (shutter >= 65535) {
 		shutter = shutter / 2;
 		longexposure_times += 1;
@@ -3387,7 +3381,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 				LOG_INF("i2c write id: 0x%x, sensor id: 0x%x\n",
 					imgsensor.i2c_write_id, *sensor_id);
 				read_eeprom_SN();
-				/*Riqin.Wei@Camera.Driver, 2019/08/08, add for google ARCode Feature verify*/
 				read_eeprom_CamInfo();
 				return ERROR_NONE;
 			}
@@ -4104,7 +4097,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 
 	LOG_INF("feature_id = %d\n", feature_id);
 	switch (feature_id) {
-	/*Riqin.Wei@Camera.Driver, 2019/08/08, add for google ARCode Feature verify*/
 	case SENSOR_FEATURE_GET_MODULE_INFO:
 		LOG_INF("imx398 GET_MODULE_CamInfo:%d %d\n", *feature_para_len, *feature_data_32);
 		*(feature_data_32 + 1) = (gImx398_CamInfo[1] << 24)
@@ -4116,7 +4108,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 					| (gImx398_CamInfo[7] << 8)
 					| (gImx398_CamInfo[6] & 0xFF);
 		break;
-	/*Henry.Chang@Camera.Driver add for 18531 ModuleSN*/
 	case SENSOR_FEATURE_GET_MODULE_SN:
 		LOG_INF("imx398 GET_MODULE_SN:%d %d\n", *feature_para_len, *feature_data_32);
 		if (*feature_data_32 < CAMERA_MODULE_SN_LENGTH/4) {
@@ -4126,7 +4117,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 						| (gImx398_SN[4*(*feature_data_32)] & 0xFF);
 		}
 		break;
-	/*Henry.Chang@camera.driver 20181129, add for sensor Module SET*/
 	case SENSOR_FEATURE_SET_SENSOR_OTP:
 	{
 		kal_int32 ret = IMGSENSOR_RETURN_SUCCESS;

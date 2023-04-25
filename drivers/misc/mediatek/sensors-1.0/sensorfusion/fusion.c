@@ -83,7 +83,6 @@ static int handle_to_index(int handle)
 		index = ungyro_temperature;
 		break;
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 	case ID_FFD:
 		index = ffd;
 		break;
@@ -647,7 +646,6 @@ int uncali_mag_flush_report(void)
 }
 
 #ifdef VENDOR_EDIT
-/*tangjh@PSW.BSP.Sensor, 2019/7/1, Add for oppo algo*/
 int ffd_data_report(int x, int y, int64_t nt)
 {
 	return fusion_data_report(x, y, 0, 0, 0, nt, ID_FFD);

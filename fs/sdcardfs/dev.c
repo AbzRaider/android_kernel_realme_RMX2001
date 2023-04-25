@@ -7,7 +7,6 @@
  *
  ** Version: 1
  ** Date created: 2016/01/06
- ** Author: Jiemin.Zhu@AD.Android.SdcardFs
  **
  ** /DCIM/Camera /DCIM/ScreenShots:
  **    base picture

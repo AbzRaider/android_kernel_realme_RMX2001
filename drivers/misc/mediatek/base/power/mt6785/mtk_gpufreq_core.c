@@ -1356,7 +1356,6 @@ void mt_gpufreq_power_limit_notify_registerCB(gpufreq_power_limit_notify pCB)
  */
 
 #ifdef VENDOR_EDIT
-//qinyonghui@shanghai. 2019/11/2. Add max/min freq information proc show
 static int mt_max_freq_proc_show(struct seq_file *m, void *v)
 {
 	seq_printf(m, "%d\n", g_opp_table[g_segment_max_opp_idx].gpufreq_khz);
@@ -1927,7 +1926,6 @@ PROC_FOPS_RW(gpufreq_fixed_freq_volt);
 PROC_FOPS_RO(gpufreq_sb_idx);
 PROC_FOPS_RW(gpufreq_aging_test);
 #ifdef VENDOR_EDIT
-//huxiaokai@shanghai. 2019/6/24. add max/min/cur gpufreq information show
 PROC_FOPS_RO(max_freq);
 PROC_FOPS_RO(min_freq);
 PROC_FOPS_RO(cur_freq);

@@ -19,7 +19,6 @@
 #include <linux/kernel.h>
 #include <mt-plat/mtk_boot_common.h>
 #endif
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/02 modified for corner */
 #ifdef CONFIG_MTK_ROUND_CORNER_SUPPORT
 #include "data_hw_roundedpattern.h"
 #endif
@@ -137,7 +136,6 @@ struct LCM_setting_table {
     unsigned char para_list[64];
 };
 
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 static int blmap_table[] = {
 	57, 9,
 	16, 22,
@@ -554,12 +552,10 @@ static void lcm_get_params(LCM_PARAMS *params)
         params->dsi.lcm_esd_check_table[0].count = 1;
         params->dsi.lcm_esd_check_table[0].para_list[0] = 0x9C;
     }
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/09/19 modified for backlight remapping */
 	params->blmap = blmap_table;
 	params->blmap_size = sizeof(blmap_table)/sizeof(blmap_table[0]);
 	params->brightness_max = 2047;
 	params->brightness_min = 10;
-	/* liyan@ODM.Multimedia.LCD  2019/10/22 modify for t3-PREBEGIN */
 	params->dsi.HS_ZERO = 48;
 
 	/*if need mipi hopping params add here*/
@@ -573,9 +569,7 @@ static void lcm_get_params(LCM_PARAMS *params)
 	/****DynFPS end****/
 #endif
 
-	/* Liyan@ODM.HQ.Multimedia.LCM 2019/11/07 add for lcd devinfo */
 	register_device_proc("lcd", "nt36672c_tianma", "tianma");
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/02 modified for corner */
 #ifdef CONFIG_MTK_ROUND_CORNER_SUPPORT
 	params->round_corner_en = 1;
 	params->corner_pattern_height = ROUND_CORNER_H_TOP;

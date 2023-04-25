@@ -81,10 +81,8 @@
 #include "ddp_rsz.h"
 
 #ifdef VENDOR_EDIT
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Feature, 2018/09/10, Add for sau and silence close backlight */
 #include <mt-plat/mtk_boot_common.h>
 /*
- * Hao.lin@PSW.MM.Display.LCD.Stability, 2019/11/07,
  * modify for fingerprint notify frigger
  */
 #include <soc/oppo/oppo_project.h>
@@ -956,7 +954,6 @@ static int do_frame_config(struct frame_queue_t *frame_node)
 	}
         #ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 	* add for fingerprint notify frigger
 	*/
 	if (oppo_fp_notify_up_delay && ((cfg->hbm_en & 0x2) == 0)) {
@@ -1181,7 +1178,6 @@ int _ioctl_get_display_caps(unsigned long arg)
 		caps_info.disp_feature |= DISP_FEATURE_RPO;
 
 	#ifdef VENDOR_EDIT
-	/*Yongpeng.Yi@PSW.MM.Display.Feature,2018/10/08,Add for Aod feature */
 	/* add read HW config to decide enable AOD or not */
 	if (disp_helper_get_option(DISP_OPT_AOD) == 0)
 		caps_info.disp_feature |= DISP_FEATURE_FORCE_DISABLE_AOD;
@@ -1568,7 +1564,6 @@ long mtk_disp_mgr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	case DISP_IOCTL_GET_DISPLAY_CAPS:
 		return _ioctl_get_display_caps(arg);
 #ifdef VENDOR_EDIT
-/* Xinqin.Yang@Cam.Tuning.Display, 2018/11/17, add for multi-lcms */
 	case DISP_IOCTL_GET_LCM_MODULE_INFO:
 		{
 			return _ioctl_get_lcm_module_info(arg);
@@ -1827,7 +1822,6 @@ static int mtk_disp_mgr_probe(struct platform_device *pdev)
 
 	#ifdef VENDOR_EDIT
 
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Feature, 2018/09/10, Add for sau and silence close backlight */
 	if ((oppo_boot_mode == OPPO_SILENCE_BOOT)
 			||(get_boot_mode() == OPPO_SAU_BOOT))
 	{

@@ -72,7 +72,6 @@
 #include <mt-plat/upmu_common.h>
 #include <pmic_lbat_service.h>
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Add for charger */
 #include <soc/oppo/device_info.h>
 #include <soc/oppo/oppo_project.h>
 #include <linux/gpio.h>
@@ -81,11 +80,9 @@ extern bool is_vooc_project(void);
 
 #endif  /*VENDOR_EDIT*/
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/08, Add for charger */
 int fgauge_is_start = 0;
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-//PengNan@BSP.CHG.basic,2017/07/27, customizing the battery NTC,modify the resistor.
 #define RBAT_PULL_DOWN_R 24000
 #endif /*VENDOR_EDIT*/
 
@@ -116,7 +113,6 @@ int fgauge_is_start = 0;
 #define Set_CARTUNE_TO_KERNEL _IOW('k', 15, int)
 /* add for meta tool----------------------------------------- */
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/08, Add for charger */
 #define Get_FakeOff_Param _IOW('k', 7, int)
 #define Turn_Off_Charging _IOW('k', 9, int)
 extern int oppo_chg_get_ui_soc(void);
@@ -145,7 +141,6 @@ static int battery_in_data[1] = { 0 };
 static int battery_out_data[1] = { 0 };
 static bool g_ADC_Cali;
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 static enum power_supply_property battery_props[] = {
 	POWER_SUPPLY_PROP_STATUS,
 	POWER_SUPPLY_PROP_HEALTH,
@@ -443,7 +438,6 @@ void battery_update_psd(struct battery_data *bat_data)
 	bat_data->BAT_batt_temp = battery_get_bat_temperature();
 }
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 static int battery_get_property(struct power_supply *psy,
 	enum power_supply_property psp,
 	union power_supply_propval *val)
@@ -1133,7 +1127,6 @@ static ssize_t show_Battery_Temperature(
 					       char *buf)
 {
 #ifndef VENDOR_EDIT
-    /* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 	bm_err("show_Battery_Temperature: %d %d\n",
 		battery_main.BAT_batt_temp, gm.fixed_bat_tmp);
 #endif /* VENDOR_EDIT */
@@ -1161,7 +1154,6 @@ static ssize_t store_Battery_Temperature(
 			wakeup_fg_algo(FG_INTR_BAT_TMP_HT);
 		}
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 
 		battery_main.BAT_batt_temp = force_get_tbat(true);
 		bm_err(
@@ -1203,7 +1195,6 @@ static ssize_t store_UI_SOC(
 			__func__,
 			gm.ui_soc, gm.fixed_uisoc);
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 		battery_update(&battery_main);
 #endif
 	}
@@ -1579,7 +1570,6 @@ int force_get_tbat_internal(bool update)
 					pre_bat_temperature_val2);
 				/*pmic_auxadc_debug(1);*/
 #ifndef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/01/20 modify to reduce log */
 
 				WARN_ON(1);
 #endif /* VENDOR_EDIT */
@@ -1648,7 +1638,6 @@ int force_get_tbat(bool update)
 			bat_temperature_val);
 		disable_fg();
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 		if (gm.disableGM30 == true)
 			battery_main.BAT_CAPACITY = 50;
 		battery_update(&battery_main);
@@ -1673,7 +1662,6 @@ int force_get_tbat(bool update)
 			
 			gm.tbat_precise = DEFAULT_BATTERY_TMP_WHEN_DISABLE_NAFG * 10;
 #ifndef VENDOR_EDIT
-		/* tongfeng.huang@EXP.BSP.CHG.basic, 2018/01/25, do not return 25 when disconnect ntc pin */
 		return DEFAULT_BATTERY_TMP_WHEN_DISABLE_NAFG;
 #else
 		return bat_temperature_val;
@@ -1974,7 +1962,6 @@ int wakeup_fg_algo_atomic(unsigned int flow_state)
 int fg_get_battery_temperature_for_zcv(void)
 {
 #ifndef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 	return battery_main.BAT_batt_temp;
 #else /* VENDOR_EDIT */
 	return  25;
@@ -3070,7 +3057,6 @@ static ssize_t store_FG_daemon_disable(
 	bm_err("[disable FG daemon]\n");
 	disable_fg();
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 	if (gm.disableGM30 == true)
 		battery_main.BAT_CAPACITY = 50;
 	battery_update(&battery_main);
@@ -3629,7 +3615,6 @@ static int battery_callback(
 				gauge_get_hw_version() < GAUGE_HW_V2000)
 				fg_sw_bat_cycle_accu();
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 			battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_CHARGING;
 			battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -3640,7 +3625,6 @@ static int battery_callback(
 		{
 /* STOP CHARGING */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 			battery_main.BAT_STATUS =
 			POWER_SUPPLY_STATUS_DISCHARGING;
 			battery_update(&battery_main);
@@ -3651,7 +3635,6 @@ static int battery_callback(
 		{
 /* charging enter error state */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 		battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_DISCHARGING;
 		battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -3661,7 +3644,6 @@ static int battery_callback(
 		{
 /* charging leave error state */
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/05, Remove for charge driver */
 		battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_CHARGING;
 		battery_update(&battery_main);
 #endif /* VENDOR_EDIT */
@@ -3714,7 +3696,6 @@ struct file *filp, unsigned int cmd, unsigned long arg)
 	case Set_META_BAT_CAR_TUNE_VALUE:
 	case Set_BAT_DISABLE_NAFG:
 #ifdef VENDOR_EDIT
-//huangtongfeng@BSP.CHG.Basic, 2017/12/14, add for kpoc charging param.
     case Get_FakeOff_Param:
     case Turn_Off_Charging:
 #endif /*VENDOR_EDIT*/
@@ -3751,7 +3732,6 @@ static long adc_cali_ioctl(
 	int temp_car_tune;
 	int isdisNAFG = 0;
 #ifdef VENDOR_EDIT
-//huangtongfeng@BSP.CHG.Basic, 2017/01/13, add for kpoc charging param.
     int fakeoff_out_data[5] = {0,0,0,0,0};
 #endif /*VENDOR_EDIT*/
 
@@ -3988,7 +3968,6 @@ static long adc_cali_ioctl(
 		break;
 #ifdef VENDOR_EDIT
 /************ kpoc_charger *******************/
-//huangtongfeng@BSP.CHG.Basic, 2017/01/13, add for kpoc charging param.
     case Get_FakeOff_Param:
         user_data_addr = (int *)arg;
         fakeoff_out_data[0] = oppo_chg_get_ui_soc();
@@ -4068,7 +4047,6 @@ static const struct file_operations adc_cali_fops = {
 
 #ifdef VENDOR_EDIT
 
-//PengNan@BSP.CHG.Basic, 2017/09/07, add for compatabling two fuelgauge.
 extern int oppo_gauge_get_batt_current(void);
 extern int oppo_chg_get_soc(void);
 extern int oppo_chg_get_ui_soc(void);
@@ -4076,11 +4054,9 @@ extern int oppo_gauge_get_batt_temperature(void);
 extern int pmic_get_battery_voltage(void);
 extern int gauge_get_average_current(bool *valid);
 extern bool gauge_get_current(int *bat_current);
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for charge driver */
 int oppo_battery_get_bat_temperature(void)
 {
 #ifdef VENDOR_EDIT
-    //PengNan@BSP.CHG.Basic, 2017/09/07, add for compatabling two fuelgauge.
     if(is_vooc_project()){
         return oppo_gauge_get_batt_temperature()/10;
     }
@@ -4215,10 +4191,8 @@ static int meter_fg_30_update_soc_smooth_parameter(void)
 #endif
 
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/22, Add for charger full status of FG 3.0 */
 bool last_full = false;
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/15, Add for charger full status */
 extern int notify_battery_full(void);
 
 static void meter_fg_30_set_battery_full(bool full)
@@ -4241,7 +4215,6 @@ static void meter_fg_30_set_battery_full(bool full)
 }
 #endif
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/11/29, Add for charger full status of FG 3.0 */
 int oppo_get_rtc_ui_soc(void)
 {
 	int rtc_ui_soc;
@@ -4261,7 +4234,6 @@ int oppo_set_rtc_ui_soc(int value)
 }
 #endif
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic,, 2016/08/25  Add for use lk vbatt */
 int lk_vbatt;
 
 static int oppo_get_lk_vbatt(char *oppo_vbatt_char)
@@ -4274,7 +4246,6 @@ static int oppo_get_lk_vbatt(char *oppo_vbatt_char)
 __setup("vbatt=", oppo_get_lk_vbatt);
 #endif /*VENDOR_EDIT*/
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Add for charger */
 extern int IMM_GetOneChannelValue(int dwChannel, int data[4], int* rawdata);
 extern int IMM_IsAdcInitReady(void);
 enum {
@@ -4586,7 +4557,6 @@ static struct oppo_gauge_operations battery_meter_fg_30_gauge = {
 /*************************************/
 static struct wakeup_source battery_lock;
 #ifdef VENDOR_EDIT
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/01/13, mtk patch for distinguish fast charging and normal charging fgauge*/
 void dis_GM3_SRC_SEL(void)
 {
          unsigned int reset_sel;
@@ -4643,7 +4613,6 @@ static int __init battery_probe(struct platform_device *dev)
 	/* Power supply class */
 #if !defined(CONFIG_MTK_DISABLE_GAUGE)
 #ifndef VENDOR_EDIT
-/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/06/17, Remove for charge driver */
 	battery_main.psy =
 		power_supply_register(
 			&(dev->dev), &battery_main.psd, NULL);
@@ -4767,7 +4736,6 @@ static int __init battery_probe(struct platform_device *dev)
 	__pm_relax(&battery_lock);
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@BSP.CHG.Basic, 2018/11/20, sjc Modify for charging */
 	if (is_vooc_project()) {
 		bm_err("disable GM 3.0\n");
 		disable_fg();
@@ -4910,7 +4878,6 @@ static int __init battery_init(void)
 
 	int ret;
 #ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for charge driver */
 	struct oppo_gauge_chip *chip = NULL;
 #endif /* VENDOR_EDIT */
     printk("battery_init\n");
@@ -4923,18 +4890,15 @@ static int __init battery_init(void)
 	}
 	bm_err("netlink_kernel_create ok\n");
 #ifdef VENDOR_EDIT
-	/* Qiao.Hu@EXP.BSP.CHG.basic, 2017/07/20, Add for charger */
 	register_battery_devinfo();
 #endif  /*VENDOR_EDIT*/
 #ifdef VENDOR_EDIT
-    /* ChaoYing.Chen@EXP.BSP.CHG.basic, 2017/05/16, Add for charge driver */
     chip = (struct oppo_gauge_chip*) kzalloc(sizeof(struct oppo_gauge_chip),
                 GFP_KERNEL);
     if (!chip) {
         pr_err("oppo_gauge_chip devm_kzalloc failed.\n");
         return -ENOMEM;
     }
-/* Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2018/01/01, modefy for fastcharger */
 if(!is_vooc_project()) {
     chip->gauge_ops = &battery_meter_fg_30_gauge;
     oppo_gauge_init(chip);

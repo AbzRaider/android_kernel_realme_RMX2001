@@ -5,7 +5,6 @@
  * Description: Source file for focal FT8006 driver
  * Version   : 1.0
  * Date        : 2017-06-12
- * Author    : Cong.Dai@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
@@ -1142,7 +1141,7 @@ int focal_erase_flash(void *chip_data)
     msleep(1350);
 
     for (i = 0; i < 15; i++) {
-        /*get the erase app status, if get 0xF0AA£¬erase flash success*/
+        /*get the erase app status, if get 0xF0AAÂ£Â¬erase flash success*/
         auc_i2c_write_buf[0] = 0x6a;
         reg_val[0] = reg_val[1] = 0x00;
         touch_i2c_read(chip_info->client, auc_i2c_write_buf, 1, reg_val, 2);

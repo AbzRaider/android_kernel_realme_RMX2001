@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2018/06/8
-** Author: LiPing-M@PSW.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** liping 2018/06/8 1.0 build this module
@@ -409,7 +408,6 @@ static void lcm_init(void)
 	MDELAY(5);
 
 	/*
-	 * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	 * add for backlight IC KTD3136
 	 */
 	if (is_lm3697 == 2) {   /*KTD3136*/
@@ -471,7 +469,6 @@ static void poweroff_after_ulps(void)
 {
 	LCD_DEBUG("[lcd] poweroff_after_ulps jdi td4330 1.8\n");
  	lcd_1p8_en_setting(0);
-	/* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2018/6/7, Add for no-flash TP */
 	spi_csn_en_setting(0);
 	MDELAY(10);
 }

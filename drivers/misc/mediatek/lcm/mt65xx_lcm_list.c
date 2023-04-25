@@ -55,7 +55,6 @@ struct LCM_DRIVER *lcm_driver_list[] = {
 #endif
 
 #ifdef VENDOR_EDIT
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/09/17, Add for porting lcd driver */
 #if defined(OPPO18311_DEPUTE_NT36672_1080P_DSI_VDO)
         &oppo18311_depute_nt36672_1080p_dsi_vdo_lcm_drv,
 #endif
@@ -141,7 +140,6 @@ struct LCM_DRIVER *lcm_driver_list[] = {
 #endif
 #endif /* VENDOR_EDIT*/
 
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/09/03, Add for porting 18561 lcd driver */
 #ifdef VENDOR_EDIT
 #if defined(OPPO18561_DJN_JDI_HIMAX83112B_1080P_DSI_CMD)
 	&oppo18561_djn_jdi_himax83112b_1080p_dsi_cmd_lcm_drv,
@@ -167,7 +165,6 @@ struct LCM_DRIVER *lcm_driver_list[] = {
 	&oppo18561_tianma_td4330_1080p_dsi_cmd_lcm_drv,
 #endif
 #endif /* VENDOR_EDIT*/
-/* zhoujian-xinzhi@PSW.MM.Display.LCD.Machine, 2019/08/30, Add for porting 18531 lcd driver */
 #ifdef VENDOR_EDIT
 #if defined(OPPO18531_TM_HIMAX83112A_2_1080P_DSI_VDO)
 	&oppo18531_tm_himax83112a_2_1080p_dsi_vdo_lcm_drv,

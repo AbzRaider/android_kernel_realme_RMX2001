@@ -3949,7 +3949,6 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
 	int reserve_flags;
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_MEM_MONITOR)
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 	unsigned long alloc_start = jiffies;
 #endif /*VENDOR_EDIT*/
 	/*
@@ -4183,7 +4182,6 @@ fail:
 			"page allocation failure: order:%u", order);
 got_pg:
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_MEM_MONITOR)
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 	memory_alloc_monitor(gfp_mask, order, jiffies_to_msecs(jiffies - alloc_start));
 #endif /*VENDOR_EDIT*/
 	return page;
@@ -4670,7 +4668,6 @@ long si_mem_available(void)
 		PAGE_SHIFT;
 
 #ifdef VENDOR_EDIT
-	//Jiheng.Xie@TECH.BSP.Performance,2019-05-06,add for ion cache add to avaible memory statistics
 	available += global_zone_page_state(NR_IONCACHE_PAGES);
 #endif
 

@@ -19,7 +19,6 @@
 #include "power.h"
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for interface reboot reason */
 static char *boot_mode;
 extern u16  is_kernel_panic_reboot(void);
 extern void  hal_rtc_clear_spar0_bit8(void);
@@ -736,7 +735,6 @@ power_attr(pm_freeze_timeout);
 #endif	/* CONFIG_FREEZER*/
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for interface reboot reason */
 static ssize_t app_boot_show(struct kobject *kobj, struct kobj_attribute *attr,
 		char *buf)
 {
@@ -796,7 +794,6 @@ static struct attribute * g[] = {
 	&pm_freeze_timeout_attr.attr,
 #endif
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for interface reboot reason */
 	&app_boot_attr.attr,
 #endif /* VENDOR_EDIT */
 	NULL,

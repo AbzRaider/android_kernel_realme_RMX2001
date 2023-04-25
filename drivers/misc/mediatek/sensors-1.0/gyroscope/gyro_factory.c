@@ -72,7 +72,6 @@ static long gyro_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 				"GYROSCOPE_IOCTL_INIT, enable: %d, sample_period:%dms\n",
 				flag, 5);
 #ifdef VENDOR_EDIT
-/*Fei.Mo@PSW.BSP.Sensor, 2017/12/18, Add for mag ata test*/
 			msleep(500);
 #endif /*VENDOR_EDIT*/
 		} else {

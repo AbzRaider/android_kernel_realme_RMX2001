@@ -494,7 +494,6 @@ struct mmc_host {
 	int			detect_change;	/* card detect flag */
 	    
 #ifdef VENDOR_EDIT
-//Lycan.Wang@Prd.BasicDrv, 2014-07-10 Add for retry 5 times when new sdcard init error
     int detect_change_retry;
 #endif /* VENDOR_EDIT */
     
@@ -510,7 +509,6 @@ struct mmc_host {
 	atomic_t		sdio_irq_thread_abort;
 
 #ifdef VENDOR_EDIT
-    //yh@bsp, 2015-10-21 Add for special card compatible
     bool            card_stuck_in_programing_status;
 #endif /* VENDOR_EDIT */
 

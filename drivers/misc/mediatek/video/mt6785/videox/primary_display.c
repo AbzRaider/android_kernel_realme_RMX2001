@@ -116,7 +116,6 @@ static UINT32 afbc_frame_buf_size;
 #endif
 #ifdef ODM_HQ_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2018/01/05,
 * add power seq api for ulps
 */
 #include <soc/oppo/oppo_project.h>
@@ -184,7 +183,6 @@ static struct task_struct *init_decouple_buffer_thread;
 
 #ifdef ODM_HQ_EDIT
 /*
-* YongPeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 static struct task_struct *ffl_set_task;
@@ -1149,126 +1147,6 @@ static int __maybe_unused fps_monitor_thread(void *data)
 	return 0;
 }
 /************** fps calculate finish ******************/
-
-/************** lcm fps calculate ******************/
-struct lcm_fps_ctx_t lcm_fps_ctx;
-
-int lcm_fps_ctx_init(struct lcm_fps_ctx_t *fps_ctx)
-{
-	if (fps_ctx->is_inited)
-		return 0;
-
-	memset(fps_ctx, 0, sizeof(*fps_ctx));
-	mutex_init(&fps_ctx->lock);
-	fps_ctx->is_inited = 1;
-	if (primary_display_is_video_mode())
-		fps_ctx->dsi_mode = 1;
-	else
-		fps_ctx->dsi_mode = 0;
-
-	DISPINFO("%s done", __func__);
-
-	return 0;
-}
-
-int lcm_fps_ctx_reset(struct lcm_fps_ctx_t *fps_ctx)
-{
-	memset(fps_ctx, 0, sizeof(*fps_ctx));
-	mutex_init(&fps_ctx->lock);
-	fps_ctx->is_inited = 1;
-	if (primary_display_is_video_mode())
-		fps_ctx->dsi_mode = 1;
-	else
-		fps_ctx->dsi_mode = 0;
-
-	DISPINFO("%s done", __func__);
-
-	return 0;
-}
-
-int lcm_fps_ctx_update(struct lcm_fps_ctx_t *fps_ctx, unsigned long long cur_ns)
-{
-	unsigned int idx;
-	unsigned long long delta;
-
-	if (!fps_ctx->is_inited)
-		lcm_fps_ctx_init(fps_ctx);
-
-	delta = cur_ns - fps_ctx->last_ns;
-	if (delta == 0 || fps_ctx->last_ns == 0) {
-		fps_ctx->last_ns = cur_ns;
-		return 0;
-	}
-
-	if (mutex_trylock(&fps_ctx->lock) == 0) {
-		DISPMSG("%s try lock fail", __func__);
-		fps_ctx->last_ns = cur_ns;
-		return 0;
-	}
-	idx = (fps_ctx->head_idx + fps_ctx->num) % LCM_FPS_ARRAY_SIZE;
-	fps_ctx->array[idx] = delta;
-
-	if (fps_ctx->num < LCM_FPS_ARRAY_SIZE)
-		fps_ctx->num++;
-	else
-		fps_ctx->head_idx = (fps_ctx->head_idx + 1) %
-			LCM_FPS_ARRAY_SIZE;
-
-	fps_ctx->last_ns = cur_ns;
-
-	mutex_unlock(&fps_ctx->lock);
-
-	DISPINFO("%s update %lld to index %d", __func__, delta, idx);
-
-	return 0;
-}
-
-unsigned int lcm_fps_ctx_get(struct lcm_fps_ctx_t *fps_ctx)
-{
-	unsigned int i;
-	unsigned long long duration_avg = 0;
-	unsigned long long duration_min = (1ULL << 63) - 1ULL;
-	unsigned long long duration_max = 0;
-	unsigned long long duration_sum = 0;
-	unsigned long long fps = 100000000000;
-
-	if (!fps_ctx->is_inited)
-		lcm_fps_ctx_init(fps_ctx);
-
-	if (fps_ctx->num <= 3) {
-		DISPMSG("%s num is %d which is < 3, so return fix fps",
-			__func__, fps_ctx->num);
-		if (primary_display_is_idle() &&
-			fps_ctx->dsi_mode == 1)
-			return 4500;
-		else
-			return 6000;
-	}
-
-	mutex_lock(&fps_ctx->lock);
-
-	for (i = 0; i < fps_ctx->num; i++) {
-		duration_sum += fps_ctx->array[i];
-		duration_min = min(duration_min, fps_ctx->array[i]);
-		duration_max = max(duration_max, fps_ctx->array[i]);
-	}
-	duration_sum -= duration_min + duration_max;
-	duration_avg = duration_sum / (fps_ctx->num - 2);
-	do_div(fps, duration_avg);
-
-	DISPINFO("%s remove max = %lld, min = %lld, sum = %lld, num = %d",
-		__func__,
-		duration_max, duration_min, duration_sum, fps_ctx->num);
-
-	DISPINFO("%s fps = %d", __func__, fps);
-
-	mutex_unlock(&fps_ctx->lock);
-	return (unsigned int)fps;
-}
-
-
-/************** lcm fps calculate finish ******************/
-
 
 /************** idle manager **************************/
 int primary_display_get_debug_state(char *stringbuf, int buf_len)
@@ -4332,8 +4210,6 @@ int primary_display_init(char *lcm_name, unsigned int lcm_fps,
 	/* update path dst module: for dual dsi */
 	update_primary_intferface_module();
 
-	/* init lcm fps after get lcm mode */
-	lcm_fps_ctx_init(&lcm_fps_ctx);
 
 	/* Part2: CMDQ */
 	if (use_cmdq) {
@@ -4700,7 +4576,6 @@ int primary_display_init(char *lcm_name, unsigned int lcm_fps,
 
 	#ifdef ODM_HQ_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 	* add for face fill light node
 	*/
 	ffl_set_init();
@@ -5179,7 +5054,6 @@ int primary_display_suspend(void)
 
 	#ifdef ODM_HQ_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/03/17,
 	* add for ffl set
 	*/
 	ffl_display_ready = false;
@@ -5397,7 +5271,6 @@ int primary_display_get_lcm_index(void)
 }
 
 //#ifdef ODM_HQ_EDIT
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/12 modified for TM JDI pq */
 int _ioctl_get_lcm_module_info(unsigned long arg)
 {
 	int ret = 0;
@@ -5840,7 +5713,6 @@ int primary_display_resume(void)
 		}
 	}
 #ifdef ODM_HQ_EDIT
-	/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/04 modified for BL ON delay */
 	if((!strcmp(pgc->plcm->drv->name, "nt36672c_tianma")) \
 		|| (!strcmp(pgc->plcm->drv->name, "nt36672c_jdi_dsjm"))){
 		mdelay(15);
@@ -5876,13 +5748,12 @@ done:
 	disp_tphint_reset_status();
 	#ifdef ODM_HQ_EDIT
 	/*
-	* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/03/17,
 	* add for ffl set
 	*/
 	ffl_display_ready = true;
 	#endif
 
-	lcm_fps_ctx_reset(&lcm_fps_ctx);
+
 
 	return ret;
 }
@@ -8288,7 +8159,7 @@ int primary_display_get_info(struct disp_session_info *info)
 	dispif_info->physicalWidthUm = DISP_GetActiveWidthUm();
 	dispif_info->physicalHeightUm = DISP_GetActiveHeightUm();
 
-	dispif_info->vsyncFPS = lcm_fps_ctx_get(&lcm_fps_ctx);
+	dispif_info->vsyncFPS = pgc->lcm_fps;
 
 	dispif_info->isConnected = 1;
 
@@ -8727,7 +8598,6 @@ int primary_display_setbacklight_nolock(unsigned int level)
 					ddp_mmp_get_events()->primary_set_bl,
 					MMPROFILE_FLAG_PULSE, 0, 7);
 			#ifndef ODM_HQ_EDIT
-			/* Longyajun@ODM_HQ.MM.Display.LCD.Feature, 2020/01/20 add for 53=24 before 51=00 */
 				disp_lcm_set_backlight(pgc->plcm, NULL, level);
 			#else
 			    _set_backlight_by_cmdq(level);
@@ -8883,7 +8753,6 @@ int primary_display_ccci_mipi_callback(int en, unsigned int usrdata)
 	_primary_path_lock(__func__);
 
 	#ifdef ODM_HQ_EDIT
-	/* Liyan@ODM_HQ.MM.Display.LCD.Feature, 2019/12/13 add for hopping KE issue */
 	if (pgc->state == DISP_SLEPT) {
 		DISP_PR_INFO("Sleep State set mipi clock invalid\n");
 		_primary_path_unlock(__func__);
@@ -8929,7 +8798,6 @@ EXPORT_SYMBOL(primary_display_ccci_osc_callback);
 
 #ifdef ODM_HQ_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Feature, 2019/06/12,
 * add for get dimming layer hbm state
 */
 bool primary_display_get_fp_hbm_state(void) {
@@ -8938,7 +8806,6 @@ bool primary_display_get_fp_hbm_state(void) {
 	}
 	return false;
 }
-/* LiPing-M@PSW.MultiMedia.Display.LCD.Machine.1077038, 2017/12/06, Add for Porting cabc interface */
 int _set_cabc_mode_by_cmdq(unsigned int level)
 {
 	int ret = 0;
@@ -8984,7 +8851,6 @@ int _set_cabc_mode_by_cmdq(unsigned int level)
 }
 
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Stability, 2019/01/29,
 * add for samsung lcd hbm node and cabc mode
 */
 extern bool flag_lcd_off;
@@ -9036,7 +8902,6 @@ int primary_display_set_cabc_mode(unsigned int level)
 	return ret;
 }
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 static int ffl_set_worker_kthread(void *data)

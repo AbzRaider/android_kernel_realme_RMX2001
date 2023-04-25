@@ -168,11 +168,9 @@ static const struct mt6360_chg_platform_data def_platform_data = {
 	.chg_name = "primary_chg",
 };
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 static struct mt6360_pmu_chg_info *oppompci = NULL;
 #endif
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/11/05,Add for OTG */
 extern void oppo_chg_set_otg_online(bool online);
 #endif
 
@@ -781,7 +779,6 @@ static int mt6360_enable(struct charger_device *chg_dev, bool en)
 			goto vsys_wkard_fail;
 		}
 		#ifndef ODM_HQ_EDIT
-		/* zhangchao@ODM.HQ.Charger 2019/11/05 modified for bring up charging */
 		mdelay(ichg_ramp_t);
 		#endif
 	} else {
@@ -1416,7 +1413,6 @@ static int mt6360_enable_otg(struct charger_device *chg_dev, bool en)
 	int ret = 0;
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/11/05,Add for OTG */
 	static struct power_supply *battery_psy = NULL;
 	if (!battery_psy) {
 		battery_psy = power_supply_get_by_name("battery");
@@ -1430,7 +1426,6 @@ static int mt6360_enable_otg(struct charger_device *chg_dev, bool en)
 		return ret;
 	}
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/11/05,Add for OTG */
 	oppo_chg_set_otg_online(en ? true : false);
 	if (battery_psy)
 		power_supply_changed(battery_psy);
@@ -2209,7 +2204,6 @@ static irqreturn_t mt6360_pmu_bst_vbusovi_handler(int irq, void *data)
 }
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/13,Modify for OTG */
 static struct delayed_work mt6360_bst_olpi_work;
 extern int tcpc_otg_disable(void);
 extern void tcpc_power_work_call(bool enable);
@@ -2234,7 +2228,6 @@ static irqreturn_t mt6360_pmu_bst_olpi_handler(int irq, void *data)
 	printk(KERN_ERR "%s NULL\n", __func__);
 	dev_info(mpci->dev, "%s\n", __func__);
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/13,Modify for OTG */
 	cancel_delayed_work_sync(&mt6360_bst_olpi_work);
 	schedule_delayed_work(&mt6360_bst_olpi_work, 0);
 #endif
@@ -2720,7 +2713,6 @@ static int mt6360_chg_init_setting(struct mt6360_pmu_chg_info *mpci)
 					 MT6360_MASK_USBID_FLOAT, 0x62);
 
 	#ifdef ODM_HQ_EDIT
-	/*wangtao@ODM.BSP.System  2019/09/06 close otp for usb*/
 	/* Disable TypeC OTP for check EVB version by TS pin */
 	ret = mt6360_pmu_reg_clr_bits(mpci->mpi, MT6360_PMU_TYPEC_OTP_CTRL,
 				      MT6360_MASK_TYPEC_OTP_EN);
@@ -2730,6 +2722,9 @@ static int mt6360_chg_init_setting(struct mt6360_pmu_chg_info *mpci)
 
 static int mt6360_set_shipping_mode(struct mt6360_pmu_chg_info *mpci)
 {
+	#ifdef ODM_HQ_EDIT
+	printk("mt6360_set_shipping_mode\n");
+	#endif
 	return mt6360_pmu_reg_set_bits(mpci->mpi,
 				     MT6360_PMU_CHG_CTRL2, 0x80);
 }
@@ -2782,7 +2777,6 @@ void mt6360_recv_batoc_callback(BATTERY_OC_LEVEL tag)
 }
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 bool mt6360_get_vbus_status(void)
 {
 	bool vbus_rising = false;
@@ -2924,6 +2918,16 @@ int mt6360_set_register(unsigned char addr, unsigned char mask, unsigned char da
 	return mt6360_pmu_reg_update_bits(oppompci->mpi, addr, mask, data);
 }
 EXPORT_SYMBOL(mt6360_set_register);
+
+int mt6360_enter_shipmode(void)
+{
+	if (!oppompci) {
+		printk(KERN_ERR "%s NULL\n", __func__);
+		return -1;
+	}
+	return mt6360_set_shipping_mode(oppompci);
+}
+EXPORT_SYMBOL(mt6360_enter_shipmode);
 #endif /* ODM_HQ_EDIT */
 
 static int mt6360_pmu_chg_probe(struct platform_device *pdev)
@@ -3050,7 +3054,6 @@ static int mt6360_pmu_chg_probe(struct platform_device *pdev)
 #endif /* CONFIG_MT6360_PMU_CHARGER_TYPE_DETECT && !CONFIG_TCPC_CLASS */
 	dev_info(&pdev->dev, "%s: successfully probed\n", __func__);
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	oppompci = mpci;
 	INIT_DELAYED_WORK(&mt6360_bst_olpi_work, mt6360_otg_ocp_work);
 #endif

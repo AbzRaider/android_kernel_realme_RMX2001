@@ -6,7 +6,6 @@
  *             synaptics s4322 driver
  * Version:1.0:
  * Date created:2017/04/17
- * Author: MingQiang.Guo@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

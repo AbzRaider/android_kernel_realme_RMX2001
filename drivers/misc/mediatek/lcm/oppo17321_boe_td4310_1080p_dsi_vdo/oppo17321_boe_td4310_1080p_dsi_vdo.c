@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2017/05/06
-** Author: Rongchun.Zhang@EXP.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** zhangrongchun 2017/05/06 1.0 build this module
@@ -129,7 +128,6 @@ struct LCM_setting_table {
 };
 
 /*
- * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/06/23,
  * add for Lcd cabc default enable
  */
 static struct LCM_setting_table lcm_initialization_video_setting[] = {
@@ -321,7 +319,6 @@ static void lcm_get_params(struct LCM_PARAMS *params)
 	}
 
 	/*
-	 * YongPeng.Yi@PSW.MultiMedia.Display.LCD.Stability, 2017/06/28,
 	 * add for ESD check
 	 */
 	if (boot_mode == 0) {

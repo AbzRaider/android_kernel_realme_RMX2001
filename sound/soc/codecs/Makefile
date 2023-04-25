@@ -505,7 +505,6 @@ ifeq ($(CONFIG_SND_SOC_MT6359),y)
 endif
 
 #ifdef VENDOR_EDIT
-# hongxiang.jin@PSW.MM.AudioDriver.Machine, 2019/08/26, add TFA9890 ALSA driver
 obj-$(CONFIG_SND_SOC_ALSACODEC_TFA9890) += tfa98xx-v6/
 obj-$(CONFIG_SND_SOC_ALSACODEC_TFA9890) += tfa98xx/
 #endif /* VENDOR_EDIT */

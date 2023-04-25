@@ -99,7 +99,6 @@ static const int mt6360_current[MT6360_LEVEL_NUM] = {
 	1150, 1200
 };
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for flashlight bringup */
 static const unsigned char mt6360_torch_level[MT6360_LEVEL_TORCH] = {
 	0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0E, 0x10, 0x12,
 	0x14, 0x16, 0x18, 0x1A, 0x1C, 0x1E

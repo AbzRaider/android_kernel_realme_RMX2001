@@ -495,7 +495,6 @@ struct mtp_instance {
 static struct mtp_dev *_mtp_dev;
 
 #ifdef VENDOR_EDIT
-//yan.chen@Swdp.shanghai, 2015/11/26, add mtp callback for hypnus
 static ATOMIC_NOTIFIER_HEAD(mtp_rw_notifier);
 #endif
 
@@ -1478,7 +1477,6 @@ static int mtp_send_event(struct mtp_dev *dev, struct mtp_event *event)
 	return ret;
 }
 #ifdef VENDOR_EDIT
-//yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 int mtp_register_notifier(struct notifier_block *nb)
 {
     return atomic_notifier_chain_register(&mtp_rw_notifier, nb);
@@ -1549,7 +1547,6 @@ static long mtp_ioctl(struct file *fp, unsigned int code, unsigned long value)
 					dev->xfer_file_length);
 
 #ifdef VENDOR_EDIT
-		//yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 	    atomic_notifier_call_chain(&mtp_rw_notifier, code, (void *)&mfr);
 #endif
 
@@ -1598,7 +1595,6 @@ static long mtp_ioctl(struct file *fp, unsigned int code, unsigned long value)
 		ret = dev->xfer_result;
 
 #ifdef VENDOR_EDIT
-		//yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 	    atomic_notifier_call_chain(&mtp_rw_notifier, code | 0x8000, (void *)&mfr);
 #endif
 

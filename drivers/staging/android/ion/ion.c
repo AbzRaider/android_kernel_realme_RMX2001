@@ -48,7 +48,6 @@
 #include "mtk/ion_drv_priv.h"
 
 #ifdef VENDOR_EDIT
-// wenbin.liu@PSW.BSP.MM, 2018/07/11
 // Add for ion used cnt
 #include <linux/module.h>
 #endif /*VENDOR_EDIT*/
@@ -113,7 +112,6 @@ static void ion_buffer_add(struct ion_device *dev,
 }
 
 #ifdef VENDOR_EDIT
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 static atomic_long_t ion_total_size;
 static bool ion_cnt_enable = true;
 unsigned long ion_total(void)
@@ -250,7 +248,6 @@ exit:
 			    atomic_long_read(&heap->total_allocated));
 	atomic_long_add(len, &heap->total_allocated);
 #ifdef VENDOR_EDIT
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 	if (ion_cnt_enable)
 		atomic_long_add(buffer->size, &ion_total_size);
 #endif
@@ -274,7 +271,6 @@ void ion_buffer_destroy(struct ion_buffer *buffer)
 			      atomic_long_read(&buffer->heap->total_allocated));
 	atomic_long_sub(buffer->size, &buffer->heap->total_allocated);
 #ifdef VENDOR_EDIT
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 	if (ion_cnt_enable)
 		atomic_long_sub(buffer->size, &ion_total_size);
 #endif /*VENDOR_EDIT*/
@@ -2235,7 +2231,6 @@ file2buf_exit:
 		return ERR_PTR(-EINVAL);
 }
 #ifdef VENDOR_EDIT
-// wenbin.liu@PSW.BSP.MM, 2018/07/11
 // Add for ion show switch
 module_param_named(ion_cnt_enable, ion_cnt_enable, bool, S_IRUGO | S_IWUSR);
 #endif /*VENDOR_EDIT*/

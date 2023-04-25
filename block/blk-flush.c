@@ -93,7 +93,6 @@ enum {
 	FLUSH_PENDING_TIMEOUT	= 5 * HZ,
 };
 #ifdef VENDOR_EDIT
-/*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add to count flush*/
 extern unsigned long sysctl_blkdev_issue_flush_count;
 #endif
 static bool blk_kick_flush(struct request_queue *q,
@@ -142,7 +141,6 @@ static bool blk_flush_queue_rq(struct request *rq, bool add_front)
 		return false;
 	} else {
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 		if (add_front) {
 			list_add(&rq->queuelist, &rq->q->queue_head);
 			queue_throtl_add_request(rq->q, rq, true);
@@ -481,7 +479,6 @@ void blk_insert_flush(struct request *rq)
 			blk_mq_sched_insert_request(rq, false, true, false, false);
 		else
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 		{
 			list_add_tail(&rq->queuelist, &q->queue_head);
 			queue_throtl_add_request(q, rq, false);
@@ -547,7 +544,6 @@ int blkdev_issue_flush(struct block_device *bdev, gfp_t gfp_mask,
 	if (!q->make_request_fn)
 		return -ENXIO;
 #ifdef VENDOR_EDIT
-	/*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add to count flush*/
 	sysctl_blkdev_issue_flush_count++;
 #endif
 

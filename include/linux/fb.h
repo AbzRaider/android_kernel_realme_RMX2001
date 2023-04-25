@@ -166,7 +166,6 @@ struct fb_cursor_user {
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/21,
 * add for fingerprint notify frigger
 */
 #define MTK_ONSCREENFINGERPRINT_EVENT 0x20

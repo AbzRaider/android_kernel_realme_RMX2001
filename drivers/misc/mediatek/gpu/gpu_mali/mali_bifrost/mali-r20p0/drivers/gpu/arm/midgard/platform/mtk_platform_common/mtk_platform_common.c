@@ -167,7 +167,6 @@ static int proc_gpu_memoryusage_show(struct seq_file *m, void *v)
 }
 
 #ifdef VENDOR_EDIT
-/* Wen.Luo@BSP.Kernel.Stability, 2019/04/26, Add for Process memory statistics */
 #define P2K(x) ((x) << (PAGE_SHIFT - 10))	/* Converts #Pages to KB */
 int get_gl_mem_by_pid(pid_t pid)
 {

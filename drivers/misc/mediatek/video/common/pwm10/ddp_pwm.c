@@ -92,7 +92,6 @@ static atomic_t g_pwm_backlight[PWM_TOTAL_MODULE_NUM] = {
 static atomic_t g_pwm_en[PWM_TOTAL_MODULE_NUM] = {
 	ATOMIC_INIT(-1), ATOMIC_INIT(-1) };
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/08/20 modified for 2048 steps backlight */
 static atomic_t g_pwm_max_backlight[PWM_TOTAL_MODULE_NUM] = {
 	ATOMIC_INIT(2047), ATOMIC_INIT(2047) };
 #else /* ODM_HQ_EDIT */
@@ -117,7 +116,6 @@ static atomic_t g_pwm_is_change_state[PWM_TOTAL_MODULE_NUM] = {
 static atomic_t g_pwm_backlight[PWM_TOTAL_MODULE_NUM] = { ATOMIC_INIT(-1) };
 static atomic_t g_pwm_en[PWM_TOTAL_MODULE_NUM] = { ATOMIC_INIT(-1) };
 #ifdef ODM_HQ_EDIT
-/* Liyan@ODM.HQ.Multimedia.LCM 2019/08/20 modified for 2048 steps backlight */
 static atomic_t g_pwm_max_backlight[PWM_TOTAL_MODULE_NUM] = {
 	ATOMIC_INIT(2047) };
 #else /* ODM_HQ_EDIT */

@@ -6,7 +6,6 @@
  *             focal common driver
  * Version:1.0:
  * Date created:2017/06/18
- * Author: Cong.Dai@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

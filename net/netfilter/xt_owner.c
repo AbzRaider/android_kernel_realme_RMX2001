@@ -20,7 +20,6 @@
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_owner.h>
 //#ifdef VENDOR_EDIT
-//Shangjin.Tang@PSW.NW.DATA, 2019/09/05
 //add for BUG 2212301
 #include <net/netfilter/ipv4/nf_defrag_ipv4.h>
 #if IS_ENABLED(CONFIG_IP6_NF_IPTABLES)
@@ -72,7 +71,6 @@ static int owner_check(const struct xt_mtchk_param *par)
 	return 0;
 }
 //#ifdef VENDOR_EDIT
-//Shangjin.Tang@PSW.NW.DATA, 2019/09/05
 //add for BUG 2212301
 static struct sock *oem_qtaguid_find_sk(const struct sk_buff *skb,
                     struct xt_action_param *par)
@@ -117,7 +115,6 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
 	struct sock *sk = skb_to_full_sk(skb);
 	struct net *net = xt_net(par);
     //#ifdef VENDOR_EDIT
-    //Shangjin.Tang@PSW.NW.DATA, 2019/09/05
     //add for BUG 2212301
     /*
     * When in TCP_TIME_WAIT the sk is not a "struct sock" but
@@ -151,7 +148,6 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
             sk = NULL;
          }
 #ifdef VENDOR_EDIT
-/* Wen.Luo@BSP.Kernel.Stability 2019/12/20 add for bug-id:2710161, sock memleak, add WRAN_ON follow other sk_state */
          else if (sk) {
             pr_info("owner_mt: sk: %px, sk->sk_state: %d \n", sk, sk->sk_state);
             sock_gen_put(sk);
@@ -204,8 +200,14 @@ static struct xt_match owner_mt_reg __read_mostly = {
 	.checkentry = owner_check,
 	.match      = owner_mt,
 	.matchsize  = sizeof(struct xt_owner_match_info),
+#ifndef VENDOR_EDIT
 	.hooks      = (1 << NF_INET_LOCAL_OUT) |
 	              (1 << NF_INET_POST_ROUTING),
+#else
+	.hooks      = (1 << NF_INET_LOCAL_OUT) |
+	              (1 << NF_INET_POST_ROUTING) |
+	              (1 << NF_INET_LOCAL_IN),
+#endif
 	.me         = THIS_MODULE,
 };
 

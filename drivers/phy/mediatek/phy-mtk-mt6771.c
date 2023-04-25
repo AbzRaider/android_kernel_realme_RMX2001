@@ -44,7 +44,6 @@
 #include "phy-mtk-ssusb-reg.h"
 
 #ifdef VENDOR_EDIT
-/* Jianwei.Ye@BSP.CHG.Basic, 2019/12/5, modify for otg eye picture*/
 #include <soc/oppo/oppo_project.h>
 extern bool get_otg_switch(void);
 #endif /* VENDOR_EDIT */
@@ -394,7 +393,6 @@ static void usb_phy_tuning(struct mtk_phy_instance *instance)
 		instance->phy_tuning.inited = true;
 	}
 #ifdef VENDOR_EDIT
-/* Jianwei.Ye@BSP.CHG.Basic, 2019/12/5, modify for otg eye picture*/
 	if (!is_project(OPPO_UNKOWN)) {
 		if(get_otg_switch() == true) {
 			u2_vrt_ref = 4;

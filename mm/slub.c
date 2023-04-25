@@ -448,8 +448,6 @@ static inline bool cmpxchg_double_slab(struct kmem_cache *s, struct page *page,
 	return false;
 }
 #ifdef VENDOR_EDIT
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
- * is enabled, /proc/slabinfo is created for getting more slab details. */
 #if defined(CONFIG_SLUB_DEBUG) || defined(CONFIG_SLUB_STAT_DEBUG)
 /* Tracking of the number of slabs for debugging purposes */
 static inline unsigned long slabs_node(struct kmem_cache *s, int node)
@@ -1091,8 +1089,6 @@ static void remove_full(struct kmem_cache *s, struct kmem_cache_node *n, struct 
 }
 
 #ifndef VENDOR_EDIT
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
- * is enabled, /proc/slabinfo is created for getting more slab details. */
 /* Tracking of the number of slabs for debugging purposes */
 static inline unsigned long slabs_node(struct kmem_cache *s, int node)
 {
@@ -1385,8 +1381,6 @@ unsigned long kmem_cache_flags(unsigned long object_size,
 #define disable_higher_order_debug 0
 
 #ifndef VENDOR_EDIT
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
-  * is enabled, /proc/slabinfo is created for getting more slab details. */
 static inline unsigned long slabs_node(struct kmem_cache *s, int node)
 							{ return 0; }
 static inline unsigned long node_nr_slabs(struct kmem_cache_node *n)
@@ -2411,8 +2405,6 @@ static inline int node_match(struct page *page, int node)
 }
 
 #if defined(CONFIG_SLUB_DEBUG) || (defined(VENDOR_EDIT) && defined(CONFIG_SLUB_STAT_DEBUG))
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
-  * is enabled, /proc/slabinfo is created for getting more slab details. */
 static int count_free(struct page *page)
 {
 	return page->objects - page->inuse;
@@ -3347,8 +3339,6 @@ init_kmem_cache_node(struct kmem_cache_node *n)
 	spin_lock_init(&n->list_lock);
 	INIT_LIST_HEAD(&n->partial);
 #if defined(CONFIG_SLUB_DEBUG) || (defined(VENDOR_EDIT) && defined(CONFIG_SLUB_STAT_DEBUG))
-/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
-* is enabled, /proc/slabinfo is created for getting more slab details. */
 	atomic_long_set(&n->nr_slabs, 0);
 	atomic_long_set(&n->total_objects, 0);
 	INIT_LIST_HEAD(&n->full);

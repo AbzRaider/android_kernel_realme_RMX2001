@@ -20,7 +20,6 @@
 #include <asm/pgtable.h>
 #include "internal.h"
 #ifdef VENDOR_EDIT
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 #include <linux/ion.h>
 #include <linux/oppo_ion.h>
 #endif /*VENDOR_EDIT*/

@@ -408,7 +408,6 @@ do {						\
 
 #ifdef VENDOR_EDIT
 #ifdef CONFIG_OPPO_FG_OPT
-/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add fg process opt*/
 extern bool is_fg(int uid);
 static inline int current_is_fg(void)
 {
@@ -419,7 +418,6 @@ static inline int current_is_fg(void)
 	return 0;
 }
 
-/* Kui.Zhang@PSW.BSP.Kernel.MM, 2018-12-25, check whether task is fg*/
 static inline int task_is_fg(struct task_struct *task)
 {
 	int task_uid;

@@ -94,7 +94,6 @@ void disp_lcm_dynfps_send_cmd(
 
 #ifdef ODM_HQ_EDIT
 int disp_lcm_get_hbm_state(struct disp_lcm_handle *plcm);
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Machine, 2018/09/10, Add for Porting cabc interface */
 int disp_lcm_oppo_set_lcm_cabc_cmd(struct disp_lcm_handle *plcm, void *handle, unsigned int level);
 #endif /* ODM_HQ_EDIT */
 

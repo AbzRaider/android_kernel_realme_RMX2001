@@ -810,7 +810,6 @@ config PERCPU_STATS
 	  be used to help understand percpu memory usage.
 
 #ifdef VENDOR_EDIT
-#/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 config OPPO_MEM_MONITOR
 	bool "memory monitor "
 	default n
@@ -819,7 +818,6 @@ config OPPO_MEM_MONITOR
 #endif /*VENDOR_EDIT*/
 
 # if defined(VENDOR_EDIT)
-# Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07, Support reclaim process
 # inactive pages only
 config PROCESS_RECLAIM_ENHANCE
 	bool "Enable process reclaim enchance"
@@ -837,7 +835,6 @@ config PROCESS_RECLAIM_ENHANCE
 		anonymous pages only.
 	 Any other vaule, please reference PROCESS_RECLAIM.
 #ifdef VENDOR_EDIT
-#/* Kui.Zhang@TEC.Kernel.MM, 2019-05-10, add reserved vma for emergency mmap*/
 config VIRTUAL_RESERVE_MEMORY
 	bool "reserved vma for gpu emergency mmap"
 	default n
@@ -846,7 +843,6 @@ config VIRTUAL_RESERVE_MEMORY
 #endif /* VENDOR_EDIT */
 
 # if defined(VENDOR_EDIT)
-# Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07, Support reclaim process
 # inactive pages only
 config PROCESS_RECLAIM_ENHANCE
 	bool "Enable process reclaim enchance"

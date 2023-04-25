@@ -5,11 +5,8 @@
 *
 * Version    : 2.0
 * Date       : 2018-11-01
-* Author     : wenbin.liu@PSW.Platform.Kernel
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                            <desc>
-* Revision 1.0        2018-05-24       wenbin.liu@PSW.Platform.Kernel      Created for Healthinfomonitor
-* Revision 2.0        2018-11-01       wenbin.liu@PSW.Platform.Kernel      2.0 Feature
 ***********************************************************************************/
 
 #include <soc/oppo/oppo_healthinfo.h>
@@ -69,13 +66,13 @@ static bool ohm_action_ctrl = false;
 void ohm_action_trig(int type)
 {
         if (!ohm_action_ctrl) {
-                ohm_err("ctrl off\n");
+                ohm_err_deferred("ctrl off\n");
                 return;
         }
-        ohm_debug("%s trig action\n", sched_list[type]);
+        ohm_debug_deferred("%s trig action\n", sched_list[type]);
         if (OHM_MEM_MON == type || OHM_SCHED_FSYNC == type) {
                 if (!ohm_kobj) {
-                        ohm_err("kobj NULL\n");
+                        ohm_err_deferred("kobj NULL\n");
                         return;
                 }
                 sprintf(ohm_detect_env[1], "OHMTYPE=%s", sched_list[type]);

@@ -25,8 +25,6 @@ static DEFINE_MUTEX(autosleep_lock);
 static struct wakeup_source *autosleep_ws;
 
 #ifdef VENDOR_EDIT
-/* ChaoYing.Chen@BSP.Power.Basic, 2017/12/9, Add for print wakeup source,
-** Interval(Seconds) of wakeup source printk. */
 #define WS_PRINTK_INTERVAL (60)
 
 static void wakelock_printk(struct work_struct *work);
@@ -124,7 +122,6 @@ int pm_autosleep_set_state(suspend_state_t state)
 #endif
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@BSP.Power.Basic, 2017/12/9, Add for print wakeup source */
 	wakelock_printk_control(0);
 	#endif /* VENDOR_EDIT */
 
@@ -146,7 +143,6 @@ int pm_autosleep_set_state(suspend_state_t state)
 	mutex_unlock(&autosleep_lock);
 
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@BSP.Power.Basic, 2017/12/9, Add for print wakeup source */
 	wakelock_printk_control(1);
 	#endif /* VENDOR_EDIT */
 
@@ -156,7 +152,6 @@ int pm_autosleep_set_state(suspend_state_t state)
 int __init pm_autosleep_init(void)
 {
 	#ifdef VENDOR_EDIT
-	/* ChaoYing.Chen@BSP.Power.Basic, 2017/12/9, Add for print wakeup source */
 	wakelock_printk_work_queue = create_singlethread_workqueue("wakelock_printk");
 	if (wakelock_printk_work_queue == NULL)
 		printk(KERN_INFO "%s: failed to create work queue\n", __func__);

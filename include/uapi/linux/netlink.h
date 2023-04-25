@@ -30,24 +30,20 @@
 #define NETLINK_CRYPTO		21	/* Crypto layer */
 #define NETLINK_SMC		22	/* SMC monitoring */
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #define NETLINK_OPPO_HANS       28      /* Socket for freezing solution*/
 #endif
 #define NETLINK_INET_DIAG	NETLINK_SOCK_DIAG
 
 #ifndef VENDOR_EDIT
-//Yuan.Huang@PSW.CN.WiFi.Network.internet.1461349, 2018/06/18,
 //Add for WeChat lucky money recognition
 #define MAX_LINKS 32
 #else /* VENDOR_EDIT */
 #define NETLINK_OPPO_NF_HOOKS	32	/*OPPO netfilter hooks*/
 
-//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 //Add code for appo sla function
 #define NETLINK_OPPO_SLA  33      /*SLA NETLINK SOCK*/
 
 //#ifdef VENDOR_EDIT
-//Hailong.Liu@TECH.KERNEL.ELSA, 2019/10/18
 //elsa freeze use netlink_id = max_links - 1
 #define MAX_LINKS 37
 //#endif /* VENDOR_EDIT */

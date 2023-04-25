@@ -17,7 +17,6 @@
 
 =============================================================================*/
 #ifdef VENDOR_EDIT
-//Liang.Zhang@PSW.TECH.BOOTUP, 2018/10/19, Add for get bootup log
 #ifdef HANG_OPPO_ALL
 
 #define OPPO_PARTITION_OPPORESERVE1_EMMC "/dev/block/platform/soc/c0c4000.sdhci/by-name/opporeserve1"

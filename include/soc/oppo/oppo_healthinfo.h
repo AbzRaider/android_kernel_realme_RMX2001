@@ -5,11 +5,8 @@
 *                          Record Kernel Resourse Abnormal Stat
 * Version    : 2.0
 * Date       : 2018-11-01
-* Author     : wenbin.liu@PSW.Platform.Kernel
 * ------------------------------ Revision History: --------------------------------
 * <version>           <date>                <author>                            <desc>
-* Revision 1.0        2018-05-24       wenbin.liu@PSW.Platform.Kernel      Created for Healthinfomonitor
-* Revision 2.0        2018-11-01       wenbin.liu@PSW.Platform.Kernel      2.0 Feature
 ***********************************************************************************/
 
 #ifndef _OPPO_HEALTHINFO_H_
@@ -32,7 +29,12 @@
         printk(KERN_ERR "[OHM_ERR][%s]"fmt, __func__, ##__VA_ARGS__)
 #define ohm_debug(fmt, ...) \
         printk(KERN_INFO "[OHM_INFO][%s]"fmt, __func__, ##__VA_ARGS__)
+#define ohm_debug_deferred(fmt, ...) \
+        printk_deferred(KERN_INFO "[OHM_INFO][%s]"fmt, __func__, ##__VA_ARGS__)
+#define ohm_err_deferred(fmt, ...) \
+        printk_deferred(KERN_ERR "[OHM_ERR][%s]"fmt, __func__, ##__VA_ARGS__)
 
+		
 #define OHM_FLASH_TYPE_EMC 1
 #define OHM_FLASH_TYPE_UFS 2
 

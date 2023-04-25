@@ -115,10 +115,8 @@ typedef enum {
 	/* This node is "/Android/[data|media|obb]/[package]/cache" */
 	PERM_ANDROID_PACKAGE_CACHE,
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 	/* This node is "/DCIM" */
 	PERM_DCIM,
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	/* This node is /Tencent */
 	PERM_TENCENT,
 	/* This node is /Tencent/MicroMsg */
@@ -168,7 +166,6 @@ struct sdcardfs_file_info {
 };
 
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 /* DCIM/Camera /DCIM/Screenshots */
 #define OPPO_PICTURE_BASE		0x00000001
 /* /.ColorOSGalleryRecycler */
@@ -192,8 +189,6 @@ struct sdcardfs_inode_data {
 	bool under_cache;
 	bool under_obb;
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
-//Jiemin.Zhu@PSW.Android.SdardFs, 2018/08/08, Modify for adding more protected directorys
 	unsigned int oppo_flags;
 #endif /* VENDOR_EDIT */
 };
@@ -681,7 +676,6 @@ static inline bool qstr_case_eq(const struct qstr *q1, const struct qstr *q2)
 #define QSTR_LITERAL(string) QSTR_INIT(string, sizeof(string)-1)
 
 #ifdef VENDOR_EDIT
-//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
 int sdcardfs_unlink_uevent(struct dentry *dentry, unsigned int mask);
 int is_oppo_skiped(unsigned int mask);
 void sdcardfs_rename_record(struct dentry *old_dentry, struct dentry *new_dentry);

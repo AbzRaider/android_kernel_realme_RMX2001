@@ -5,7 +5,6 @@
 ** Description : oppo display private api implement
 ** Version : 1.0
 ** Date : 2018/03/20
-** Author : Jie.Hu@PSW.MM.Display.Stability
 **
 ** ------------------------------- Revision History: -----------
 **  <author>        <data>        <version >        <desc>
@@ -263,12 +262,10 @@ static ssize_t silence_store(struct device *dev,
 	printk("%s silence_mode=%ld\n", __func__, silence_mode);
 	return num;
 }
-/* Yongpeng.Yi@PSW.MultiMedia.Display.LCD.Machine, 2018/09/10, Add for Porting cabc interface */
 unsigned long CABC_mode = 2;
 
 extern int primary_display_set_cabc_mode(unsigned int level);
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/01,
 * add dre only use for camera
 */
 extern void disp_aal_set_dre_en(int enable);
@@ -292,7 +289,6 @@ static ssize_t cabc_store(struct device *dev,
     printk("%s CABC_mode=%ld\n", __func__, CABC_mode);
 
     /*
-    * Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/01,
     * add dre only use for camera
     */
     if (CABC_mode == 0) {
@@ -305,7 +301,6 @@ static ssize_t cabc_store(struct device *dev,
     }
 
     /*
-    * Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/01/29,
     * modify for oled not need set cabc
     */
     if (!(is_project(OPPO_17197) || is_project(OPPO_19531) || is_project(OPPO_19391))) {
@@ -316,7 +311,6 @@ static ssize_t cabc_store(struct device *dev,
 }
 
 #ifdef ODM_HQ_EDIT
-//panxiaolong@ODM.Multimedia.LCD  2020/01/15 add for read nova reg for mipi error
 extern void _ddic_mipi_error_read(void);
 extern int nova_mipi_error_data;
 static ssize_t nt_mipi_error_show(struct device *dev,
@@ -339,7 +333,6 @@ static DEVICE_ATTR(dim_dc_alpha, S_IRUGO|S_IWUSR, oppo_display_get_dim_dc_alpha,
 static DEVICE_ATTR(cabc, S_IRUGO|S_IWUSR, cabc_show, cabc_store);
 static DEVICE_ATTR(sau_closebl_node, S_IRUGO|S_IWUSR, silence_show, silence_store);
 #ifdef ODM_HQ_EDIT
-//panxiaolong@ODM.Multimedia.LCD  2020/01/15 add for read nova reg for mipi error
 static DEVICE_ATTR(nt_mipi_error, S_IRUGO|S_IWUSR, nt_mipi_error_show, NULL);
 #endif
 
@@ -357,7 +350,6 @@ static struct attribute *oppo_display_attrs[] = {
 	&dev_attr_cabc.attr,
 	&dev_attr_sau_closebl_node.attr,
 #ifdef ODM_HQ_EDIT
-//panxiaolong@ODM.Multimedia.LCD  2020/01/15 add for read nova reg for mipi error
 	&dev_attr_nt_mipi_error.attr,
 #endif
 	NULL,	/* need to NULL terminate the list of attributes */

@@ -74,7 +74,6 @@
 
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/02,Add for kpoc charging */
 int fgauge_is_start = 0;
 
 #define Get_FakeOff_Param _IOW('k', 7, int)
@@ -130,7 +129,6 @@ static int battery_out_data[1] = { 0 };
 static bool g_ADC_Cali;
 
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 static enum power_supply_property battery_props[] = {
 	POWER_SUPPLY_PROP_STATUS,
 	POWER_SUPPLY_PROP_HEALTH,
@@ -391,7 +389,6 @@ void battery_update_psd(struct battery_data *bat_data)
 }
 
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 static int battery_get_property(struct power_supply *psy,
 	enum power_supply_property psp,
 	union power_supply_propval *val)
@@ -526,7 +523,6 @@ static void disable_fg(void)
 	gauge_enable_interrupt(FG_RG_INT_EN_BAT2_L, 0);
 	gm.disableGM30 = 1;
 	gm.ui_soc = 50;
-	//battery_main.BAT_CAPACITY = 50;    //zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging
 }
 
 bool fg_interrupt_check(void)
@@ -539,7 +535,6 @@ bool fg_interrupt_check(void)
 }
 
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 void battery_update(struct battery_data *bat_data)
 {
 	struct power_supply *bat_psy = bat_data->psy;
@@ -1164,7 +1159,6 @@ static ssize_t show_Battery_Temperature(
 					       char *buf)
 {
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	bm_err("%s: %d %d\n",
 		__func__,
 		battery_main.BAT_batt_temp, gm.fixed_bat_tmp);
@@ -1193,7 +1187,6 @@ static ssize_t store_Battery_Temperature(
 			wakeup_fg_algo(FG_INTR_BAT_TMP_HT);
 		}
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 		battery_main.BAT_batt_temp = force_get_tbat(true);
 		bm_err(
 			"%s: fixed_bat_tmp:%d ,tmp:%d!\n",
@@ -1235,7 +1228,6 @@ static ssize_t store_UI_SOC(
 			gm.ui_soc, gm.fixed_uisoc);
 
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 		battery_update(&battery_main);
 #endif /* ODM_HQ_EDIT */
 	}
@@ -1669,7 +1661,6 @@ int force_get_tbat(bool update)
 			bat_temperature_val);
 		disable_fg();
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 		if (gm.disableGM30 == true)
 			battery_main.BAT_CAPACITY = 50;
 		battery_update(&battery_main);
@@ -1988,7 +1979,6 @@ int wakeup_fg_algo_atomic(unsigned int flow_state)
 int fg_get_battery_temperature_for_zcv(void)
 {
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	return battery_main.BAT_batt_temp;
 #else
 	return 25;
@@ -3051,7 +3041,6 @@ static ssize_t store_FG_daemon_disable(
 	bm_err("[disable FG daemon]\n");
 	disable_fg();
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	if (gm.disableGM30 == true)
 		battery_main.BAT_CAPACITY = 50;
 	battery_update(&battery_main);
@@ -3607,7 +3596,6 @@ static int battery_callback(
 /* START CHARGING */
 			fg_sw_bat_cycle_accu();
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 			battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_CHARGING;
 			battery_update(&battery_main);
 #endif /* ODM_HQ_EDIT */
@@ -3618,7 +3606,6 @@ static int battery_callback(
 /* STOP CHARGING */
 			fg_sw_bat_cycle_accu();
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 			battery_main.BAT_STATUS =
 			POWER_SUPPLY_STATUS_DISCHARGING;
 			battery_update(&battery_main);
@@ -3629,7 +3616,6 @@ static int battery_callback(
 		{
 /* charging enter error state */
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 		battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_NOT_CHARGING;
 		battery_update(&battery_main);
 #endif /* ODM_HQ_EDIT */
@@ -3639,7 +3625,6 @@ static int battery_callback(
 		{
 /* charging leave error state */
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 		battery_main.BAT_STATUS = POWER_SUPPLY_STATUS_CHARGING;
 		battery_update(&battery_main);
 #endif /* ODM_HQ_EDIT */
@@ -3696,7 +3681,6 @@ struct file *filp, unsigned int cmd, unsigned long arg)
 	case Set_META_BAT_CAR_TUNE_VALUE:
 	case Set_BAT_DISABLE_NAFG:
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/02,Add for kpoc charging */
 	case Get_FakeOff_Param:
 	case Turn_Off_Charging:
 #endif /*ODM_HQ_EDIT*/
@@ -3732,7 +3716,6 @@ static long adc_cali_ioctl(
 	int temp_car_tune;
 	int isdisNAFG = 0;
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/02,Add for kpoc charging */
 	int fakeoff_out_data[5] = {0, 0, 0, 0, 0};
 #endif /*ODM_HQ_EDIT*/
 
@@ -3982,7 +3965,6 @@ static long adc_cali_ioctl(
 		break;
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger, 2019/12/02,Add for kpoc charging */
 	case Get_FakeOff_Param:
 		user_data_addr = (int *)arg;
 		fakeoff_out_data[0] = oppo_chg_get_ui_soc();
@@ -4104,7 +4086,6 @@ static int __init battery_probe(struct platform_device *dev)
 	/* Power supply class */
 #if !defined(CONFIG_MTK_DISABLE_GAUGE)
 #ifndef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/09/4 modified for bring up charging */
 	battery_main.psy =
 		power_supply_register(
 			&(dev->dev), &battery_main.psd, NULL);

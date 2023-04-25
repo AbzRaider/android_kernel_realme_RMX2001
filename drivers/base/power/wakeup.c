@@ -18,13 +18,11 @@
 #include <linux/types.h>
 #include <trace/events/power.h>
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/11/09 add for wakelock profiler
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
 #include <linux/fb.h>
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-//Yanzhen.Feng@PSW.AD.OppoDebug.702252, 2016/06/21, Add for Sync App and Kernel time
 #include <linux/rtc.h>
 #endif /* VENDOR_EDIT */
 
@@ -49,7 +47,6 @@ static atomic_t pm_abort_suspend __read_mostly;
  */
 static atomic_t combined_event_count = ATOMIC_INIT(0);
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/11/28 add for kernel wakelock time statistics
 static atomic_t ws_all_release_flag = ATOMIC_INIT(1);
 static ktime_t ws_start_node;
 static ktime_t ws_end_node;
@@ -556,7 +553,6 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 		return;
 
 	#ifdef VENDOR_EDIT
-	//Yunqing.Zeng@BSP.Power.Basic 2017/11/28 add for kernel wakelock time statistics
 	if(atomic_read(&ws_all_release_flag)) {
 		atomic_set(&ws_all_release_flag, 0);
 		spin_lock(&statistics_lock);
@@ -707,7 +703,6 @@ static void wakeup_source_deactivate(struct wakeup_source *ws)
 	split_counters(&cnt, &inpr);
 	if (!inpr && waitqueue_active(&wakeup_count_wait_queue)) {
 		#ifdef VENDOR_EDIT
-		//Yunqing.Zeng@BSP.Power.Basic 2017/11/28 add for kernel wakelock time statistics
 		ktime_t ws_hold_delta = ktime_set(0, 0);
 		spin_lock(&statistics_lock);
 		ws_end_node = ktime_get();
@@ -920,7 +915,7 @@ bool pm_wakeup_pending(void)
 {
 	unsigned long flags;
 	bool ret = false;
-#ifdef VENDOR_EDIT //YouLi@BSP.Kernel.Stability for maybe pm_abort_suspend happend here
+#ifdef VENDOR_EDIT
 	int counter;
 #endif
 	spin_lock_irqsave(&events_lock, flags);
@@ -933,7 +928,7 @@ bool pm_wakeup_pending(void)
 	}
 	spin_unlock_irqrestore(&events_lock, flags);
 
-#ifndef VENDOR_EDIT //yixue.ge@bsp.drv modify for maybe pm_abort_suspend happend here
+#ifndef VENDOR_EDIT
 	if (ret) {
 #else
 	counter = atomic_read(&pm_abort_suspend);
@@ -943,7 +938,7 @@ bool pm_wakeup_pending(void)
 		pm_print_active_wakeup_sources();
 	}
 
-#ifdef VENDOR_EDIT //YouLi@BSP.Kernel.Stability for maybe pm_abort_suspend happend here
+#ifdef VENDOR_EDIT
 	return ret || counter;
 #else
 	return ret || atomic_read(&pm_abort_suspend) > 0;
@@ -1004,7 +999,6 @@ bool pm_get_wakeup_count(unsigned int *count, bool block)
 				break;
 
 			#ifdef VENDOR_EDIT
-			/* ChaoYing.Chen@BSP.Power.Basic, 2017/12/9, Add for print wakeup source */
 			pm_print_active_wakeup_sources();
 			#endif /* VENDOR_EDIT */
 
@@ -1152,7 +1146,6 @@ static int wakeup_sources_stats_open(struct inode *inode, struct file *file)
 }
 
 #ifdef VENDOR_EDIT
-//Yanzhen.Feng@PSW.AD.OppoDebug.702252, 2015/08/14, Add for Sync App and Kernel time
 static ssize_t watchdog_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 {
 	s32 value;
@@ -1205,7 +1198,6 @@ static const struct file_operations wakeup_sources_stats_fops = {
 	.llseek = seq_lseek,
 	.release = single_release,
 #ifdef VENDOR_EDIT
-//Yanzhen.Feng@PSW.AD.OppoDebug.702252, 2016/06/21, Add for Sync App and Kernel time
 	.write          = watchdog_write,
 #endif /* VENDOR_EDIT */
 };
@@ -1213,7 +1205,6 @@ static const struct file_operations wakeup_sources_stats_fops = {
 static int __init wakeup_sources_debugfs_init(void)
 {
 #ifndef VENDOR_EDIT
-//Yanzhen.Feng@PSW.AD.OppoDebug.702252, 2016/06/21,  Modify for Sync App and Kernel time
 	wakeup_sources_stats_dentry = debugfs_create_file("wakeup_sources",
 			S_IRUGO, NULL, NULL, &wakeup_sources_stats_fops);
 #else /* VENDOR_EDIT */
@@ -1224,7 +1215,6 @@ static int __init wakeup_sources_debugfs_init(void)
 }
 
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/11/09 add for wakelock profiler
 ktime_t active_max_reset_time;
 static ssize_t active_max_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
@@ -1297,7 +1287,6 @@ static ssize_t active_max_store(struct kobject *kobj, struct kobj_attribute *att
 	char reset_string[]="reset";
 
 #ifdef VENDOR_EDIT
-/* Ji.Xu@SW.BSP.CHG, 2018-11-29 modify framework ioctl fail */
 	if(!((count == strlen(reset_string)) || ((count == strlen(reset_string) + 1) && (buf[count-1] == '\n'))))
 #endif /*VENDOR_EDIT*/
 
@@ -1328,7 +1317,6 @@ static void kernel_time_reset(void)
 		ktime_t offset_hold_time;
 		ktime_t now = ktime_get();
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_lock_bh(&statistics_lock);
 #else
 		spin_lock(&statistics_lock);
@@ -1336,7 +1324,6 @@ static void kernel_time_reset(void)
 		offset_hold_time = ktime_sub(now, ws_start_node);
 		newest_hold_time = ktime_add(ws_hold_all_time, offset_hold_time);
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_unlock_bh(&statistics_lock);
 #else
 		spin_unlock(&statistics_lock);
@@ -1344,14 +1331,12 @@ static void kernel_time_reset(void)
 	}
 	else {
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_lock_bh(&statistics_lock);
 #else
 		spin_lock(&statistics_lock);
 #endif /*VENDOR_EDIT*/
 		newest_hold_time = ws_hold_all_time;
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_unlock_bh(&statistics_lock);
 #else
 		spin_unlock(&statistics_lock);
@@ -1366,7 +1351,6 @@ static ssize_t kernel_time_store(struct kobject *kobj, struct kobj_attribute *at
 	char reset_string[]="reset";
 
 #ifdef VENDOR_EDIT
-/* Ji.Xu@SW.BSP.CHG, 2018-11-29 modify framework ioctl fail */
 	if(!((count == strlen(reset_string)) || ((count == strlen(reset_string) + 1) && (buf[count-1] == '\n'))))
 #endif /*VENDOR_EDIT*/
 
@@ -1386,7 +1370,6 @@ static ssize_t kernel_time_show(struct kobject *kobj, struct kobj_attribute *att
 		ktime_t offset_hold_time;
 		ktime_t now = ktime_get();
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_lock_bh(&statistics_lock);
 #else
 		spin_lock(&statistics_lock);
@@ -1396,7 +1379,6 @@ static ssize_t kernel_time_show(struct kobject *kobj, struct kobj_attribute *att
 	}
 	else {
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 		spin_lock_bh(&statistics_lock);
 #else
 		spin_lock(&statistics_lock);
@@ -1405,7 +1387,6 @@ static ssize_t kernel_time_show(struct kobject *kobj, struct kobj_attribute *att
 	}
 	newest_hold_time = ktime_sub(newest_hold_time, reset_time);
 #ifdef VENDOR_EDIT
-//wen.luo@BSP.Power.Basic 2017/11/09 add for wakelock profiler, protect for timer and process content deadlock
 	spin_unlock_bh(&statistics_lock);
 #else
 	spin_unlock(&statistics_lock);
@@ -1426,7 +1407,6 @@ static int ws_fb_notify_callback(struct notifier_block *nb, unsigned long val, v
 		blank = *(int *) (evdata->data);
 		switch (blank) {
 		case FB_BLANK_POWERDOWN: //screen off		
-		//wenxian.Zhen@PSW.BSP.POWER, 2019/01/15, removing for analysis power consumption,clear wakeup source stastatics action according to framework
 //			kernel_time_reset();
 //			active_max_reset();
 			break;
@@ -1485,6 +1465,5 @@ static int __init wakelock_profiler_init(void)
 
 postcore_initcall(wakeup_sources_debugfs_init);
 #ifdef VENDOR_EDIT
-//Yunqing.Zeng@BSP.Power.Basic 2017/11/09 add for wakelock profiler
 postcore_initcall(wakelock_profiler_init);
 #endif /* VENDOR_EDIT */

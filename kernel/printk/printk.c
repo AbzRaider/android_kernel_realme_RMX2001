@@ -61,7 +61,6 @@
 #include "braille.h"
 #include "internal.h"
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.18, add for release version
 #include <soc/oppo/oppo_project.h>
 //#endif
 
@@ -78,7 +77,6 @@ static int isIrqsDisabled;
 module_param_named(disable_uart, printk_disable_uart, int, 0644);
 
 #ifdef VENDOR_EDIT
-/*xing.xiong@BSP.Kernel.Debug, 2018/11/22, Add for forcing to enable uart */
 int printk_force_uart = 0;
 module_param_named(force_uart, printk_force_uart, int, S_IRUGO | S_IWUSR);
 #endif
@@ -86,7 +84,6 @@ module_param_named(force_uart, printk_force_uart, int, S_IRUGO | S_IWUSR);
 bool mt_get_uartlog_status(void)
 {
 #ifdef VENDOR_EDIT
-/*xing.xiong@BSP.Kernel.Driver, 2018/12/22, Add for uart log of release version*/
 	if (printk_force_uart)
 		return true;
 #endif
@@ -110,12 +107,9 @@ void set_uartlog_status(bool value)
 void mt_disable_uart(void)
 {
 #ifdef VENDOR_EDIT
-/* Wen.Luo@BSP.Kernel.Stability, 2019/1/14, Modify for release enable uart carsh */
-//zhouhengguo@BSP.Stabliity, 2019.10.18, add for release version
 	if (get_eng_version() == 0)
 		return;
 
-/*xing.xiong@BSP.Kernel.Debug, 2018/11/22, Add for forcing to enable uart */
 	if (printk_force_uart) {
 		printk_disable_uart = 0;
 		return;
@@ -129,8 +123,6 @@ void mt_disable_uart(void)
 void mt_enable_uart(void)
 {
 #ifdef VENDOR_EDIT
-/* Wen.Luo@BSP.Kernel.Stability, 2019/1/14, Modify for release enable uart carsh */
-//zhouhengguo@BSP.Stabliity, 2019.10.18, add for release version
 	if (get_eng_version() == 0)
 		return;
 #endif
@@ -1518,7 +1510,6 @@ static size_t print_prefix(const struct printk_log *msg, bool syslog, char *buf)
 #ifdef CONFIG_PRINTK_MT_PREFIX
 	/* if uart printk enabled */
 #ifndef VENDOR_EDIT
-//zhouhengguo@psw.bsp.stablity, 2019/10/28, add for force uart
 	if (syslog == false && printk_disable_uart != 1) {
 #else
 	if (syslog == false && (printk_disable_uart != 1 || printk_force_uart == 1)) {
@@ -1994,7 +1985,6 @@ static void call_console_drivers(const char *ext_text, size_t ext_len,
 	for_each_console(con) {
 		/* if uart printk disabled */
 #ifndef VENDOR_EDIT
-//zhouhengguo@psw.bsp.stablity, 2019/10/28, add for force uart
 		if ((printk_disable_uart == 1) && (con->flags & CON_CONSDEV))
 #else
 		if ((printk_disable_uart == 1) && (printk_force_uart != 1) && (con->flags & CON_CONSDEV))
@@ -2219,7 +2209,6 @@ int vprintk_store(int facility, int level,
 #ifdef CONFIG_MTK_PRINTK_UART_CONSOLE
 	/* if uart printk enabled */
 #ifndef VENDOR_EDIT
-//zhouhengguo@psw.bsp.stablity, 2019/10/28, add for force uart
 	else if (printk_disable_uart != 1)
 #else
 	else if ((printk_disable_uart != 1) || (printk_force_uart == 1))

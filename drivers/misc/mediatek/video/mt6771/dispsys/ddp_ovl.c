@@ -29,7 +29,6 @@
 #include "mtk_dramc.h"
 #ifdef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
  */
 #include "mtk_boot_common.h"
@@ -494,7 +493,6 @@ static void _get_roi(enum DISP_MODULE_ENUM module,
 
 #ifdef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
  */
 static int meta_mode_set_once = 0;
@@ -514,7 +512,6 @@ int ovl_roi(enum DISP_MODULE_ENUM module, unsigned int bg_w, unsigned int bg_h,
 	DISP_REG_SET(handle, ovl_base + DISP_REG_OVL_ROI_SIZE, bg_h << 16 | bg_w);
 #ifndef VENDOR_EDIT
 /*
- * Yongpeng.Yi@PSW.MM.Display.LCD.Feature, 2018/01/09
  * Add for MATE mode switch RGB display
 */
 	DISP_REG_SET(handle, ovl_base + DISP_REG_OVL_ROI_BGCLR, bg_color);
@@ -1397,7 +1394,6 @@ static int ovl_config_l(enum DISP_MODULE_ENUM module,
 
 #ifdef VENDOR_EDIT
 /*
-* LiPing-m@PSW.MM.Display.LCD.Feature, 2018/01/09
 * Add for MATE mode switch RGB display
 */
 	if (get_boot_mode() == META_BOOT) {

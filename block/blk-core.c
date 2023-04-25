@@ -117,7 +117,6 @@ void blk_rq_init(struct request_queue *q, struct request *rq)
 
 	INIT_LIST_HEAD(&rq->queuelist);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	INIT_LIST_HEAD(&rq->fg_list);
 #endif /*VENDOR_EDIT*/
 	INIT_LIST_HEAD(&rq->timeout_list);
@@ -824,7 +823,6 @@ static void blk_queue_usage_counter_release(struct percpu_ref *ref)
 }
 
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 #define FG_CNT_DEF 20
 #define BOTH_CNT_DEF 10
 #endif /*VENDOR_EDIT*/
@@ -866,7 +864,6 @@ struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
 	q->backing_dev_info->capabilities = BDI_CAP_CGROUP_WRITEBACK;
 	q->backing_dev_info->name = "block";
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	q->fg_count_max = FG_CNT_DEF;
 	q->both_count_max = BOTH_CNT_DEF;
 	q->fg_count = FG_CNT_DEF;
@@ -880,7 +877,6 @@ struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
 	INIT_WORK(&q->timeout_work, NULL);
 	INIT_LIST_HEAD(&q->queue_head);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	INIT_LIST_HEAD(&q->fg_head);
 #endif /*VENDOR_EDIT*/
 	INIT_LIST_HEAD(&q->timeout_list);
@@ -1812,7 +1808,6 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	struct io_context *ioc = rq_ioc(bio);
 
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	if (bio->bi_opf & REQ_FG)
 		req->cmd_flags |= REQ_FG;
 #endif /*VENDOR_EDIT*/
@@ -2286,7 +2281,6 @@ out:
 EXPORT_SYMBOL(generic_make_request);
 
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 #define SYSTEM_APP_UID 1000
 static bool is_system_uid(struct task_struct *t)
 {
@@ -2334,7 +2328,6 @@ bool is_critial_process(struct task_struct *t)
 
 bool is_filter_process(struct task_struct *t)
 {
-    /* yanghao@PSW.Kernel.Stability add queued-work for sync file android main thread will wait 2019-4-13 */
 	if(!strncmp(t->comm,"logcat", TASK_COMM_LEN) || !strncmp(t->comm, "queued-work-loo", TASK_COMM_LEN))
 		 return true;
 
@@ -2398,7 +2391,6 @@ blk_qc_t submit_bio(struct bio *bio)
 		}
 	}
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	if (high_prio_for_task(current))
 		bio->bi_opf |= REQ_FG;
 #endif
@@ -2753,7 +2745,6 @@ static void blk_dequeue_request(struct request *rq)
 
 	list_del_init(&rq->queuelist);
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	list_del_init(&rq->fg_list);
 #endif /*VENDOR_EDIT*/
 

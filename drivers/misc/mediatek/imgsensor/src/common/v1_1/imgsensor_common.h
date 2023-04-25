@@ -23,7 +23,6 @@
 #define PREFIX "[imgsensor]"
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190912 MTK patch for mipi switch */
 #define PLATFORM_POWER_SEQ_NAME "platform_power_seq"
 #endif
 
@@ -44,7 +43,6 @@
 #define IMGSENSOR_STRINGIZE(stringizedName) IMGSENSOR_TOSTRING(stringizedName)
 
 #ifdef ODM_HQ_EDIT
-/* Lijian@ODM.Camera.Drv 20190827 for snesor bringup */
 #define MIPI_SWITCH
 #endif
 
@@ -59,7 +57,6 @@ enum IMGSENSOR_RETURN {
 	IMGSENSOR_RETURN_ERROR   = -1,
 };
 
-/*Henry.Chang@Camera.Driver add for Camera ModuleSN 20190505*/
 #define CAMERA_MODULE_SN_LENGTH    (20)
 #define LENGTH_FOR_SNPRINTF 256
 

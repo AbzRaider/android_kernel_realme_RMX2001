@@ -49,7 +49,6 @@ struct keypad_dts_data {
 	u32 kpd_hw_recovery_key;
 	u32 kpd_hw_factory_key;
 	#ifdef ODM_HQ_EDIT
-	/*zhangchao@ODM.HQ.Charger 2020/03/09 modified for HW reset distinguish 1878 1879 and 1877*/
 	int cphy_dphy_gpio;
 	#endif
 };

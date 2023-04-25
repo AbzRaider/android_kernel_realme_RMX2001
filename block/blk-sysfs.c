@@ -111,7 +111,6 @@ queue_ra_store(struct request_queue *q, const char *page, size_t count)
 	return ret;
 }
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 static ssize_t queue_fgio_show(struct request_queue *q, char *page)
 {
 	int cnt = q->fg_count_max;
@@ -565,7 +564,6 @@ static struct queue_sysfs_entry queue_ra_entry = {
 	.store = queue_ra_store,
 };
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 static struct queue_sysfs_entry queue_fgio_entry = {
 	.attr = {.name = "fg_io_cnt_max", .mode = S_IRUGO | S_IWUSR },
 	.show = queue_fgio_show,
@@ -757,7 +755,6 @@ static struct attribute *default_attrs[] = {
 	&queue_requests_entry.attr,
 	&queue_ra_entry.attr,
 #ifdef VENDOR_EDIT
-/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	&queue_fgio_entry.attr,
 	&queue_bothio_entry.attr,
 #endif /*VENDOR_EDIT*/

@@ -107,7 +107,6 @@ void IMGSENSOR_PROFILE(struct timeval *ptv, char *tag)
 #define DEVICE_MANUFACUTRE_OFILM        "Ofilm"
 #define DEVICE_MANUFACUTRE_SHINE        "Shine"
 #ifdef ODM_HQ_EDIT
-/*Degao.Lan@Camera.DRV add for register device info 20191108*/
 #define DEVICE_MANUFACUTRE_HOLITECH     "Holitech"
 #endif
 
@@ -119,7 +118,6 @@ void IMGSENSOR_PROFILE(struct timeval *ptv, char *tag)
 #define IMGSENSOR_MODULE_ID_OFILM       0x06
 #define IMGSENSOR_MODULE_ID_SHINE       0x07
 #ifdef ODM_HQ_EDIT
-/*Degao.Lan@Camera.DRV add for register device info 20191108*/
 #define IMGSENSOR_MODULE_ID_HOLITECH    0x09
 #endif
 
@@ -167,10 +165,20 @@ static kal_uint16 awb_golden_addr_s5kgm1sp[AWB_GOLDEN_ADDR_NUM] = {
     0x0018, 0x002A, 0x003C
 };
 static kal_uint16 awb_golden_table_s5kgm1sp[AWB_GOLDEN_TABLE_SIZE] = {
-    114, 186, 186, 106,  //5100K
-    135, 186, 186,  93,  //4000k
-    154, 186, 186,  66   //3100k
+    0x6d, 0xbc, 0xbc, 0x78,  //5100K
+    0x80, 0xbc, 0xbc, 0x6c,  //4000k
+    0x93, 0xbc, 0xbc, 0x52   //3100k
 };
+
+static kal_uint16 awb_golden_addr_gc2385h[AWB_GOLDEN_ADDR_NUM] = {
+    0x0016, 0x0028, 0x003A
+};
+static kal_uint16 awb_golden_table_gc2385h[AWB_GOLDEN_TABLE_SIZE] = {
+    166, 189, 189,  132,  //5100K
+    177, 180, 180,  113,  //4000k
+    204, 185, 184,  95   //3100k
+};
+
 
 extern int iReadRegI2C(u8 *a_pSendData , u16 a_sizeSendData, u8 * a_pRecvData, u16 a_sizeRecvData, u16 i2cId);
 
@@ -204,6 +212,10 @@ kal_uint8 check_eeprom_awb_golden(kal_uint16 sensor_id, kal_uint8 i2c_addr)
         awb_golden_addr = awb_golden_addr_gc2375h;
         awb_golden_table = awb_golden_table_gc2375h;
         break;
+    case GC02K0_SENSOR_ID:
+        awb_golden_addr = awb_golden_addr_gc2385h;
+        awb_golden_table = awb_golden_table_gc2385h;
+        break;
     default:
         printk("%s unsupported sensor_id:%d\n", __func__, sensor_id);
         return check_result;
@@ -222,7 +234,8 @@ kal_uint8 check_eeprom_awb_golden(kal_uint16 sensor_id, kal_uint8 i2c_addr)
         printk("%s sensor_id:0x%x, golden value matched ^_^\n", __func__, sensor_id);
         check_result = 1;
     } else {
-        printk("%s sensor_id:0x%x, golden value not matched >-<\n", __func__, sensor_id);
+        printk("%s sensor_id:0x%x, get_golden:0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,\n", __func__, sensor_id,
+            get_table[0], get_table[1],get_table[2],get_table[3],get_table[8],get_table[9],get_table[10],get_table[11]);
     }
 
     return check_result;
@@ -261,7 +274,6 @@ void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id)
             manufacture = DEVICE_MANUFACUTRE_SHINE;
             break;
         #ifdef ODM_HQ_EDIT
-        /*Degao.Lan@Camera.DRV add for register device info 20191108*/
         case IMGSENSOR_MODULE_ID_HOLITECH:  /* Holitech */
             manufacture = DEVICE_MANUFACUTRE_HOLITECH;
             break;

@@ -75,14 +75,9 @@ static int tfa98xx_trace_level;
 TFA_INTERNAL struct Tfa98xx_handle_private handles_local[MAX_HANDLES];
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 extern bool tfa_vol_force;
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-/*xiang.fei@PSW.MM.AudioDriver.Codec, 2017/11/03,
-  Add for speaker resistance*/
 static bool g_speaker_resistance_fail = false;
 #endif /* VENDOR_EDIT */
 /*
@@ -1074,9 +1069,6 @@ enum Tfa98xx_Error tfa98xx_set_volume_level(Tfa98xx_handle_t handle, unsigned sh
 	 * 0xFF -> muted
 	 */
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 	pr_info("%s: check tfa vol: vol = %d\n", __func__, vol);
 #endif /* VENDOR_EDIT */
 	/* volume value is in the top 8 bits of the register */
@@ -1090,7 +1082,6 @@ enum Tfa98xx_Error tfa98xx_get_volume_level(Tfa98xx_handle_t handle, unsigned sh
 	if (!tfa98xx_handle_is_open(handle))
 		return Tfa98xx_Error_NotOpen;
 #ifdef VENDOR_EDIT
-/* yongzhi.zhang@Multimedia, 2016/09/19, fix bug in NXP source code */
 	*vol = (uint16_t)TFA_GET_BF(handle, VOL);
 #else
 	vol = (uint16_t)TFA_GET_BF(handle, VOL);
@@ -2682,7 +2673,6 @@ enum Tfa98xx_Error tfaRunSpeakerCalibration(Tfa98xx_handle_t handle, int profile
 	int calibrateDone, spkr_count = 0;
 	/* Avoid warning in user-space */
 #ifndef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/08/06 modify for build err when codebase update */
 	profile=profile;
 #endif
 
@@ -2721,10 +2711,6 @@ enum Tfa98xx_Error tfaRunSpeakerCalibration(Tfa98xx_handle_t handle, int profile
 
 	if(err == Tfa98xx_Error_Ok) {
 #ifdef VENDOR_EDIT
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.FTM, 2017/09/21,
-		 * add cali range for ringing */
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2017/11/03,
-		   Add for speaker resistance*/
 		pr_info("%s: %d mOhms\n", __func__, handles_local[handle].mohm[0]);
 		//6ohm - 10.5ohm
 		if ((handles_local[handle].mohm[0] < 6000) || (handles_local[handle].mohm[0] > 10500)) {
@@ -3065,8 +3051,6 @@ enum Tfa98xx_Error tfa_start(int next_profile, int *vstep)
 	int cal_profile = -1, istap_prof = 0, active_profile = -1;
 
 	#ifdef VENDOR_EDIT
-	/*xiang.fei@PSW.MM.AudioDriver.Codec, 2017/11/03,
-	  Add for speaker resistance*/
 	int calibration_count = 0;
 
 	if (g_speaker_resistance_fail) {
@@ -3107,8 +3091,6 @@ enum Tfa98xx_Error tfa_start(int next_profile, int *vstep)
 
 		/* tfaRun_SpeakerBoost implies un-mute */
 		if (tfa98xx_runtime_verbose) {
-			/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/07,
-			 * add log for checking w/r reg */
 			pr_info("active_profile:%d, next_profile:%d\n",
 					active_profile,
 					next_profile);
@@ -3129,18 +3111,12 @@ enum Tfa98xx_Error tfa_start(int next_profile, int *vstep)
 		/* Check if we need coldstart or ACS is set */
 		err = tfaRunSpeakerBoost(dev, 0, next_profile);
 #ifdef VENDOR_EDIT
-		/* Yongzhi.Zhang@PSW.MM.AudioDriver.FTM, 2017/09/21,
-		 * add cali range for ringing */
 		pr_info("tfa_start %d mOhms \n", handles_local[dev].mohm[0]);
 #endif /* VENDOR_EDIT */
 
 		#ifdef VENDOR_EDIT
-		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2017/11/03,
-		  Add for speaker resistance*/
 		while (( err != Tfa98xx_Error_Ok) && (calibration_count < 1)) {
 			pr_info("tfaRunSpeakerBoost err = %d, retry\n", err);
-			/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2018/01/17,
-			  add for speaker resistance */
 			err = tfa98xx_set_mtp(dev, 0, 0x2);
 			if (err != Tfa98xx_Error_Ok) {
 				break;
@@ -3166,8 +3142,6 @@ enum Tfa98xx_Error tfa_start(int next_profile, int *vstep)
 		/* check if the profile and steps are the one we want */
 		/* was it not done already */
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/10/21,
- * force write profile every time we use speaker */
 		err = tfaContWriteProfile(dev, next_profile, vstep[dev]);
 		if (err != Tfa98xx_Error_Ok) {
 			goto error_exit;
@@ -3235,9 +3209,6 @@ error_exit:
 	}
 
 #ifdef VENDOR_EDIT
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.SmartPA, 2017/07/26,
- * modify for vol setting conflicted by firmware loading
- */
 		if(tfa_vol_force) {
 			tfa_vol_force = false;
 			printk("%s: vol force flag reset false\n", __func__);

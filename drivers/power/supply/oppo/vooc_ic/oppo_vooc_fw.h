@@ -151,7 +151,6 @@ extern void reset_fastchg_after_usbout(struct oppo_vooc_chip *chip);
 void oppo_vooc_eint_register(struct oppo_vooc_chip *chip);
 void oppo_vooc_eint_unregister(struct oppo_vooc_chip *chip);
 
-// wenbin.liu@BSP.CHG.Vooc, 2016/10/20
 // Add for vooc batt 4.40
 void oppo_vooc_fw_type_dt(struct oppo_vooc_chip *chip);
 
@@ -1452,7 +1451,6 @@ unsigned char Stm8s_fw_data_4400_avoid_over_temp_ntc61c[] = {
 };
 
 #ifdef ODM_HQ_EDIT
-/* zhangchao@ODM.HQ.Charger 2019/11/08 modified for 5V6A */
 unsigned char Stm8s_fw_data_4400_vooc_ffc_09c[] = { 
 
 0x00,0x88,0x82,0x00,0x9D,0x82,0x82,0x00,0x9E,0xE8,0x82,0x00,0x9E,0xE8,0x82,0x00,0x9E,0xE8,0x82,0x00,0x9E,0xE8,0x82,0x00,0x9C,0x04,0x82,0x00,0x9E,0xE8,0x82,0x00,0x9E,0xCF,

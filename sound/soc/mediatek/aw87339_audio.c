@@ -5,10 +5,8 @@
  ** Description: source file of aw87339 speaker pa
  ** Version :1.0
  ** Date : 2019/10/09
- ** Author: fanxiongnan@ODM.HQ.Multimedia.Audio
  ** ---------------- Revision History: --------------------------
  ** <version>    <date>          < author >              <desc>
- **  1.0           2019/10/09   fanxiongnan@ODM.HQ   source file of aw87339 speaker pa
  ********************************************/
 
 #include <linux/i2c.h>
@@ -51,24 +49,20 @@ struct aw87339_container *aw87339_kspk_cnt;
 struct aw87339_container *aw87339_drcv_cnt;
 struct aw87339_container *aw87339_abrcv_cnt;
 struct aw87339_container *aw87339_rcvspk_cnt;
-//liugezi@awinic 20191203
 struct aw87339_container *aw87339_voicespk_cnt;
 
 static char *aw87339_kspk_name = "aw87339_kspk.bin";
 static char *aw87339_drcv_name = "aw87339_drcv.bin";
 static char *aw87339_abrcv_name = "aw87339_abrcv.bin";
 static char *aw87339_rcvspk_name = "aw87339_rcvspk.bin";
-//liugezi@awinic 20191203
 static char *aw87339_voicespk_name = "aw87339_voicespk.bin";
 
 unsigned int kspk_load_cont;
 unsigned int drcv_load_cont;
 unsigned int abrcv_load_cont;
 unsigned int rcvspk_load_cont;
-//liugezi@awinic 20191203
 unsigned int voicespk_load_cont;
 
-//fanxiongnan@ODM.HQ.Multimeida 2019/12/10 modified
 static int aw87339_probed = 0;
 
 /**********************************************************
@@ -160,7 +154,6 @@ unsigned char aw87339_audio_kspk(void)
 	unsigned int i;
 	unsigned int length;
 
-	//fanxiongnan@ODM.HQ.Multimeida 2019/12/10 modified
 	if(0 == aw87339_probed)
 		return 0;
 
@@ -289,13 +282,11 @@ unsigned char aw87339_audio_rcvspk(void)
 	return 0;
 }
 
-//liugezi@awinic 20191203
 unsigned char aw87339_audio_voicespk(void)
 {
 	unsigned int i;
 	unsigned int length;
 
-	//fanxiongnan@ODM.HQ.Multimeida 2019/12/10 modified
 	if(0 == aw87339_probed)
 		return 0;
 
@@ -329,7 +320,6 @@ unsigned char aw87339_audio_voicespk(void)
 
 unsigned char aw87339_audio_off(void)
 {
-	//fanxiongnan@ODM.HQ.Multimeida 2019/12/10 modified
 	if(0 == aw87339_probed)
 		return 0;
 
@@ -578,7 +568,6 @@ static int aw87339_kspk_update(struct aw87339 *aw87339)
 					aw87339_kspk_cfg_loaded);
 }
 
-//liugezi@awinic 20191203
 static void aw87339_voicespk_cfg_loaded(const struct firmware *cont,
 				      void *context)
 {
@@ -623,7 +612,6 @@ static void aw87339_voicespk_cfg_loaded(const struct firmware *cont,
 	pr_info("%s: all fw update complete\n", __func__);
 }
 
-//liugezi@awinic 20191203
 static int aw87339_voicespk_update(struct aw87339 *aw87339)
 {
 	pr_info("%s enter\n", __func__);
@@ -646,7 +634,6 @@ static void aw87339_cfg_work_routine(struct work_struct *work)
 		aw87339_abrcv_update(aw87339);
 	if (0) //aw87339->rcvspk_cfg_update_flag == 0)
 		aw87339_rcvspk_update(aw87339);
-	//liugezi@awinic 20191203
 	if (aw87339->voicespk_cfg_update_flag == 0)
 		aw87339_voicespk_update(aw87339);
 }
@@ -769,7 +756,6 @@ static ssize_t aw87339_set_update(struct device *dev,
 		aw87339->drcv_cfg_update_flag = 0;
 		aw87339->abrcv_cfg_update_flag = 0;
 		aw87339->rcvspk_cfg_update_flag = 0;
-		//liugezi@awinic 20191203
 		aw87339->voicespk_cfg_update_flag = 0;
 		schedule_delayed_work(&aw87339->ram_work,
 					msecs_to_jiffies(cfg_timer_val));
@@ -793,7 +779,6 @@ static ssize_t aw87339_get_mode(struct device *cd,
 	len += snprintf(buf+len, PAGE_SIZE-len, "2: drcv mode\n");
 	len += snprintf(buf+len, PAGE_SIZE-len, "3: abrcv mode\n");
 	len += snprintf(buf+len, PAGE_SIZE-len, "4: rcvspk mode\n");
-	//liugezi@awinic 20191203
 	len += snprintf(buf + len, PAGE_SIZE - len, "5: voicespk mode\n");
 
 	return len;
@@ -818,7 +803,6 @@ static ssize_t aw87339_set_mode(struct device *cd,
 		aw87339_audio_abrcv();
 	else if (state == 4)
 		aw87339_audio_rcvspk();
-	//liugezi@awinic 20191203
 	else if (state == 5)
 		aw87339_audio_voicespk();
 	else
@@ -982,7 +966,6 @@ aw87339_i2c_probe(struct i2c_client *client, const struct i2c_device_id *id)
 			__func__);
 	}
 
-	//fanxiongnan@ODM.HQ.Multimeida 2019/12/10 modified
 	aw87339_probed = 1;
 
 	/* aw87339 cfg update */
@@ -990,13 +973,11 @@ aw87339_i2c_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	drcv_load_cont = 0;
 	abrcv_load_cont = 0;
 	rcvspk_load_cont = 0;
-	//liugezi@awinic 20191203
 	voicespk_load_cont = 0;
 	aw87339->kspk_cfg_update_flag = 0;
 	aw87339->drcv_cfg_update_flag = 0;
 	aw87339->abrcv_cfg_update_flag = 0;
 	aw87339->rcvspk_cfg_update_flag = 0;
-	//liugezi@awinic 20191203
 	aw87339->voicespk_cfg_update_flag = 0;
 	aw87339_cfg_init(aw87339);
 

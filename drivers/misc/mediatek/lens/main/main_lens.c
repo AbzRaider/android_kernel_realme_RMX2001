@@ -90,7 +90,6 @@ static struct stAF_OisPosInfo OisPosInfo;
 
 static struct stAF_DrvList g_stAF_DrvList[MAX_NUM_OF_LENS] = {
 #ifdef ODM_HQ_EDIT
-	/* Lijian@ODM.Camra 20190827 for FP5516 Bringup */
 	{1, AFDRV_BU64253AF, BU64253AF_SetI2Cclient, BU64253AF_Ioctl,
 	 BU64253AF_Release, BU64253AF_GetFileName, NULL},
 	{1, AFDRV_FP5516AF, FP5516AF_SetI2Cclient, FP5516AF_Ioctl,
@@ -187,7 +186,6 @@ void AFRegulatorCtrl(int Stage)
 				lens_device->of_node = node;
 
 				#ifdef VENDOR_EDIT
-				/*Caohua.Lin@Camera.Driver 20180815 add for af power up*/
 				regVCAMAF =
 					regulator_get(lens_device, "vldo28");
 				#else

@@ -1406,7 +1406,6 @@ void disp_aal_notify_backlight_changed(int bl_1024)
 
 	#ifndef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/02/14,
 	* modify for support aod state.
 	*/
 	if (atomic_read(&g_aal_is_init_regs_valid) == 1) {
@@ -1652,7 +1651,6 @@ int disp_aal_set_param(struct DISP_AAL_PARAM __user *param,
 
 	#ifndef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/02/14,
 	* modify for support aod state.
 	*/
 	backlight_brightness_set(backlight_value);

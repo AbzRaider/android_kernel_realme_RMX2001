@@ -77,7 +77,6 @@ typedef struct imgsensor_struct {
 typedef struct imgsensor_info_struct {
     kal_uint32 sensor_id;            //record sensor id defined in Kd_imgsensor.h
 #ifdef VENDOR_EDIT
-    /*Shounan.Yang@camera.drv 2019/6/18,modify for different module*/
     kal_uint16 module_id;
 #endif
     kal_uint32 checksum_value;        //checksum value for Camera Auto Test

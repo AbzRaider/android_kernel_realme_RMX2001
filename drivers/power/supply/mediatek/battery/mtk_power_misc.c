@@ -34,7 +34,6 @@
 #include "mtk_battery_internal.h"
 
 #ifdef ODM_HQ_EDIT
-/*wangtao@ODM_HQ.BSP.CHG 2020/01/07, add for shutdown use oppo uisoc*/
 extern int oppo_chg_get_ui_soc(void);
 #endif /*ODM_HQ_EDIT*/
 
@@ -149,11 +148,9 @@ int disable_shutdown_cond(int shutdown_cond)
 	return 0;
 }
 #if defined(ODM_HQ_EDIT)
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 extern int is_vooc_project(void);
 #else
 #ifdef VENDOR_EDIT
-//Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/12, add for sdc.lock null pointer.
 extern int oppo_is_vooc_project(void);
 #endif /*VENDOR_EDIT*/
 #endif
@@ -186,14 +183,12 @@ int set_shutdown_cond(int shutdown_cond)
 		now_is_kpoc, now_current, now_is_charging,
 		shutdown_cond_flag, vbat);
 #if defined(ODM_HQ_EDIT)
-/*wangtao@ODM.HQ.BSP.CHG 2019/10/17 modify kernel error*/
 		if (is_vooc_project() == 1) {
 		pr_err("%s:vooc_project,return directly\n",__func__);
 		return 0;
 	}
 #else
 #ifdef VENDOR_EDIT
-//Qiao.Hu@BSP.BaseDrv.CHG.Basic, 2017/12/14, add for sdc.lock null pointer.
 	if (oppo_is_vooc_project() == 1) {
 		pr_err("%s:vooc_project,return directly\n",__func__);
 		return 0;
@@ -207,7 +202,6 @@ int set_shutdown_cond(int shutdown_cond)
 		return 0;
 
 #ifdef VENDOR_EDIT
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2018/10/16, sjc Add for remove dlpt shutdown */
 	if (shutdown_cond == DLPT_SHUTDOWN) {
 		bm_err("[%s], DLPT_SHUTDOWN, return directly\n", __func__);
 		return 0;
@@ -313,7 +307,6 @@ static int shutdown_event_handler(struct shutdown_controller *sdd)
 	static int down_to_low_bat;
 	int now_current = 0;
 #ifndef ODM_HQ_EDIT
-/*wangtao@ODM_HQ.BSP.CHG 2020/01/07, add for shutdown use oppo uisoc*/
 	int current_ui_soc = battery_get_uisoc();
 #else  /*ODM_HQ_EDIT*/
 	int current_ui_soc = oppo_chg_get_ui_soc();
@@ -391,7 +384,6 @@ static int shutdown_event_handler(struct shutdown_controller *sdd)
 		if (duraction.tv_sec >= SHUTDOWN_TIME) {
 			bm_err("dlpt shutdown\n");
 #ifndef VENDOR_EDIT
-/* Jianchao.Shi@PSW.BSP.CHG.Basic, 2018/10/16, sjc Delete for remove dlpt shutdown */
 			mutex_lock(&pm_mutex);
 			kernel_power_off();
 			mutex_unlock(&pm_mutex);
@@ -597,7 +589,6 @@ void mtk_power_misc_init(struct platform_device *pdev)
 		power_misc_kthread_fgtimer_func);
 	init_waitqueue_head(&sdc.wait_que);
 #ifndef VENDOR_EDIT
-/* Qiao.Hu@EXP.BSP.BaseDrv.CHG.Basic, 2017/08/02, Add for charger memory electricity */
 	sdc.psy_nb.notifier_call = mtk_power_misc_psy_event;
 	power_supply_reg_notifier(&sdc.psy_nb);
 #endif

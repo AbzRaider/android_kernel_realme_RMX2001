@@ -6,7 +6,6 @@
 ** lcd driver including parameter and power control.
 ** Version: 1.0
 ** Date : 2018/06/8
-** Author: LiPing-M@PSW.MultiMedia.Display.LCD.Machine
 **
 ** ------------------------------- Revision History:---------------
 ** liping 2018/06/8 1.0 build this module
@@ -398,7 +397,6 @@ static void lcm_resume_power(void)
 {
 	LCD_DEBUG("[dsjm] lcm_resume_power \n");
 	lcm_init_power();
-        /* ZhongWenjie@PSW.BSP.TP.FUNCTION, 2018/6/7, Add for no-flash TP */
         lcd_queue_load_tp_fw();
 }
 
@@ -413,7 +411,6 @@ static void lcm_init(void)
 	MDELAY(5);
 
 	/*
-	 * Guoqiang.jiang@MM.Display.LCD.Machine, 2018/03/13,
 	 * add for backlight IC KTD3136
 	 */
 	if (is_lm3697 == 2) {   /*KTD3136*/

@@ -66,7 +66,6 @@ enum ipi_msg_type {
 #endif
 
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 #include <linux/oppocfs/oppo_cfs_common.h>
 #endif
 
@@ -4321,7 +4320,6 @@ void scheduler_tick(void)
 	sched_max_util_task_tracking();
 #endif
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     if (sysctl_uifirst_enabled) {
         (void)trigger_ux_balance(rq);
     }
@@ -4703,7 +4701,6 @@ static void __sched notrace __schedule(bool preempt)
 		rq_unlock_irq(rq, &rf);
 	}
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
     prev->enqueue_time = rq->clock;
 #endif
 #ifdef CONFIG_PREEMPT_MONITOR
@@ -6093,7 +6090,6 @@ long sched_getaffinity(pid_t pid, struct cpumask *mask)
 	raw_spin_lock_irqsave(&p->pi_lock, flags);
 	cpumask_and(mask, &p->cpus_allowed, cpu_active_mask);
 #ifdef VENDOR_EDIT
-    //cuixiaogang@swdp.shanghai, 2018/2/6, Add for cts test
     /*
      * The userspace tasks are forbidden to run on
      * isolated CPUs. So exclude isolated CPUs from
@@ -7584,7 +7580,6 @@ void __init sched_init(void)
 		init_rt_rq(&rq->rt);
 		init_dl_rq(&rq->dl);
 #ifdef VENDOR_EDIT
-// Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
         (void)ux_init_rq_data(rq);
 #endif
 #ifdef CONFIG_FAIR_GROUP_SCHED

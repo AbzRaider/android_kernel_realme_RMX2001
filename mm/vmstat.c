@@ -1064,7 +1064,6 @@ const char * const vmstat_text[] = {
 #endif
 
 #ifdef ODM_HQ_EDIT
-/*weihuan.zhao@ODM_WT.BSP.Kernel.performace, 2019/12/23,adjust nr_free_oppo2 seq to fix page account issue*/
 	"nr_ioncache_pages",
 #endif /* ODM_HQ_EDIT */
 

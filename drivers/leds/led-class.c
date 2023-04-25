@@ -27,7 +27,6 @@ static struct class *leds_class;
 
 #ifdef VENDOR_EDIT
 /*
-* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/28,
 * add for oppo brightness and max_brightness node
 */
 //extern unsigned long oppo_display_brightness;
@@ -72,7 +71,6 @@ unlock:
 
 	#ifdef VENDOR_EDIT
 	/*
-	* Ling.Guo@PSW.MM.Display.LCD.Stability, 2019/01/28,
 	* add for oppo brightness and max_brightness node
 	*/
 	//oppo_display_brightness = state;

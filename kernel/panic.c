@@ -31,8 +31,7 @@
 #include <soc/oppo/oppo_project.h>
 
 #ifdef VENDOR_EDIT
-// Kun.Hu@TECH.BSP.Stability.PHOENIX_PROJECT 2019/06/11, Add for phoenix project
-#include "../drivers/soc/oppo/oppo_phoenix/oppo_phoenix.h"
+#include "../../vendor/oppo/oppo_phoenix/kernel/oppo_phoenix/oppo_phoenix.h"
 static int kernel_panic_happened = 0;
 #endif
 
@@ -40,16 +39,13 @@ static int kernel_panic_happened = 0;
 #define PANIC_BLINK_SPD 18
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Add for interface reboot reason */
 int is_kernel_panic = 0;
 #endif
 
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
 bool is_triggering_panic = false;
 bool is_triggering_hwt = false;
 #endif  /*VENDOR_EDIT*/
-//Liang.Zhang@PSW.TECH.BOOTUP, 2019/01/22, Add for monitor kernel error
 #ifdef HANG_OPPO_ALL
 int hwt_happened = 0;
 #endif  // VENDOR_EDIT
@@ -146,7 +142,6 @@ EXPORT_SYMBOL(nmi_panic);
 
 
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
 extern int panic_flush_device_cache(int timeout);
 void flush_cache_on_panic(void){
     if (get_eng_version() == 1){
@@ -176,7 +171,6 @@ void panic(const char *fmt, ...)
 	bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
 
 #ifdef VENDOR_EDIT
-    // Kun.Hu@TECH.BSP.Stability.PHOENIX_PROJECT 2019/06/11, Add for phoenix project
     kernel_panic_happened++;
 	if(phx_set_boot_error && phx_is_phoenix_boot_completed)
 	{
@@ -299,7 +293,6 @@ void panic(const char *fmt, ...)
 		panic_blink = no_blink;
 		
 #ifdef VENDOR_EDIT
-    /* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Modify for add interface reboot reason */
     is_kernel_panic = 1;
 #endif
 
@@ -527,7 +520,6 @@ int oops_may_print(void)
 void oops_enter(void)
 {
 #ifdef VENDOR_EDIT
-    /* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/24, Modify for add interface reboot reason */
     is_kernel_panic = 1;
 #endif
 

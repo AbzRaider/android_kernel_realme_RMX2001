@@ -304,16 +304,6 @@ struct display_primary_path_context {
 #endif
 };
 
-#define LCM_FPS_ARRAY_SIZE	32
-struct lcm_fps_ctx_t {
-	int is_inited;
-	struct mutex lock;
-	unsigned int dsi_mode;
-	unsigned int head_idx;
-	unsigned int num;
-	unsigned long long last_ns;
-	unsigned long long array[LCM_FPS_ARRAY_SIZE];
-};
 
 static inline char *lcm_power_state_to_string(enum lcm_power_state ps)
 {
@@ -466,7 +456,6 @@ void _primary_path_switch_dst_lock(void);
 void _primary_path_switch_dst_unlock(void);
 #ifdef ODM_HQ_EDIT
 /*
-* Yongpeng.Yi@PSW.MM.Display.LCD.Machine, 2018/02/27,
 * add for face fill light node
 */
 void ffl_set_init(void);
@@ -474,7 +463,6 @@ void ffl_set_enable(unsigned int enable);
 #endif /* ODM_HQ_EDIT */
 
 //#ifdef ODM_HQ_EDIT
-/* Longyajun@ODM.HQ.Multimedia.LCM 2019/12/12 modified for TM JDI pq */
 int _ioctl_get_lcm_module_info(unsigned long arg);
 //#endif /* ODM_HQ_EDIT */
 
@@ -586,9 +574,4 @@ bool primary_display_need_update_hrt_fps(
 
 /**************function for DynFPS end************************/
 #endif
-extern struct lcm_fps_ctx_t lcm_fps_ctx;
-int lcm_fps_ctx_init(struct lcm_fps_ctx_t *fps_ctx);
-int lcm_fps_ctx_reset(struct lcm_fps_ctx_t *fps_ctx);
-int lcm_fps_ctx_update(struct lcm_fps_ctx_t *fps_ctx,
-		unsigned long long cur_ns);
 #endif

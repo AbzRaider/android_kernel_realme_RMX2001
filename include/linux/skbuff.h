@@ -41,7 +41,6 @@
 #include <linux/if_packet.h>
 #include <net/flow.h>
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #include <linux/imq.h>
 #endif /* VENDOR_EDIT */
@@ -698,7 +697,6 @@ struct sk_buff {
 	 */
 	char			cb[48] __aligned(8);
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	void			*cb_next;
 #endif /* VENDOR_EDIT */
@@ -713,7 +711,6 @@ struct sk_buff {
 #endif
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
        struct nf_queue_entry   *nf_queue_entry;
 #endif /* VENDOR_EDIT */
@@ -796,7 +793,6 @@ struct sk_buff {
 #endif
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 	__u8			imq_flags:IMQ_F_BITS;
 #endif /* VENDOR_EDIT */
@@ -991,7 +987,6 @@ void __consume_stateless_skb(struct sk_buff *skb);
 void  __kfree_skb(struct sk_buff *skb);
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 int skb_save_cb(struct sk_buff *skb);
 int skb_restore_cb(struct sk_buff *skb);
@@ -1262,7 +1257,8 @@ static inline __u32 skb_get_hash_flowi6(struct sk_buff *skb, const struct flowi6
 	return skb->hash;
 }
 
-__u32 skb_get_hash_perturb(const struct sk_buff *skb, u32 perturb);
+__u32 skb_get_hash_perturb(const struct sk_buff *skb,
+			   const siphash_key_t *perturb);
 
 static inline __u32 skb_get_hash_raw(const struct sk_buff *skb)
 {
@@ -3865,7 +3861,6 @@ static inline void __nf_copy(struct sk_buff *dst, const struct sk_buff *src,
 #endif
 
 #ifdef VENDOR_EDIT
-//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
   dst->imq_flags = src->imq_flags;
   dst->nf_queue_entry = src->nf_queue_entry;

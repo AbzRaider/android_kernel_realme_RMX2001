@@ -57,7 +57,6 @@
 #define PRINTK_BUFFER_SIZE	512
 
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
 extern bool is_triggering_hwt;
 extern void flush_cache_on_panic(void);
 #endif  /*VENDOR_EDIT*/
@@ -265,7 +264,6 @@ void aee_wdt_atf_info(unsigned int cpu, struct pt_regs *regs)
 #endif
 
 #ifdef VENDOR_EDIT
-//Zhang Jiashu@PSW.AD.Performance,2019/10/03,Add for flushing device cache before goto dump mode!
     if(!is_triggering_hwt)
     {
         is_triggering_hwt = true;

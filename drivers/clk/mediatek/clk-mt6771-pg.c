@@ -29,7 +29,6 @@
 #include <dt-bindings/clock/mt6771-clk.h>
 
 //#ifdef VENDOR_EDIT
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for aging version
 #include <soc/oppo/oppo_project.h>
 //#endif
 
@@ -4498,11 +4497,9 @@ void subsys_if_on(void)
 	}
 
 #ifndef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/02/26 modify for crash issue */
 	if (ret > 0)
 		BUG_ON(1);
 #else /* VENDOR_EDIT */
-//zhouhengguo@BSP.Stabliity, 2019.10.14, add for release version
 	if(get_eng_version() == 0) {
 		if (ret > 0)
 			WARN_ON(1);

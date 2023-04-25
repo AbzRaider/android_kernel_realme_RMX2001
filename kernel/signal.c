@@ -52,7 +52,6 @@
 #include "audit.h"	/* audit_signal_info() */
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #include <linux/hans.h>
 #endif
 
@@ -1042,12 +1041,10 @@ static inline void userns_fixup_signal_uid(struct siginfo *info, struct task_str
 #endif
 
 #ifdef VENDOR_EDIT
-/*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 extern char last_stopper_comm[];
 #endif
 
 #ifdef VENDOR_EDIT
-//Haoran.Zhang@PSW.AD.Kernel.1052210, 2015/11/04, Modify for the sender who kill system_server
 static bool is_zygote_process(struct task_struct *t)
 {
 	const struct cred *tcred = __task_cred(t);
@@ -1100,7 +1097,6 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 	int override_rlimit;
 	int ret = 0, result;
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/05/18, notify userspace when kill cgroup frozen tasks
 	struct process_event_data pe_data;
 #endif
 
@@ -1108,7 +1104,6 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 
 	result = TRACE_SIGNAL_IGNORED;
 #if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
-//zhoumingjun@Swdp.shanghai, 2017/05/18, notify userspace when kill cgroup frozen tasks
 	if (sig == SIGKILL && (freezing(t) || frozen(t)) && cgroup_freezing(t)) {
 		pe_data.pid = task_pid_nr(t);
 		pe_data.uid = task_uid(t);
@@ -1117,20 +1112,16 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 	}
 #endif
 #if defined(VENDOR_EDIT) && defined(CONFIG_DEATH_HEALER)
-/*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 	if (sig == SIGSTOP && (!strncmp(t->comm,"main", TASK_COMM_LEN) ||
 		!strncmp(t->comm,"system_server", TASK_COMM_LEN) || !strncmp(t->comm,"surfaceflinger", TASK_COMM_LEN)))
 		snprintf(last_stopper_comm, 64, "%s[%d]", current->comm, current->pid);
 #endif
 
 #ifdef VENDOR_EDIT
-//Haoran.Zhang@PSW.AD.Kernel.1052210, 2015/11/04, Modify for the sender who kill system_server
         if(1) {
                 /*add the SIGKILL print log for some debug*/
                 if((sig == SIGHUP || sig == 33 || sig == SIGKILL || sig == SIGSTOP || sig == SIGABRT || sig == SIGTERM || sig == SIGCONT) && is_key_process(t)) {
                         //#ifdef VENDOR_EDIT
-                        //Haoran.Zhang@PSW.AD.Kernel.1052210, 2016/03/11, Modify for, to dump call stack of killing android core process.
-                        //Yongqiang.Du@PSW.AD.Stability.Crash.0, 2019/05/08, Modify for avoid kernel address leak issue
                         //dump_stack();
                         //#endif
                         printk("Some other process %d:%s want to send sig:%d to pid:%d tgid:%d comm:%s\n", current->pid, current->comm,sig, t->pid, t->tgid, t->comm);
@@ -1295,7 +1286,6 @@ int do_send_sig_info(int sig, struct siginfo *info, struct task_struct *p,
 	int ret = -ESRCH;
 
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
-// Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	if (is_frozen_tg(p)  /*signal receiver thread group is frozen?*/
 		&& (sig == SIGKILL || sig == SIGTERM || sig == SIGABRT || sig == SIGQUIT)) {
 		if (hans_report(SIGNAL, task_tgid_nr(current), task_uid(p).val, "signal", -1) == HANS_ERROR) {
@@ -1419,7 +1409,6 @@ struct sighand_struct *__lock_task_sighand(struct task_struct *tsk,
 	return sighand;
 }
 #ifdef VENDOR_EDIT
-//jie.cheng@Swdp.shanghai, 2017/06/02, export kernel symbol
 EXPORT_SYMBOL(__lock_task_sighand);
 #endif
 
