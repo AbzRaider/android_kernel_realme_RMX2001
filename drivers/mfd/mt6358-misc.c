@@ -797,14 +797,11 @@ void oppo_rtc_mark_safe(void)
 	mtk_rtc_set_spare_register(RTC_SAFE_BOOT, 0x01);
 	spin_unlock_irqrestore(&rtc_misc->lock, flags);
 }
-
-<<<<<<< HEAD
+#endif
+#ifdef VENDOR_EDIT
 /* zhaojunhai@ODM.HQ.BSP.CHG 2020/02/05 modify for [Nemo]2680425 */
 #if 0
 /* Fuchun.Liao@BSP.CHG.Basic 2018/08/08 modify for sensor i2c workaround*/
-=======
-#if 0
->>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 void oppo_rtc_mark_sensor_cause_panic(void)
 {
 	unsigned long flags;
@@ -860,7 +857,7 @@ void  hal_rtc_clear_spar0_bit8(void)
 	mtk_rtc_set_spare_register(RTC_REBOOT_KERNEL, 0x0);
 	spin_unlock_irqrestore(&rtc_misc->lock, flags);
 }
-#endif/* VENDOR_EDIT */
+#endif /* VENDOR_EDIT */
 
 
 static int pmic_config_interface(unsigned int RegNum, unsigned int val,

@@ -262,7 +262,7 @@ static int mt_charger_set_property(struct power_supply *psy,
 #ifdef VENDOR_EDIT
                if (mtk_chg->chg_type == CHARGER_UNKNOWN){
                } else {
-                   OPPO_DUMP(__func__);
+                   //OPPO_DUMP(__func__);
                }
 #endif /*VENDOR_EDIT*/
 #if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_CHARGER_MT6370_TYPEC)

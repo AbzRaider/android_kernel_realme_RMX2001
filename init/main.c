@@ -101,7 +101,7 @@
 
 #ifdef VENDOR_EDIT
 // Kun.Hu@TECH.BSP.Stability.PHOENIX_PROJECT 2019/06/11, Add for phoenix project
-#include "../../vendor/oppo/oppo_phoenix/kernel/oppo_phoenix/oppo_phoenix.h"
+#include "../drivers/soc/oppo/oppo_phoenix/oppo_phoenix.h"
 #endif  //VENDOR_EDIT
 
 #ifdef VENDOR_EDIT
@@ -464,11 +464,11 @@ static int __init do_early_param(char *param, char *val,
 				pr_warn("Malformed early option '%s'\n", param);
 		}
 	}
-#ifdef VENDOR_EDIT
+//#ifdef VENDOR_EDIT
 // Bin.Xu @ BSP.Kernel.Stability, 2019/12/02, Add for force dump.
-	if (strcmp(param, "fd_passwd") == 0)
-		get_fdump_passwd(val);
-#endif /* VENDOR_EDIT */
+	//if (strcmp(param, "fd_passwd") == 0)
+	//	get_fdump_passwd(val);
+//#endif /* VENDOR_EDIT */
 
 
 	/* We accept everything at this stage. */

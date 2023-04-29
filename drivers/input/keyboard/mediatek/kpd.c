@@ -826,10 +826,7 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct vol_info *kpd_oppo;
 #ifdef ODM_HQ_EDIT
-<<<<<<< HEAD
 /*zhangchao@ODM.HQ.Charger 2020/03/09 modified for HW reset distinguish 1878 1879 and 1877*/
-=======
->>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 	struct device_node *node = pdev->dev.of_node;
 	int rc = 0;
 #endif
@@ -922,10 +919,6 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 	kpd_set_debounce(kpd_dts_data.kpd_key_debounce);
 
 #ifdef ODM_HQ_EDIT
-<<<<<<< HEAD
-/*zhangchao@ODM.HQ.Charger 2020/03/09 modified for HW reset distinguish 1878 1879 and 1877*/
-=======
->>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 	kpd_dts_data.cphy_dphy_gpio =
 			of_get_named_gpio(node, "cphy_dphy-gpio", 0);
 	if (kpd_dts_data.cphy_dphy_gpio <= 0) {
@@ -941,11 +934,6 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 		}
 	}
 #endif
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> 0933e0e5b2fd (Update realme6 kernel source)
 #ifdef VENDOR_EDIT
 	/*err = request_irq(kp_irqnr, kpd_irq_handler, IRQF_TRIGGER_NONE,
 			KPD_NAME, NULL);

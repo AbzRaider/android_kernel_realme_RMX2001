@@ -968,6 +968,8 @@ el0_svc_naked:					// compat entry point
 #else
 
 	ldr	x16, [stbl, xscno, lsl #3]	// address in the syscall table
+#endif /* CONFIG_OPPO_ROOT_CHECK */
+#endif /* VENDOR_EDIT */
 	blr	x16				// call sys_* routine
 	b	ret_fast_syscall
 ni_sys:
@@ -1005,6 +1007,8 @@ __sys_trace:
 #else
 
 	ldr	x16, [stbl, xscno, lsl #3]	// address in the syscall table
+#endif /* CONFIG_OPPO_ROOT_CHECK */
+#endif /* VENDOR_EDIT */
 	blr	x16				// call sys_* routine
 
 __sys_trace_return:

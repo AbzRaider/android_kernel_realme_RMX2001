@@ -31,7 +31,7 @@
 #include <soc/oppo/oppo_project.h>
 
 #ifdef VENDOR_EDIT
-#include "../../vendor/oppo/oppo_phoenix/kernel/oppo_phoenix/oppo_phoenix.h"
+#include "../drivers/soc/oppo/oppo_phoenix/oppo_phoenix.h"
 static int kernel_panic_happened = 0;
 #endif
 

@@ -89,7 +89,9 @@
  *     bit 7 - 15: reserved bits
  */
 
-u16 rtc_spare_reg[RTC_SPAR_NUM][3] = {
+/*
+
+extern u16 rtc_spare_reg[RTC_SPAR_NUM][3] = {
 	{RTC_AL_MTH, 0xff, 8}
 	,
 	{RTC_PDN1, 0xf, 0}
@@ -124,19 +126,21 @@ u16 rtc_spare_reg[RTC_SPAR_NUM][3] = {
 	{RTC_SPAR0, 0x1, 9},
 	{RTC_SPAR0, 0x1, 10},
 	{RTC_SPAR0, 0x1, 11},
-//#endif /* VENDOR_EDIT */
+*/
+
 //#ifdef VENDOR_EDIT
 //	{RTC_AL_DOW, 0xff, 8}, //battery electricity remove
 //#endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
-	{RTC_SPAR0, 0x1, 12},
+
+//	{RTC_SPAR0, 0x1, 12},
 #endif /* VENDOR_EDIT */
 #ifdef VENDOR_EDIT
 	//{RTC_SPAR0, 0x1, 13},
-	{RTC_SPAR0, 0x1, 15},
-	{RTC_SPAR0, 0x01, 14}
+//	{RTC_SPAR0, 0x1, 15},
+//	{RTC_SPAR0, 0x01, 14}
 #endif /* VENDOR_EDIT */
-};
+
 
 static int rtc_eosc_cali_td = 8;
 module_param(rtc_eosc_cali_td, int, 0664);

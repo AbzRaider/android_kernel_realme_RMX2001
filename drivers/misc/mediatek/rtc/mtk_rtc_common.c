@@ -437,7 +437,7 @@ void rtc_mark_fast(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 #ifdef VENDOR_EDIT
-void oppo_rtc_mark_reboot_kernel(void)
+extern void oppo_rtc_mark_reboot_kernel(void)
 {
 	unsigned long flags;
 
@@ -448,7 +448,7 @@ void oppo_rtc_mark_reboot_kernel(void)
 }
 
 
-void oppo_rtc_mark_silence(void)
+extern void oppo_rtc_mark_silence(void)
 {
 	unsigned long flags;
 
@@ -458,7 +458,7 @@ void oppo_rtc_mark_silence(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-void oppo_rtc_mark_meta(void)
+extern void oppo_rtc_mark_meta(void)
 {
 	unsigned long flags;
 
@@ -468,7 +468,7 @@ void oppo_rtc_mark_meta(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-void oppo_rtc_mark_sau(void)
+extern void oppo_rtc_mark_sau(void)
 {
 	unsigned long flags;
 
@@ -478,7 +478,7 @@ void oppo_rtc_mark_sau(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-void oppo_rtc_mark_factory(void)
+extern void oppo_rtc_mark_factory(void)
 {
 	unsigned long flags;
 
@@ -488,7 +488,7 @@ void oppo_rtc_mark_factory(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-void oppo_rtc_mark_agingtest(void)
+extern void oppo_rtc_mark_agingtest(void)
 {
 	unsigned long flags;
 
@@ -498,7 +498,7 @@ void oppo_rtc_mark_agingtest(void)
 	spin_unlock_irqrestore(&rtc_lock, flags);
 }
 
-void oppo_rtc_mark_safe(void)
+extern void oppo_rtc_mark_safe(void)
 {
 	unsigned long flags;
 
