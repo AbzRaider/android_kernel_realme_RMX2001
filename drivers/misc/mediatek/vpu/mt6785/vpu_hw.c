@@ -1339,7 +1339,7 @@ static bool vpu_change_opp(int core, int type)
 			goto out;
 		}
 
-		pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
+		//pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
 		LOG_DBG("[vpu_%d] cgopp vvpu=%d\n",
 				core,
 				regulator_get_voltage(vvpu_reg_id));
@@ -1694,7 +1694,7 @@ if (g_vpu_log_level > Log_STATE_MACHINE)
 				core, opps.vcore.index);
 		goto out;
 	}
-	pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
+	//pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
 	LOG_DBG("[vpu_%d] adjust(%d,%d) result vvpu=%d\n",
 			core,
 			adjust_vvpu,
@@ -2040,7 +2040,7 @@ static int vpu_disable_regulator_and_clock(int core)
 	LOG_DVFS("[vpu_%d]pc0=%d, pc1=%d\n",
 		core, power_counter[0], power_counter[1]);
 	pm_qos_update_request(&vpu_qos_vvpu_request[core], VVPU_OPP_3);
-	pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
+	//pm_qos_trace_dbg_dump(PM_QOS_VVPU_OPP);
 #else
 	ret = mmdvfs_set_fine_step(MMDVFS_SCEN_VPU_KERNEL,
 						MMDVFS_FINE_STEP_UNREQUEST);
