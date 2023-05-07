@@ -77,6 +77,11 @@ extern void aee_rr_rec_gpu_dvfs_status(u8 val);
 extern u8 aee_rr_curr_gpu_dvfs_status(void);
 #endif /* CONFIG_MTK_RAM_CONSOLE */
 
+/**
+ * GED_SKI_SUPPORT
+ */
+extern int mt_gpufreq_get_immed_gpu_temp(void);
+
 /*****************
  * power limit notification
  ******************/
