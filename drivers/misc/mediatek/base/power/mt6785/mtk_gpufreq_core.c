@@ -314,7 +314,13 @@ extern GED_LOG_BUF_HANDLE gpufreq_ged_log;
  * @Input : is_real_idx
  *	false : pass by GED DVFS, need to map to internal real index
  *	true  : pass by GPUFREQ, already be real index
+ *
  */
+/* API : get immediate gpu temperature */
+int mt_gpufreq_get_immed_gpu_temp(void)
+{
+	return get_immediate_gpu_wrap();
+}
 unsigned int mt_gpufreq_target(unsigned int request_idx, bool is_real_idx)
 {
 	int i;
