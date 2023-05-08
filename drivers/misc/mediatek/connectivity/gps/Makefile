@@ -50,10 +50,13 @@ ccflags-y += -I$(srctree)/drivers/misc/mediatek/base/power/include/clkbuf_v1
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/base/power/include/clkbuf_v1/$(MTK_PLATFORM)
 ccflags-y += -I$(srctree)/drivers/devfreq
 ###############################################################################
+obj-y += $(MODULE_NAME).o
 
-MODULE_NAME := gps_drv
-obj-m += $(MODULE_NAME).o
-
+GPS_DRV_CONTROL_LNA := n
+SELECT_GPS_DL_DRV := n
+GPS_DL_HAS_MOCK := n
+GPS_DL_HAS_CONNINFRA_DRV := n
+GPS_SRC_FOLDER := $(srctree)/drivers/misc/mediatek/connectivity/gps
 WMT_SRC_FOLDER := $(srctree)/drivers/misc/mediatek/connectivity/common
 
 ifeq ($(CONFIG_MTK_COMBO_CHIP),)
