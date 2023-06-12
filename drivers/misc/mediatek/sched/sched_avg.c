@@ -220,6 +220,7 @@ enum overutil_type_t is_task_overutil(struct task_struct *p)
 static unsigned int fpsgo_update_max_util_windows;
 #else
 #define MAX_UTIL_TRACKER_PERIODIC_MS 32
+#endif
 static int gb_task_util;
 static int gb_task_pid;
 static int gb_task_cpu;
