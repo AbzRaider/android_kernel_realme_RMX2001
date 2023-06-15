@@ -505,12 +505,8 @@ export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
 export KBUILD_ARFLAGS
 export TARGET_BUILD_VARIANT
 export VENDOR_EDIT
-<<<<<<< HEAD
 export ODM_WT_EDIT
 export CONFIG_OPPO_FINGERPRINT_PLATFORM
-
-=======
->>>>>>> cdd67956a6c3 (Makefile: Define realme's VENDOR_EDIT)
 # When compiling out-of-tree modules, put MODVERDIR in the module
 # tree rather than in the kernel tree. The kernel tree might
 # even be read-only.
