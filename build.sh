@@ -49,8 +49,8 @@ fi
 git clone --depth=1 https://github.com/AbzRaider/AnyKernel_RMX2001 -b main AnyKernel
 cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
 cd AnyKernel
-zip -r9 Azrael-OSS-KERNEL-RMX2001-v6.zip *
-curl --upload-file "Azrael-OSS-KERNEL-RMX2001-v6.zip" https://free.keep.sh
+zip -r9 Azrael-OSS-KERNEL-RMX2001-v8.zip *
+curl --upload-file "Azrael-OSS-KERNEL-RMX2001-v8.zip" https://free.keep.sh
 }
 compile
 zupload
