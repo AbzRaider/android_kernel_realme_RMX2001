@@ -1700,7 +1700,10 @@ static int do_execveat_common(int fd, struct filename *filename,
 			      struct user_arg_ptr argv,
 			      struct user_arg_ptr envp,
 			      int flags)
-{	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
+{
+#ifdef CONFIG_KSU
+	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
+#endif
 	char *pathbuf = NULL;
 	struct linux_binprm *bprm;
 	struct file *file;
