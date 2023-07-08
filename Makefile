@@ -469,7 +469,7 @@ KBUILD_CPPFLAGS += -DVENDOR_EDIT
 CFLAGS_KERNEL +=   -DVENDOR_EDIT
 CFLAGS_MODULE +=   -DVENDOR_EDIT
 #endif /* VENDOR_EDIT */
-
+export CONFIG_HIGH_TEMP_VERSION=n
 #ifdef VENDOR_EDIT
 #zhouhengguo@PSW.BSP.Kernel.Stablity, 2019/11/05, add daily build
 ifneq ($(TARGET_BUILD_VARIANT), user)
