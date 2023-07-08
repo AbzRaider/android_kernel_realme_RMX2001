@@ -82,7 +82,7 @@ static struct oppo_chg_chip *g_charger_chip = NULL;
 #define OPPO_CHG_UPDATE_INIT_DELAY        round_jiffies_relative(msecs_to_jiffies(500))        /* first run after init 10s */
 #define OPPO_CHG_UPDATE_INTERVAL        round_jiffies_relative(msecs_to_jiffies(OPPO_CHG_UPDATE_INTERVAL_SEC*1000))        /* update cycle 5s */
 
-#define OPPO_CHG_DEFAULT_CHARGING_CURRENT        512
+#define OPPO_CHG_DEFAULT_CHARGING_CURRENT        5100
 
 int enable_charger_log = 2;
 int charger_abnormal_log = 0;
