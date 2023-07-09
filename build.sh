@@ -9,7 +9,7 @@ ccache -M 100G
 export ARCH=arm64
 export KBUILD_BUILD_HOST="MARK // DEVS"
 export KBUILD_BUILD_USER="AbzRaider"
-git clone --depth=1 https://gitlab.com/LeCmnGend/proton-clang.git -b clang-16 clang
+git clone --depth=1 https://gitlab.com/LeCmnGend/proton-clang.git -b clang-13 clang
 
 if ! [ -d "out" ]; then
 	echo "Kernel OUT Directory Not Found . Making Again"
