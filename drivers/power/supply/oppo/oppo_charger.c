@@ -253,7 +253,7 @@ int oppo_usb_get_property(struct power_supply *psy,
                 break;
 #endif
         default:
-                pr_err("get prop %d is not supported in usb\n", psp);
+                //pr_err("get prop %d is not supported in usb\n", psp);
                 ret = -EINVAL;
                 break;
         }
@@ -268,7 +268,7 @@ int oppo_usb_property_is_writeable(struct power_supply *psy,
         case POWER_SUPPLY_PROP_OTG_SWITCH:
                 return 1;
         default:
-                pr_err("writeable prop %d is not supported in usb\n", psp);
+                //pr_err("writeable prop %d is not supported in usb\n", psp);
                 ret = -EINVAL;
                 break;
         }
@@ -303,7 +303,7 @@ int oppo_usb_set_property(struct power_supply *psy,
                 break;
 
         default:
-                pr_err("set prop %d is not supported in usb\n", psp);
+                //pr_err("set prop %d is not supported in usb\n", psp);
                 ret = -EINVAL;
                 break;
         }
@@ -366,7 +366,7 @@ int oppo_ac_get_property(struct power_supply *psy,
                 break;
 #endif
         default:
-                pr_err("get prop %d is not supported in ac\n", psp);
+                //pr_err("get prop %d is not supported in ac\n", psp);
                 ret = -EINVAL;
                 break;
         }
@@ -1039,7 +1039,7 @@ static ssize_t critical_log_write(struct file *filp, const char __user *buff, si
         char write_data[32] = {0};
         int critical_log = 0;
         if (copy_from_user(&write_data, buff, len)) {
-                pr_err("bat_log_write error.\n");
+                //pr_err("bat_log_write error.\n");
                 return -EFAULT;
         }
 /*        critical_log = atoi(write_data);*/
@@ -1069,7 +1069,7 @@ static void init_proc_critical_log(void)
 
         p = proc_create("charger_critical_log", 0664, NULL, &chg_critical_log_proc_fops);
         if (!p) {
-                pr_err("proc_create chg_critical_log_proc_fops fail!\n");
+                //pr_err("proc_create chg_critical_log_proc_fops fail!\n");
         }
 }
 
@@ -1114,7 +1114,7 @@ static void init_proc_rtc_det(void)
 
         p = proc_create("rtc_reset", 0664, NULL, &rtc_reset_det_fops);
         if (!p) {
-                pr_err("proc_create rtc_reset_det_fops fail!\n");
+                //pr_err("proc_create rtc_reset_det_fops fail!\n");
         }
 }
 
@@ -1157,7 +1157,7 @@ static void init_proc_vbat_low_det(void)
 
         p = proc_create("vbat_low", 0664, NULL, &vbat_low_det_fops);
         if (!p) {
-                pr_err("proc_create rtc_reset_det_fops fail!\n");
+                //pr_err("proc_create rtc_reset_det_fops fail!\n");
         }
 }
 
@@ -1181,7 +1181,7 @@ static ssize_t charging_limit_time_write(struct file *filp, const char __user *b
         int limit_time;
         char temp[16];
         if (copy_from_user(temp, buff, len)) {
-                pr_err("charging_limit_time_write error.\n");
+                //pr_err("charging_limit_time_write error.\n");
                 return -EFAULT;
         }
 
@@ -1219,7 +1219,7 @@ static ssize_t charging_limit_current_write(struct file *filp, const char __user
         int limit_current;
         char temp[16];
         if (copy_from_user(temp, buff, len)) {
-                pr_err("charging_limit_time_write error.\n");
+                //pr_err("charging_limit_time_write error.\n");
                 return -EFAULT;
         }
         sscanf(temp, "%d", &limit_current);
@@ -1246,11 +1246,11 @@ static void init_proc_charging_feature(void)
 
         p_time = proc_create("charging_limit_time", 0664, NULL, &charging_limit_time_fops);
         if (!p_time) {
-                pr_err("proc_create charging_feature_fops fail!\n");
+                //pr_err("proc_create charging_feature_fops fail!\n");
         }
         p_current = proc_create("charging_limit_current", 0664, NULL, &charging_limit_current_fops);
         if (!p_current) {
-                pr_err("proc_create charging_feature_fops fail!\n");
+                //pr_err("proc_create charging_feature_fops fail!\n");
         }
 }
 /*ye.zhang add end*/
@@ -1404,7 +1404,7 @@ int oppo_chg_init(struct oppo_chg_chip *chip)
         rc = fb_register_client(&chip->chg_fb_notify);
 #endif /*CONFIG_DRM_MSM*/
         if (rc) {
-                pr_err("Unable to register chg_fb_notify: %d\n", rc);
+                //pr_err("Unable to register chg_fb_notify: %d\n", rc);
         }
 #endif 
 
@@ -2612,7 +2612,7 @@ void oppo_chg_turn_on_ffc1(struct oppo_chg_chip *chip)
 		chip->chg_ops->set_charging_term_disable();
 	}
 
-	pr_err("oppo_chg_turn_on_ffc1--------\r\n");
+	//pr_err("oppo_chg_turn_on_ffc1--------\r\n");
 	chip->chg_ctrl_by_lcd = false;
 	chip->fastchg_to_ffc = true;
 	chip->fastchg_ffc_status = 1;
@@ -2661,7 +2661,7 @@ void oppo_chg_turn_on_ffc2(struct oppo_chg_chip *chip)
 		chip->chg_ops->set_charging_term_disable();
 	}
 
-	pr_err("oppo_chg_turn_on_ffc2--------\r\n");
+	//pr_err("oppo_chg_turn_on_ffc2--------\r\n");
 	chip->chg_ctrl_by_lcd = false;
 	chip->fastchg_to_ffc = true;
 	chip->fastchg_ffc_status = 2;
@@ -3179,7 +3179,7 @@ static int fb_notifier_callback(struct notifier_block *nb, unsigned long event, 
 			g_charger_chip->led_on = false;
 			g_charger_chip->led_on_change = true;
 		} else {
-			pr_err("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
+			//pr_err("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
 		}
 	}
 
