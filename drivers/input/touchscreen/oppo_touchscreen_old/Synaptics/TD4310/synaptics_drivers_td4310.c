@@ -5,11 +5,9 @@
 * Description: Source file for synaptics TD4310 driver
 * Version   : 1.0
 * Date        : 2017-05-15
-* Author    : Xing.Xiong@EXP.Bsp.Group.Tp
 * TAG         : BSP.TP.Init
 * ---------------- Revision History: --------------------------
 *   <version>    <date>          < author >                            <desc>
-* Revision 1.1, 2017-05-15, Xing.Xiong@EXP.Bsp.Group.Tp, modify based on gerrit review result(http://gerrit.scm.adc.com:8080/#/c/326176)
 ****************************************************************/
 #include <linux/of_gpio.h>
 #include <linux/delay.h>
@@ -1434,7 +1432,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         return TEST_FAIL;
     }
 
-    /* 1¡¢Wide refcap hi/ lo and feedback, Write 0x0F to F54_ANALOG_CTRL91 */
+    /* 1Â¡Â¢Wide refcap hi/ lo and feedback, Write 0x0F to F54_ANALOG_CTRL91 */
     buffer[0] = 0x0f;
     buffer[1] = 0x0f;
     buffer[2] = 0x0f;
@@ -1448,7 +1446,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         return TEST_FAIL;
     }
 
-    /* 2¡¢Increase RST_DUR to 1.53us, Write 0x5c to F54_ANALOG_CTRL99 */
+    /* 2Â¡Â¢Increase RST_DUR to 1.53us, Write 0x5c to F54_ANALOG_CTRL99 */
     buffer[0] = original_f54_ctrl99.integration_duration_lsb;
     buffer[1] = original_f54_ctrl99.integration_duration_msb;
     buffer[2] = 0x5c;
@@ -1460,7 +1458,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         return TEST_FAIL;
     }
 
-    /* 3¡¢Write 0x02 to F54_ANALOG_CTRL182 (00)/00 and (00)/02 */
+    /* 3Â¡Â¢Write 0x02 to F54_ANALOG_CTRL182 (00)/00 and (00)/02 */
     buffer[0] = ELEC_OPEN_TEST_TX_ON_COUNT;                 //cbc_timing_ctrl_tx_lsb
     buffer[1] = (ELEC_OPEN_TEST_TX_ON_COUNT >> 8) & 0xff;   //cbc_timing_ctrl_tx_msb
     buffer[2] = ELEC_OPEN_TEST_RX_ON_COUNT;                 //cbc_timing_ctrl_rx_lsb
@@ -1473,7 +1471,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         return TEST_FAIL;
     }
 
-    /* 4¡¢Change the INT_DUR as ELEC_OPEN_INT_DUR_ONE */
+    /* 4Â¡Â¢Change the INT_DUR as ELEC_OPEN_INT_DUR_ONE */
     ret = touch_i2c_read_block(chip_info->client, chip_info->reg_info.F54_ANALOG_CTRL99, 3, buffer);
     buffer[0] = open_dur_one;                      //integration_duration_lsb
     buffer[1] = (open_dur_one >> 8) & 0xff;        //integration_duration_msb
@@ -1488,7 +1486,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
     ret = touch_i2c_write_byte(client, reg_info->F54_ANALOG_COMMAND_BASE, COMMAND_FORCE_UPDATE);//force update
     checkCMD(chip_info);
 
-    /* 5¡¢Capture raw capacitance (rt92) image 1 */
+    /* 5Â¡Â¢Capture raw capacitance (rt92) image 1 */
     /* Run Report Type 92 */
     ret = touch_i2c_write_byte(client, reg_info->F54_ANALOG_DATA_BASE, 92);//select report type 92
     if (ret < 0) {
@@ -1527,7 +1525,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
     ret = touch_i2c_read_block(chip_info->client, chip_info->reg_info.F54_ANALOG_DATA_BASE+3,
                             syna_testdata->TX_NUM*syna_testdata->RX_NUM*2, raw_data);     //read data
 
-    /* 6¡¢Change the INT_DUR into ELEC_OPEN_INT_DUR_TWO */
+    /* 6Â¡Â¢Change the INT_DUR into ELEC_OPEN_INT_DUR_TWO */
     ret = touch_i2c_read_block(chip_info->client, chip_info->reg_info.F54_ANALOG_CTRL99, 3, buffer);
     buffer[0] = open_dur_two;                      //integration_duration_lsb
     buffer[1] = (open_dur_two >> 8) & 0xff;        //integration_duration_msb
@@ -1543,7 +1541,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
     ret = touch_i2c_write_byte(client, reg_info->F54_ANALOG_COMMAND_BASE, COMMAND_FORCE_UPDATE);//force update
     checkCMD(chip_info);
 
-    /* 7¡¢Capture raw capacitance (rt92) image 2 */
+    /* 7Â¡Â¢Capture raw capacitance (rt92) image 2 */
     /* Run Report Type 92 */
     ret = touch_i2c_write_byte(client, reg_info->F54_ANALOG_DATA_BASE, 92);//select report type 92
     if (ret < 0) {
@@ -1592,7 +1590,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
     touch_i2c_read_block(chip_info->client, chip_info->reg_info.F54_ANALOG_DATA_BASE + 3,
                             syna_testdata->TX_NUM*syna_testdata->RX_NUM*2, raw_data_2);     //read data
 
-    /* 8¡¢generate the delta image, which is equeal to image2 - image1 */
+    /* 8Â¡Â¢generate the delta image, which is equeal to image2 - image1 */
     /* unit is femtofarad (fF) */
     TPD_DEBUG_NTAG("----------- delta data ---------- \n ");
     for (x = 0; x < syna_testdata->TX_NUM; x++) {
@@ -1613,7 +1611,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         TPD_DEBUG_NTAG("\n");
     }
 
-    /* 9¡¢restore the original configuration */
+    /* 9Â¡Â¢restore the original configuration */
     ret = touch_i2c_write_block(chip_info->client, chip_info->reg_info.F54_ANALOG_CTRL91, sizeof(original_f54_ctrl91.data), original_f54_ctrl91.data);
     if (ret < 0) {
         TPD_INFO("%s: Failed to read original data from f54_ctrl91\n",__func__);
@@ -1634,7 +1632,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
 
     store_to_file(syna_testdata->fd, "Open Test Limit 1:\n");
 
-    /* 10¡¢phase 1, data verification */
+    /* 10Â¡Â¢phase 1, data verification */
     /* the delta value should be lower than the test limit */
     for (x = 0; x < syna_testdata->TX_NUM; x++) {
         for (y = 0; y < syna_testdata->RX_NUM; y++) {
@@ -1652,7 +1650,7 @@ static int synaptics_tddi_open_test(struct seq_file *s, void *chip_data, struct 
         store_to_file(syna_testdata->fd, "\n");
     }
 
-    /* 11¡¢phase 2, data calculation and verification */
+    /* 11Â¡Â¢phase 2, data calculation and verification */
     /* the calculated ratio should be lower than the test limit */
     ret = touch_i2c_write_byte(chip_info->client, 0xff, 0x03);    // page 3
     if (ret < 0) {
@@ -1768,7 +1766,7 @@ static int synaptics_tddi_short_test(struct seq_file *s, void *chip_data, struct
 
     ret = touch_i2c_write_word(client, reg_info->F54_ANALOG_DATA_BASE + 1, 0x00);//set fifo 00
 
-    /* 3¡¢get report type 95 */
+    /* 3Â¡Â¢get report type 95 */
     ret = touch_i2c_write_byte(client, reg_info->F54_ANALOG_DATA_BASE, 95);//select report type 95
     if (ret < 0) {
         TPD_INFO("[line:%d]read_baseline: touch_i2c_write_byte failed \n",__LINE__);
@@ -1799,7 +1797,7 @@ static int synaptics_tddi_short_test(struct seq_file *s, void *chip_data, struct
     touch_i2c_read_block(chip_info->client, chip_info->reg_info.F54_ANALOG_DATA_BASE + 3,
                                 2 * tx_2d_num*syna_testdata->RX_NUM * 2, tddi_rt95_raw_data);     //read data
 
-    /* 4¡¢use the upper half as part 1 image */
+    /* 4Â¡Â¢use the upper half as part 1 image */
     /* the data should be lower than TEST_LIMIT_PART1 ( fail, if > TEST_LIMIT_PART1 ) */
     TPD_DEBUG_NTAG("----------- step 3 short test : rt95 part 1 value ---------- \n ");
     for (x = 0; x < tx_2d_num; x++) {
@@ -1831,7 +1829,7 @@ static int synaptics_tddi_short_test(struct seq_file *s, void *chip_data, struct
         store_to_file(syna_testdata->fd, "\n");
     }
 
-    /* 5¡¢use the lower half as part 2 image */
+    /* 5Â¡Â¢use the lower half as part 2 image */
     /* and perform the calculation */
     /* the calculated data should be over than TEST_LIMIT_PART2 ( fail, if < TEST_LIMIT_PART2 ) */
     TPD_DEBUG_NTAG("----------- step 3 short test : rt95 part 2 value ---------- \n ");

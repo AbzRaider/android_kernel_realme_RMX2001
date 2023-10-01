@@ -11,7 +11,6 @@ obj-y   +=  tpd_default.o
 obj-y   +=  tpd_misc.o
 obj-y   +=  tpd_setting.o
 
-#Benshan.Cheng@ODM_HQ.BSP.Tp, 2019/08/12, add tp driver
 #obj-$(CONFIG_TOUCHSCREEN_MTK_SOLOMON)	+=  SOLOMON/
 #obj-$(CONFIG_TOUCHSCREEN_MTK_FOCALTECH_TS)	+=  focaltech_touch/
 #obj-$(CONFIG_TOUCHSCREEN_MTK_GT1151)	+=  GT1151/
@@ -23,7 +22,6 @@ obj-y   +=  tpd_setting.o
 #obj-$(CONFIG_TOUCHSCREEN_MTK_GT5688)	+=  GT5688/
 #obj-$(CONFIG_TOUCHSCREEN_HIMAX_I2C)	+=  hxchipset/
 
-#Benshan.Cheng@ODM_HQ.BSP.Tp, 2019/08/12, add tp driver
 #ifeq ($(ODM_HQ_EDIT),yes)
 obj-$(CONFIG_TOUCHPANEL_HQ) += hq_green/
 #endif

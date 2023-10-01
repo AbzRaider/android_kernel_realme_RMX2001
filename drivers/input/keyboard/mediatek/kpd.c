@@ -27,7 +27,6 @@
 #include <linux/clk.h>
 #include <linux/debugfs.h>
 #ifdef VENDOR_EDIT
-//Fuchun.Liao@BSP.CHG.Basic 2017/12/10 add for key
 #include <linux/proc_fs.h>
 #include <linux/uaccess.h>
 #include <linux/of_gpio.h>
@@ -40,7 +39,6 @@ struct timer_list Long_press_key_timer;
 atomic_t vol_down_long_press_flag = ATOMIC_INIT(0);
 #endif
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Add for keypad volume up and volume down */
 //#define KPD_HOME_NAME 		"mtk-kpd-home"
 #define KPD_VOL_UP_NAME		"mtk-kpd-vol-up"
 #define KPD_VOL_DOWN_NAME	"mtk-kpd-vol-down"
@@ -78,7 +76,10 @@ static int aee_kpd_enable = 0;
 static void kpd_aee_handler(u32 keycode, u16 pressed);
 static inline void kpd_update_aee_state(void);
 
-	
+#ifdef ODM_HQ_EDIT
+int g_cphy_dphy_gpio_value = -1;
+#endif
+
 static void kpd_volumeup_task_process(unsigned long data)
 {
 	pr_err("%s vol_up_val: %d\n", __func__, vol_key_info.vol_up_val);
@@ -203,7 +204,6 @@ struct keypad_dts_data kpd_dts_data;
 
 /* for keymap handling */
 #ifdef VENDOR_EDIT
-/*wangkun@BSP.Kernel.Driver, 2019/01/26, Add for disable kpd irq handler*/
 //static void kpd_keymap_handler(unsigned long data);
 //static DECLARE_TASKLET(kpd_keymap_tasklet, kpd_keymap_handler, 0);
 #endif
@@ -456,7 +456,6 @@ void kpd_pmic_rstkey_handler(unsigned long pressed)
 #endif
 
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/03/04 modify for enter dump */
 if(vol_key_info.homekey_as_vol_up) {
 
 	if (aee_kpd_enable) {
@@ -467,7 +466,6 @@ if(vol_key_info.homekey_as_vol_up) {
 }
 
 #ifdef VENDOR_EDIT
-/*wangkun@BSP.Kernel.Driver, 2019/01/26, Add for disable kpd irq handler*/
 /*static void kpd_keymap_handler(unsigned long data)
 {
 	u16 i, j;
@@ -598,7 +596,6 @@ void kpd_get_dts_info(struct device_node *node)
 }
 
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Add for keypad volume up and volume down */
 static int kpd_request_named_gpio(struct vol_info *kpd,
 		const char *label, int *gpio)
 {
@@ -720,7 +717,6 @@ static int init_custom_gpio_state(struct platform_device *client) {
 #endif /*VENDOR_EDIT*/
 
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/01/09 modify for aee_kpd_enable */
 static ssize_t aee_kpd_enable_read(struct file *filp, char __user *buff,
 				size_t count, loff_t *off)
 {
@@ -827,9 +823,12 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
         u32 i;
         int32_t err = 0;
 	#ifdef VENDOR_EDIT
-	/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Add for keypad volume up and volume down */		
 	struct device *dev = &pdev->dev;
 	struct vol_info *kpd_oppo;
+#ifdef ODM_HQ_EDIT
+	struct device_node *node = pdev->dev.of_node;
+	int rc = 0;
+#endif
 
 	kpd_oppo = devm_kzalloc(dev, sizeof(*kpd_oppo), GFP_KERNEL);
 	#endif /*VENDOR_EDIT*/
@@ -917,8 +916,25 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 #endif
 	/* register IRQ and EINT */
 	kpd_set_debounce(kpd_dts_data.kpd_key_debounce);
+
+#ifdef ODM_HQ_EDIT
+	kpd_dts_data.cphy_dphy_gpio =
+			of_get_named_gpio(node, "cphy_dphy-gpio", 0);
+	if (kpd_dts_data.cphy_dphy_gpio <= 0) {
+		printk("Couldn't read cphy_dphy-gpio:%d\n",kpd_dts_data.cphy_dphy_gpio);
+	}
+	if (gpio_is_valid(kpd_dts_data.cphy_dphy_gpio)) {
+		rc = gpio_request(kpd_dts_data.cphy_dphy_gpio, "cphy_dphy-gpio");
+		if (rc) {
+			printk("unable to request cphy_dphy-gpio:%d\n", kpd_dts_data.cphy_dphy_gpio);
+		} else {
+			g_cphy_dphy_gpio_value = gpio_get_value(kpd_dts_data.cphy_dphy_gpio);
+			printk("cphy_dphy-gpio status is:%d\n", g_cphy_dphy_gpio_value);
+		}
+	}
+#endif
+	
 #ifdef VENDOR_EDIT
-/*wang.kun.@BSP.Kernel.Driver, 2019/01/26, Add for disable kpd irq handler*/
 	/*err = request_irq(kp_irqnr, kpd_irq_handler, IRQF_TRIGGER_NONE,
 			KPD_NAME, NULL);
 	if (err) {
@@ -948,7 +964,6 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 		return err;
 	}
 #ifdef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Add for keypad volume up and volume down */
 	kpd_oppo->dev = dev;
 	dev_set_drvdata(dev, kpd_oppo);
 	kpd_oppo->pdev = pdev;
@@ -1009,7 +1024,6 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 #endif /*VENDOR_EDIT*/
 
 #ifdef VENDOR_EDIT
-/* Fuchun.Liao@BSP.CHG.Basic 2018/01/09 modify for aee_kpd_enable */
 	init_proc_aee_kpd_enable();
 #endif /* VENDOR_EDIT */
 	/* Add kpd debug node */
@@ -1024,7 +1038,6 @@ static int kpd_pdrv_suspend(struct platform_device *pdev, pm_message_t state)
 {
 	kpd_suspend = true;
 #ifndef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Remove for we use seperated interrupts for volume up and down */
 #ifdef MTK_KP_WAKESOURCE
 	if (call_status == 2) {
 		kpd_print("kpd_early_suspend wake up source enable!! (%d)\n",
@@ -1044,7 +1057,6 @@ static int kpd_pdrv_resume(struct platform_device *pdev)
 {
 	kpd_suspend = false;
 #ifndef VENDOR_EDIT
-/* Bin.Li@EXP.BSP.bootloader.bootflow, 2017/05/15, Remove for we use seperated interrupts for volume up and down */
 #ifdef MTK_KP_WAKESOURCE
 	if (call_status == 2) {
 		kpd_print("kpd_early_suspend wake up source enable!! (%d)\n",

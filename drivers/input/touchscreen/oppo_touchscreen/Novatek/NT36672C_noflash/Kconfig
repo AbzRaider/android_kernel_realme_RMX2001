@@ -1,5 +1,4 @@
 #ifdef VENDOR_EDIT
-#Added by Zhouwenping@Bsp.group.Tp for nova nt36672 ic driver
 
 config TOUCHPANEL_NOVA_NT36672C_NOFLASH
 #	default y

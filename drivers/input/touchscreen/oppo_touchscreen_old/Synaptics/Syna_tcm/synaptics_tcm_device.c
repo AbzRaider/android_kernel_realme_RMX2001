@@ -5,11 +5,9 @@
 * Description: Source file for synaptics TD4330 driver
 * Version   : 1.0
 * Date        : 2018-01-18
-* Author    : Xing.Xiong@EXP.Bsp.Group.Tp
 * TAG         : BSP.TP.Init
 * ---------------- Revision History: --------------------------
 *   <version>    <date>          < author >                            <desc>
-* Revision 1.1, 2018-01-18, Xing.Xiong@EXP.Bsp.Group.Tp.
 ****************************************************************/
 
 #include <linux/cdev.h>

@@ -149,7 +149,6 @@ config TOUCHSCREEN_MTK_GT911
 source "drivers/input/touchscreen/mediatek/GT911/Kconfig"
 
 #ifdef ODM_HQ_EDIT
-#Benshan.Cheng@ODM_HQ.MM.Tp, 2019/08/12, add tp driver
 config TOUCHPANEL_HQ
 	bool "touchscreen for hq"
 	default n

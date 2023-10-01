@@ -6,7 +6,6 @@
  *             hx83102d driver
  * Version:1.0:
  * Date created:2019/04/12
- * Author: Ping.Zhang@PSW.BSP.Tp
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------
