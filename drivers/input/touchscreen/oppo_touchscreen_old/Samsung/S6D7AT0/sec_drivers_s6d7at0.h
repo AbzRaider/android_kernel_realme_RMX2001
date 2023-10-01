@@ -6,7 +6,6 @@
  *             samsung s6d7at0 driver
  * Version:1.0:
  * Date created:2018/06/09
- * Author: Kun.Wang@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

@@ -6,7 +6,6 @@
  *             tp dev
  * Version:1.0:
  * Date created:2016/09/02
- * Author: hao.wang@Bsp.Driver
  * TAG: BSP.TP.Init
 */
 
@@ -68,7 +67,6 @@ bool __init tp_judge_ic_match(char *tp_ic_name)
     //pr_err("[TP] boot_command_line = %s \n", saved_command_line);
 	switch(
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/24 add for oppo arch tp*/
    OPPO_PROJECT
 #else
    get_project()
@@ -104,7 +102,6 @@ bool __init tp_judge_ic_match(char *tp_ic_name)
         pr_err("[TP] Driver does not match the project\n");
         break;
 #ifdef ODM_HQ_EDIT
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for oppo arch tp*/
 	case 19661:
         if (strstr(tp_ic_name, "novatek,nf_nt36672c") /*&& (strstr(saved_command_line, "mdss_dsi_oppo19125samsung_s6e3fc2x01_1080_2340_cmd")
             || strstr(saved_command_line, "mdss_dsi_oppo19125samsung_ams641rw01_1080_2340_cmd")
@@ -173,7 +170,6 @@ int tp_util_get_vendor(struct hw_resource *hw_res, struct panel_info *panel_data
     snprintf(panel_data->fw_name, MAX_FW_NAME_LENGTH,
             "tp/%d/FW_%s_%s.img",
 #ifdef ODM_HQ_EDIT   
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for oppo arch tp*/
             OPPO_PROJECT
 #else
             get_project()
@@ -184,7 +180,6 @@ int tp_util_get_vendor(struct hw_resource *hw_res, struct panel_info *panel_data
         snprintf(panel_data->test_limit_name, MAX_LIMIT_DATA_LENGTH,
             "tp/%d/LIMIT_%s_%s.img",
 #ifdef ODM_HQ_EDIT   
-/*Benshan.Cheng@ODM_HQ.BSP.TP.Function, 2019/10/14 add for oppo arch tp*/
             OPPO_PROJECT
 #else
 	    get_project()

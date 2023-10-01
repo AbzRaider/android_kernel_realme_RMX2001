@@ -5,7 +5,6 @@
  * Description: header file for Goodix GT9286 driver
  * Version   : 1.0
  * Date        : 2017-08-01
- * Author    : Cong.Dai@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>

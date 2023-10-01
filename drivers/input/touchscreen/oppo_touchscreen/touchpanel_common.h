@@ -5,11 +5,9 @@
  * Description: Source file for Touch common driver
  * Version   : 1.0
  * Date        : 2016-09-02
- * Author    : Tong.han@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
- * Revision 1.1, 2016-09-09, Tong.han@Bsp.Group.Tp, modify based on gerrit review result(http://gerrit.scm.adc.com:8080/#/c/223721/)
  ****************************************************************/
 #ifndef _TOUCHPANEL_COMMON_H_
 #define _TOUCHPANEL_COMMON_H_

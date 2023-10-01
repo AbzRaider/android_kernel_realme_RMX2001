@@ -8,7 +8,6 @@
 **
 ** Version: 1.0
 ** Date created: 15:03:11,22/11/2017
-** Author: LiBin@BSP.Fingerprint.Basic
 ** TAG: BSP.Fingerprint.Basic
 **
 ** --------------------------- Revision History: --------------------------------
@@ -137,7 +136,6 @@ struct fpc1020_data {
         bool prepared;
 
 #ifdef VENDOR_EDIT
-        //LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
         int irq_enabled;
 #endif
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 5, 0))
@@ -290,7 +288,6 @@ static ssize_t clk_enable_set(struct device *dev,
 static DEVICE_ATTR(clk_enable, S_IWUSR, NULL, clk_enable_set);
 
 #ifdef VENDOR_EDIT
-//LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
 static DEFINE_SPINLOCK(fpc1020_lock);
 
 static int fpc1020_enable_irq(struct fpc1020_data *fpc1020, bool enable)
@@ -372,7 +369,6 @@ static ssize_t regulator_enable_set(struct device *dev,
 }
 
 #ifdef VENDOR_EDIT
-//LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
 static ssize_t irq_enable_set(struct device *dev,
                 struct device_attribute *attribute, const char *buffer, size_t count)
 {
@@ -610,7 +606,6 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
         /*enable_irq_wake( gpio_to_irq( fpc1020->irq_gpio ) );*/
 
 #ifdef VENDOR_EDIT
-        /*LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq*/
         disable_irq_nosync(gpio_to_irq(fpc1020->irq_gpio));
         fpc1020->irq_enabled = 0;
 #endif

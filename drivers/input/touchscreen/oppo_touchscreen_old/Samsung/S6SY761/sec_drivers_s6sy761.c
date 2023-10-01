@@ -5,7 +5,6 @@
  * Description: Source file for samsung s6sy761 driver
  * Version   : 1.0
  * Date        : 2018-01-10
- * Author    : Cong.Dai@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>

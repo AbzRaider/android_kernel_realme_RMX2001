@@ -6,7 +6,6 @@
  *             samsung s6sy761 driver
  * Version:1.0:
  * Date created:2018/01/10
- * Author: Cong.Dai@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

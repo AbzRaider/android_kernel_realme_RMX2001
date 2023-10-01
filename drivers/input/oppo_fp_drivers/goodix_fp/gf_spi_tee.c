@@ -8,7 +8,6 @@
 **
 ** Version: 1.0
 ** Date created: 15:03:11,12/08/2017
-** Author:ChenRan@BSP.Fingerprint.Basic
 ** TAG: BSP.Fingerprint.Basic
 **
 ** --------------------------- Revision History: --------------------------------
@@ -63,6 +62,7 @@
 #include <linux/irqchip/mtk-eic.h>
 #include <linux/of_address.h>
 #include <linux/of_device.h>
+#include <mt-plat/mtk_boot.h>
 #include "gf_spi_tee.h"
 #include "../include/oppo_fp_common.h"
 
@@ -73,7 +73,8 @@
 #define NETLINK_TEST 25
 #define MAX_MSGSIZE 32
 
-
+int fp_effective = 1;
+module_param(fp_effective, int, 0644);
 
 #define VER_MAJOR   1
 #define VER_MINOR   2
@@ -94,6 +95,8 @@
 #define N_SPI_MINORS		32	/* ... up to 256 */
 static int SPIDEV_MAJOR;
 
+struct regulator *gf_regulator = NULL;
+EXPORT_SYMBOL(gf_regulator);
 //struct mt_spi_t *fpc_ms;
 
 struct mtk_spi {
@@ -695,7 +698,8 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		gf_dev->device_available = 1;
 		break;
 	case GF_IOC_DISABLE_POWER:
-		pr_debug("%s GF_IOC_DISABLE_POWER\n", __func__);
+		fp_effective = 0;
+		pr_err("%s GF_IOC_DISABLE_POWER\n", __func__);
 		if (gf_dev->device_available == 0)
 			pr_info("Sensor has already powered-off.\n");
 		else
@@ -894,6 +898,7 @@ static int gf_probe(struct platform_device *pdev)
 	int status = -EINVAL;
 	unsigned long minor;
 	int i;
+	int ret = 0;
 	/* Initialize the driver data */
 	INIT_LIST_HEAD(&gf_dev->device_entry);
 #if defined(USE_SPI_BUS)
@@ -906,13 +911,36 @@ static int gf_probe(struct platform_device *pdev)
 	gf_dev->pwr_gpio = -EINVAL;
 	gf_dev->device_available = 0;
 	gf_dev->fb_black = 0;
-    if(FP_GOODIX_3626 != get_fpsensor_type()){
-        pr_err("%s, found not goodix sensor: %d\n", __func__, get_fpsensor_type());
-        status = -EINVAL;
-        goto error_hw;//need add 
-    }
 
-    pr_info("%s  enter ...........\n", __func__);
+	if(FP_GOODIX_3626 != get_fpsensor_type()){
+		pr_err("%s, found not goodix sensor: %d\n", __func__, get_fpsensor_type());
+		status = -EINVAL;
+		goto error_hw;//need add
+	}
+
+	pr_info("%s  enter ...........\n", __func__);
+
+	int boot_mode = get_boot_mode();
+	if (boot_mode == KERNEL_POWER_OFF_CHARGING_BOOT || boot_mode == LOW_POWER_OFF_CHARGING_BOOT){
+		pr_err("i'm in power off charing no need fingerprint\n ");
+		goto error_hw;
+	}
+
+	gf_regulator = regulator_get(&spi->dev, "vfp");
+	if (IS_ERR(gf_regulator)) {
+		pr_err("%s get regulator failed\n", __func__);
+	}
+
+	ret = regulator_set_voltage(gf_regulator, 3300000, 3300000);
+	if (ret) {
+		pr_err("%s regulator_set_voltage(%d)\n", __func__, ret);
+	}
+
+	ret = regulator_enable(gf_regulator);
+	if (ret) {
+		pr_err("%s regulator enable failed(%d)\n", __func__, ret);
+	}
+
 	if (gf_parse_dts(gf_dev)){
 		goto error_hw;
 	}
@@ -994,7 +1022,6 @@ static int gf_probe(struct platform_device *pdev)
 	//enable_irq_wake(gf_dev->irq);
 	gf_dev->irq_enabled = 1;
 	gf_disable_irq(gf_dev);
-
 	pr_err("version V%d.%d.%02d\n", VER_MAJOR, VER_MINOR, PATCH_LEVEL);
 
     //in 6771 8.1 second goodix we use gpio90 17331 and TP power 19661 for power not vmch
@@ -1131,7 +1158,7 @@ static int __init gf_init(void)
 	pr_info("status = 0x%x\n", status);
 	return 0;
 }
-module_init(gf_init);
+late_initcall(gf_init);
 
 static void __exit gf_exit(void)
 {

@@ -5,7 +5,6 @@
  * Description: Source file for samsung s6d7at0 driver
  * Version   : 1.0
  * Date        : 2018-06-09
- * Author    : Kun.Wang@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>

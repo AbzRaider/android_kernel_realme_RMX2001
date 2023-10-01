@@ -6,7 +6,6 @@
   * 			ili9881 driver
   * Version:2.0:
   * Date created:2019/04/09
-  * Author: guqicai@Bsp.Driver
   * TAG: BSP.TP.Init
   * *
   * -------------- Revision History: -----------------
