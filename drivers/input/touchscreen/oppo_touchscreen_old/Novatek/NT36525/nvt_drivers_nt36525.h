@@ -6,7 +6,6 @@
  *             novatek nt36525 driver
  * Version:1.0:
  * Date created:2017-11-11
- * Author: Cong.Dai@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

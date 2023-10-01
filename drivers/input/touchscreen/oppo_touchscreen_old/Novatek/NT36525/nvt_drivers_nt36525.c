@@ -5,7 +5,6 @@
  * Description: Source file for novatek nt36525 driver
  * Version   : 1.0
  * Date        : 2017-11-11
- * Author    : Cong.Dai@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>

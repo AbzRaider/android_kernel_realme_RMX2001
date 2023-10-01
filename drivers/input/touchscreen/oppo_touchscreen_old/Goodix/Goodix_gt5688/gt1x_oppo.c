@@ -5,11 +5,9 @@
  * Description: Source file for Goodix GT5688 driver
  * Version   : 1.0
  * Date        : 2016-09-02
- * Author    : Tong.han@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
- * Revision 1.1, 2016-09-09, Tong.han@Bsp.Group.Tp, modify based on gerrit review result(http://gerrit.scm.adc.com:8080/#/c/223721/)
  ****************************************************************/
 #include <linux/of_gpio.h>
 #include <linux/sysfs.h>

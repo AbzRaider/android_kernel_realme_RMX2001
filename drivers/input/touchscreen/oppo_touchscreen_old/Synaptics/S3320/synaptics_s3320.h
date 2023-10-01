@@ -6,7 +6,6 @@
  *             synaptics s3320 driver
  * Version:1.0:
  * Date created:2016/09/02
- * Author: Tong.han@Bsp.Driver
  * TAG: BSP.TP.Init
  * *
  * -------------- Revision History: -----------------

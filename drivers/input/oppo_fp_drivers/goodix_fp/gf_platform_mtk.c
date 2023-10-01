@@ -27,6 +27,7 @@
 
 static struct pinctrl *gf_irq_pinctrl = NULL;
 static struct pinctrl_state *gf_irq_no_pull = NULL;
+extern struct regulator *gf_regulator;
 
 int gf_parse_dts(struct gf_dev* gf_dev)
 {
@@ -187,8 +188,10 @@ int gf_power_on(struct gf_dev* gf_dev)
 int gf_power_off(struct gf_dev* gf_dev)
 {
 	int rc = 0;
+	pr_err("%s liangliang power off enter  \n",__func__);
+	rc = regulator_disable(gf_regulator);
+	pr_err("%s regulator_disable value = %d \n",__func__, rc);
 
-	pr_info("---- power off ----\n");
 	return rc;
 }
 

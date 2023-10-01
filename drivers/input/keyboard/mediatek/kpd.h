@@ -48,6 +48,9 @@ struct keypad_dts_data {
 	u32 kpd_hw_dl_key3;
 	u32 kpd_hw_recovery_key;
 	u32 kpd_hw_factory_key;
+	#ifdef ODM_HQ_EDIT
+	int cphy_dphy_gpio;
+	#endif
 };
 
 extern struct keypad_dts_data kpd_dts_data;

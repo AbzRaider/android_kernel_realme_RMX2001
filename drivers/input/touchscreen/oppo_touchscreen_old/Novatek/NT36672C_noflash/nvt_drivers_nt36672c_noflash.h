@@ -7,7 +7,6 @@
  * Description: Source file for novatek nt36672c driver
  * Version   : 1.0
  * Date       : 2019/019/22
- * Author    : Wenping.ZHOU@PSW.BSP.Tp
  * TAG        : BSP.TP.Init
 
  * TAG: BSP.TP.Init

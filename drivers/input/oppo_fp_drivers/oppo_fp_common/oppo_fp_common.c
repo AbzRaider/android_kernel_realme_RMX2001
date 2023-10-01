@@ -8,7 +8,6 @@
  **
  ** Version: 1.0
  ** Date created: 15:03:11,23/05/2018
- ** Author: Ran.Chen@Prd.BaseDrv
  **
  ** --------------------------- Revision History: --------------------------------
  **  <author>         <data>         <desc>

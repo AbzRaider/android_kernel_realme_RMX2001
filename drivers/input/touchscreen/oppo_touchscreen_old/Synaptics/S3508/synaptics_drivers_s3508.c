@@ -5,11 +5,9 @@
  * Description: Source file for synaptics S3508 driver
  * Version   : 1.0
  * Date        : 2016-09-02
- * Author    : Tong.han@Bsp.Group.Tp
  * TAG         : BSP.TP.Init
  * ---------------- Revision History: --------------------------
  *   <version>    <date>          < author >                            <desc>
- * Revision 1.1, 2016-09-09, Tong.han@Bsp.Group.Tp, modify based on gerrit review result(http://gerrit.scm.adc.com:8080/#/c/223721/)
  ****************************************************************/
 #include <linux/of_gpio.h>
 #include <linux/delay.h>
@@ -996,7 +994,6 @@ static void synaptics_auto_test(struct seq_file *s, void *chip_data, struct syna
     checkCMD(chip_info, 30);
     ret = touch_i2c_read_block(client, reg_info->F54_ANALOG_DATA_BASE + 3, 7, buffer);
 
-    //guomingqiang@phone.bsp, 2016-06-27, add for tp test step2
     touch_i2c_write_byte(client, 0xff, 0x3);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL01, syna_testdata->RX_NUM, buffer_rx);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL02, syna_testdata->TX_NUM, buffer_tx);
@@ -1050,7 +1047,6 @@ static void synaptics_auto_test(struct seq_file *s, void *chip_data, struct syna
     checkCMD(chip_info, 30);
     ret = touch_i2c_read_block(client, reg_info->F54_ANALOG_DATA_BASE + 3, 7, buffer);
 
-    //guomingqiang@phone.bsp, 2016-06-27, add for tp test step2
     touch_i2c_write_byte(client, 0xff, 0x3);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL01, syna_testdata->RX_NUM, buffer_rx);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL02, syna_testdata->TX_NUM, buffer_tx);
@@ -2123,7 +2119,6 @@ static void synaptics_bootup_test(void *chip_data, const struct firmware *fw, st
     checkCMD(chip_info, 30);
     ret = touch_i2c_read_block(client, reg_info->F54_ANALOG_DATA_BASE + 3, 7, buffer);
 
-    //guomingqiang@phone.bsp, 2016-06-27, add for tp test step2
     touch_i2c_write_byte(client, 0xff, 0x3);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL01, hw_res->RX_NUM, buffer_rx);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL02, hw_res->TX_NUM, buffer_tx);
@@ -2175,7 +2170,6 @@ static void synaptics_bootup_test(void *chip_data, const struct firmware *fw, st
     checkCMD(chip_info, 30);
     ret = touch_i2c_read_block(client, reg_info->F54_ANALOG_DATA_BASE + 3, 7, buffer);
 
-    //guomingqiang@phone.bsp, 2016-06-27, add for tp test step2
     touch_i2c_write_byte(client, 0xff, 0x3);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL01, hw_res->RX_NUM, buffer_rx);
     touch_i2c_read_block(client, reg_info->F55_SENSOR_CTRL02, hw_res->TX_NUM, buffer_tx);
