@@ -61,7 +61,7 @@ EXPORT_SYMBOL(ged_kpi_PushAppSelfFcFp_fbt);
 
 #define GED_KPI_MSEC_DIVIDER 1000000
 #define GED_KPI_SEC_DIVIDER 1000000000
-#define GED_KPI_MAX_FPS 60
+#define GED_KPI_MAX_FPS 91
 #define GED_KPI_DEFAULT_FPS_MARGIN 3
 
 typedef enum {
@@ -271,7 +271,7 @@ static unsigned long long g_cpu_remained_time_accum;
 static unsigned long long g_gpu_freq_accum;
 static unsigned int g_frame_count;
 
-static int gx_game_mode;
+static int gx_game_mode=-1;
 static int gx_3D_benchmark_on;
 #ifdef GED_KPI_CPU_BOOST
 static int gx_force_cpu_boost;
@@ -290,7 +290,7 @@ static unsigned int gx_gpu_freq_avg;
 static int boost_accum_cpu;
 static long target_t_cpu_remained = 16000000; /* for non-GED_KPI_MAX_FPS-FPS cases */
 /* static long target_t_cpu_remained_min = 8300000; */ /* default 0.5 vsync period */
-static int cpu_boost_policy;
+static int cpu_boost_policy=-1;
 static int boost_extra;
 static int boost_amp;
 static int deboost_reduce;
@@ -300,14 +300,14 @@ static void (*ged_kpi_cpu_boost_policy_fp)(GED_KPI_HEAD *psHead,
 module_param(target_t_cpu_remained, long, 0644);
 module_param(gx_force_cpu_boost, int, 0644);
 module_param(gx_top_app_pid, int, 0644);
-module_param(cpu_boost_policy, int, 0644);
+module_param(cpu_boost_policy, int, 0444);
 module_param(boost_extra, int, 0644);
 module_param(boost_amp, int, 0644);
 module_param(deboost_reduce, int, 0644);
 module_param(boost_upper_bound, int, 0644);
 module_param(enable_game_self_frc_detect, int, 0644);
 #endif
-module_param(gx_game_mode, int, 0644);
+module_param(gx_game_mode, int, 0444);
 module_param(gx_3D_benchmark_on, int, 0644);
 
 int (*ged_kpi_push_game_frame_time_fp_fbt)(
