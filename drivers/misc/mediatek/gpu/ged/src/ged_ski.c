@@ -48,7 +48,7 @@ ssize_t show_gpu_clock(struct kobject *kobj,
 {
 	unsigned int gpu_freq = 0;
 
-	gpu_freq = mt_gpufreq_get_cur_freq();
+	gpu_freq = mt_gpufreq_get_freq_by_idx(mt_gpufreq_get_cur_freq_index());
 
 	return scnprintf(buf, PAGE_SIZE, "%u\n", gpu_freq);
 }
