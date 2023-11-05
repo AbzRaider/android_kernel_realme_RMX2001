@@ -1871,6 +1871,7 @@ static struct tpd_driver_t nvt_device_driver = {
 	.attrs = {
 		.attr = novatek_attrs,
 		.num  = ARRAY_SIZE(novatek_attrs),
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
 	},
 };
 
