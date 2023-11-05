@@ -654,6 +654,10 @@ void dfrc_fps_limit_cb(unsigned int fps_limit)
 	if (fps_limit > 0 && fps_limit <= TARGET_UNLIMITED_FPS)
 		vTmp = fps_limit;
 
+	if (!fpsgo_is_enable())
+		return;
+
+
 	FPSGO_LOGI("[FPSGO_CTRL] dfrc_fps %d\n", vTmp);
 
 	vpPush =
@@ -787,6 +791,7 @@ static void __exit fpsgo_exit(void)
 #ifdef CONFIG_MTK_HIGH_FRAME_RATE
 	disp_unregister_fps_chg_callback(dfrc_fps_limit_cb);
 #endif
+	
 	fbt_cpu_exit();
 	mtk_fstb_exit();
 	fpsgo_composer_exit();
@@ -797,7 +802,7 @@ static int __init fpsgo_init(void)
 	FPSGO_LOGI("[FPSGO_CTRL] init\n");
 
 	g_psNotifyWorkQueue =
-		create_singlethread_workqueue("fpsgo_notifier_wq");
+			alloc_ordered_workqueue("%s", WQ_MEM_RECLAIM | WQ_HIGHPRI, "fpsgo_notifier_wq");
 
 	if (g_psNotifyWorkQueue == NULL)
 		return -EFAULT;
