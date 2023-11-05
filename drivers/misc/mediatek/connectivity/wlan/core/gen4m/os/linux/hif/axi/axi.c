@@ -162,7 +162,7 @@ static u_int8_t g_fgDriverProbed = FALSE;
 
 #if AXI_CFG_PREALLOC_MEMORY_BUFFER
 struct HIF_PREALLOC_MEM grMem;
-unsigned long long gWifiRsvMemSize;
+extern unsigned long long gWifiRsvMemSize;
 
 struct wifi_rsrv_mem {
 	phys_addr_t phy_base;
