@@ -76,7 +76,7 @@
 #define CHIP_EGIS		"E"
 
 #define CHIP_UNKNOWN    "unknown"
-
+#define CONFIG_OPPO_FINGERPRINT_PLATFORM 6785
 #define ENGINEER_MENU_FPC1140  "-1,-1"  /* content in " " represents SNR,inclination test item in order in engineer menu, and -1/1 means off/on */
 #define ENGINEER_MENU_FPC1022  "-1,-1"
 #define ENGINEER_MENU_FPC1023  "1,-1"
