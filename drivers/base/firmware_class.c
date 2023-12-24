@@ -376,6 +376,8 @@ static const char * const fw_path[] = {
 	#ifdef ODM_HQ_EDIT
 	//fanxiongnan@ODM.HQ_Multimedia.Audio 2019/10/09 added for aw87339 bringup
 	"/vendor/firmware",
+	 //fanxiongnan@ODM.HQ_Multimedia.Audio 2023/12/04 added for tp firmware loading.
+	"/vendor/firmware/tp",
 	#endif /* ODM_HQ_EDIT */
 	"/lib/firmware/updates/" UTS_RELEASE,
 	"/lib/firmware/updates",
