@@ -346,7 +346,10 @@ void aee_wdt_atf_info(unsigned int cpu, struct pt_regs *regs)
 #ifdef CONFIG_MTK_WATCHDOG
 #ifdef CONFIG_MTK_WD_KICKER
 	/* dump bind info */
+#ifdef CONFIG_MTK_TICK_BROADCAST_AEE_DUMP
 	dump_wdk_bind_info();
+#endif
+
 #endif
 #endif
 
