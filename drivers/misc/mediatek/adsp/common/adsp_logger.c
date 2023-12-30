@@ -379,8 +379,8 @@ static void adsp_A_logger_init_handler(int id, void *data, unsigned int len)
 #if ADSP_TRAX
 static void adsp_A_trax_init_handler(int id, void *data, unsigned int len)
 {
-	/*send work to initialize trax */
-	queue_work(adsp_workqueue, &adsp_trax_init_work);
+
+
 }
 
 static void adsp_A_trax_done_handler(int id, void *data, unsigned int len)
