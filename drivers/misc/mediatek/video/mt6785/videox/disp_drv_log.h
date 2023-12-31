@@ -86,11 +86,12 @@
 
 #define DISPPR_HWOP(string, args...)
 
-#ifndef CONFIG_MTK_AEE_FEATURE
+#ifdef CONFIG_MTK_AEE_FEATURE
 # define aee_kernel_warning_api(...)
 # define aee_kernel_exception(...)
 #endif
 
+#ifdef CONFIG_MTK_AEE_FEATURE
 #define disp_aee_print(string, args...)					\
 	do {								\
 		char disp_name[100];					\
@@ -109,6 +110,7 @@
 					__FILE__, __LINE__);		\
 	} while (0)
 
+#endif
 #define _DISP_PRINT_FENCE_OR_ERR(is_err, string, args...)		\
 	do {								\
 		if (is_err)						\
